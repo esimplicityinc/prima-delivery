@@ -1,0 +1,400 @@
+/**
+ * Prima Delivery Documentation Theme
+ * Dark-first design with professional styling
+ */
+
+/* ============================================
+   Light Theme Variables
+   ============================================ */
+:root {
+  /* Primary Colors - Indigo */
+  --ifm-color-primary: #6366f1;
+  --ifm-color-primary-dark: #4f46e5;
+  --ifm-color-primary-darker: #4338ca;
+  --ifm-color-primary-darkest: #3730a3;
+  --ifm-color-primary-light: #818cf8;
+  --ifm-color-primary-lighter: #a5b4fc;
+  --ifm-color-primary-lightest: #c7d2fe;
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
+    Consolas, Monaco, 'Andale Mono', monospace;
+  --ifm-code-font-size: 90%;
+  --ifm-heading-font-weight: 600;
+
+  /* Spacing & Layout */
+  --ifm-global-radius: 8px;
+  --ifm-code-border-radius: 6px;
+
+  /* Code Highlighting */
+  --docusaurus-highlighted-code-line-bg: rgba(99, 102, 241, 0.1);
+
+  /* Custom Model Badge Colors */
+  --model-opus-bg: #f59e0b;
+  --model-opus-text: #ffffff;
+  --model-sonnet-bg: #3b82f6;
+  --model-sonnet-text: #ffffff;
+  --model-haiku-bg: #10b981;
+  --model-haiku-text: #ffffff;
+}
+
+/* ============================================
+   Dark Theme Variables
+   ============================================ */
+[data-theme='dark'] {
+  /* Primary Colors */
+  --ifm-color-primary: #818cf8;
+  --ifm-color-primary-dark: #6366f1;
+  --ifm-color-primary-darker: #4f46e5;
+  --ifm-color-primary-darkest: #4338ca;
+  --ifm-color-primary-light: #a5b4fc;
+  --ifm-color-primary-lighter: #c7d2fe;
+  --ifm-color-primary-lightest: #e0e7ff;
+
+  /* Background Colors */
+  --ifm-background-color: #0a0a0a;
+  --ifm-background-surface-color: #141414;
+  --ifm-navbar-background-color: #0a0a0a;
+  --ifm-footer-background-color: #0a0a0a;
+
+  /* Text Colors */
+  --ifm-font-color-base: #e5e5e5;
+  --ifm-font-color-secondary: #a3a3a3;
+
+  /* Border Colors */
+  --ifm-toc-border-color: #262626;
+  --ifm-color-emphasis-300: #262626;
+
+  /* Code Highlighting */
+  --docusaurus-highlighted-code-line-bg: rgba(129, 140, 248, 0.15);
+}
+
+/* ============================================
+   Global Styles
+   ============================================ */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better link underlines */
+.markdown a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.markdown a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* ============================================
+   Navbar Styles
+   ============================================ */
+.navbar {
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  backdrop-filter: blur(10px);
+}
+
+.navbar__title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.navbar__logo {
+  height: 32px;
+  margin-right: 0.75rem;
+}
+
+/* ============================================
+   Sidebar Styles
+   ============================================ */
+.menu__link {
+  border-radius: var(--ifm-global-radius);
+  transition: background-color 0.2s ease;
+}
+
+.menu__link--active {
+  font-weight: 600;
+}
+
+/* Category styling */
+.menu__list-item-collapsible {
+  border-radius: var(--ifm-global-radius);
+}
+
+/* ============================================
+   Content Styles
+   ============================================ */
+.markdown h1:first-child {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.markdown h2 {
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+/* Table Styles */
+.markdown table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.markdown table th {
+  background-color: var(--ifm-background-surface-color);
+  font-weight: 600;
+}
+
+.markdown table td,
+.markdown table th {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--ifm-toc-border-color);
+}
+
+.markdown table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme='dark'] .markdown table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* ============================================
+   Code Block Styles
+   ============================================ */
+.prism-code {
+  border-radius: var(--ifm-code-border-radius);
+}
+
+code {
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+}
+
+/* ============================================
+   Model Badge Styles
+   ============================================ */
+.model-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.model-badge--opus {
+  background-color: var(--model-opus-bg);
+  color: var(--model-opus-text);
+}
+
+.model-badge--sonnet {
+  background-color: var(--model-sonnet-bg);
+  color: var(--model-sonnet-text);
+}
+
+.model-badge--haiku {
+  background-color: var(--model-haiku-bg);
+  color: var(--model-haiku-text);
+}
+
+/* ============================================
+   Agent Card Styles
+   ============================================ */
+.agent-card {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--ifm-global-radius);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.agent-card:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.agent-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.agent-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.agent-card__description {
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ============================================
+   Skill Card Styles
+   ============================================ */
+.skill-card {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--ifm-global-radius);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.skill-card__name {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
+
+.skill-card__trigger {
+  font-size: 0.85rem;
+  color: var(--ifm-font-color-secondary);
+  font-style: italic;
+}
+
+/* ============================================
+   Homepage Styles
+   ============================================ */
+.hero {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.hero__title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  color: var(--ifm-font-color-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero__logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 1.5rem;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: var(--ifm-global-radius);
+  padding: 2rem;
+  text-align: center;
+  height: 100%;
+}
+
+.feature-card__icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.feature-card__description {
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.9rem;
+}
+
+/* Stats Section */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item__number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  line-height: 1;
+}
+
+.stat-item__label {
+  font-size: 1rem;
+  color: var(--ifm-font-color-secondary);
+  margin-top: 0.5rem;
+}
+
+/* ============================================
+   Admonitions (Callouts)
+   ============================================ */
+.admonition {
+  border-radius: var(--ifm-global-radius);
+}
+
+/* ============================================
+   Footer Styles
+   ============================================ */
+.footer {
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.footer__title {
+  font-weight: 600;
+}
+
+/* ============================================
+   Search Styles
+   ============================================ */
+.DocSearch-Button {
+  border-radius: var(--ifm-global-radius) !important;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 996px) {
+  .hero__title {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .stat-item__number {
+    font-size: 2rem;
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  .navbar,
+  .footer,
+  .pagination-nav,
+  .theme-doc-toc-desktop {
+    display: none !important;
+  }
+
+  .markdown {
+    max-width: 100% !important;
+  }
+}
