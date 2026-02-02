@@ -32,7 +32,7 @@ This plugin provides agents, skills, and patterns for building production-grade 
 
 ## Usage
 
-### With Claude Code CLI
+### With AI assistant CLI
 
 ```bash
 # General .NET architecture help

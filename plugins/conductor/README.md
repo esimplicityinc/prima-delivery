@@ -1,6 +1,6 @@
-# Conductor - Context-Driven Development Plugin for Claude Code
+# Conductor - Context-Driven Development Plugin
 
-Conductor transforms Claude Code into a project management tool by implementing **Context-Driven Development**. It enforces a structured workflow: **Context → Spec & Plan → Implement**.
+Conductor transforms AI assistant into a project management tool by implementing **Context-Driven Development**. It enforces a structured workflow: **Context → Spec & Plan → Implement**.
 
 ## Philosophy
 
@@ -118,7 +118,7 @@ Manage track lifecycle:
 
 This plugin is based on [Conductor](https://github.com/gemini-cli-extensions/conductor) by Google, originally developed for Gemini CLI.
 
-Adapted for Claude Code by [@wshobson](https://github.com/wshobson).
+Adapted for Prima Delivery by the Prima Team.
 
 ## License
 

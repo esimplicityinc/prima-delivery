@@ -1,4 +1,4 @@
-# LLM Application Development Plugin for Claude Code
+# LLM Application Development Plugin
 
 Build production-ready LLM applications, advanced RAG systems, and intelligent agents with modern AI patterns.
 
@@ -6,7 +6,7 @@ Build production-ready LLM applications, advanced RAG systems, and intelligent a
 
 - **LangGraph Integration**: Updated from deprecated LangChain patterns to LangGraph StateGraph workflows
 - **Modern Model Support**: Claude Opus/Sonnet/Haiku 4.5 and GPT-5.2/GPT-5.2-mini
-- **Voyage AI Embeddings**: Recommended embedding models for Claude applications
+- **Voyage AI Embeddings**: Recommended embedding models for AI applications
 - **Structured Outputs**: Pydantic-based structured output patterns
 
 ## Features
@@ -71,8 +71,8 @@ Build production-ready LLM applications, advanced RAG systems, and intelligent a
 ### 2.0.0 (January 2026)
 
 - **Breaking**: Migrated from LangChain 0.x to LangChain 1.x/LangGraph
-- **Breaking**: Updated model references to Claude 4.5 and GPT-5.2
-- Added Voyage AI as primary embedding recommendation for Claude apps
+- **Breaking**: Updated model references to the AI model and GPT-5.2
+- Added Voyage AI as primary embedding recommendation for AI apps
 - Added LangGraph StateGraph patterns replacing deprecated `initialize_agent()`
 - Added structured outputs with Pydantic
 - Added async patterns with checkpointers

@@ -1,4 +1,4 @@
-# UI/UX Design Plugin for Claude Code
+# UI/UX Design Plugin
 
 Comprehensive UI/UX design plugin covering mobile (iOS, Android, React Native) and web applications with modern design patterns, accessibility, and design systems.
 
@@ -118,7 +118,7 @@ The plugin creates artifacts in `.ui-design/`:
 
 ## Requirements
 
-- Claude Code CLI
+- AI assistant CLI
 - Node.js 18+ (for design token generation)
 
 ## License

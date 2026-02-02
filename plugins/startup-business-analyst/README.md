@@ -29,7 +29,7 @@ This plugin equips Claude with expert-level startup business analysis capabiliti
 ## Installation
 
 ```bash
-/plugin install startup-business-analyst@claude-code-workflows
+/plugin install startup-business-analyst@prima-delivery
 ```
 
 ## Usage
@@ -193,7 +193,7 @@ Business model coverage:
 
 ## Requirements
 
-- Claude Code CLI
+- AI assistant CLI
 - Internet access (for web research capabilities)
 - No external dependencies
 
@@ -206,7 +206,7 @@ Business model coverage:
 ## Contributing
 
 Found an issue or have suggestions? Please open an issue or PR at:
-https://github.com/wshobson/agents
+
 
 ## License
 
