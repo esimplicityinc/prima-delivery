@@ -25,7 +25,7 @@ Specializes in designing and implementing production-grade vector search systems
 
 ### Embedding Model Selection
 
-- **Voyage AI**: voyage-3-large (recommended for Claude apps), voyage-code-3, voyage-finance-2, voyage-law-2
+- **Voyage AI**: voyage-3-large (recommended for AI apps), voyage-code-3, voyage-finance-2, voyage-law-2
 - **OpenAI**: text-embedding-3-large (3072 dims), text-embedding-3-small (1536 dims)
 - **Open Source**: BGE-large-en-v1.5, E5-large-v2, multilingual-e5-large
 - **Local**: Sentence Transformers, Hugging Face models

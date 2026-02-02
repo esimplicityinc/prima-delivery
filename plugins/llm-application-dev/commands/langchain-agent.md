@@ -37,8 +37,8 @@ class AgentState(TypedDict):
 
 ### Model & Embeddings
 
-- **Primary LLM**: Claude Sonnet 4.5 (`claude-sonnet-4-5`)
-- **Embeddings**: Voyage AI (`voyage-3-large`) - officially recommended by Anthropic for Claude
+- **Primary LLM**: Sonnet 4.5 (`claude-sonnet-4-5`)
+- **Embeddings**: Voyage AI (`voyage-3-large`) - officially recommended by Anthropic
 - **Specialized**: `voyage-code-3` (code), `voyage-finance-2` (finance), `voyage-law-2` (legal)
 
 ## Agent Types
@@ -209,7 +209,7 @@ async def call_with_retry():
 
 ## Implementation Checklist
 
-- [ ] Initialize LLM with Claude Sonnet 4.5
+- [ ] Initialize LLM with Sonnet 4.5
 - [ ] Setup Voyage AI embeddings (voyage-3-large)
 - [ ] Create tools with async support and error handling
 - [ ] Implement memory system (choose type based on use case)

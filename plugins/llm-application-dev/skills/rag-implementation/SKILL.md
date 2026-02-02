@@ -39,7 +39,7 @@ Master Retrieval-Augmented Generation (RAG) to build LLM applications that provi
 **Models (2026):**
 | Model | Dimensions | Best For |
 |-------|------------|----------|
-| **voyage-3-large** | 1024 | Claude apps (Anthropic recommended) |
+| **voyage-3-large** | 1024 | AI apps (Anthropic recommended) |
 | **voyage-code-3** | 1024 | Code search |
 | **text-embedding-3-large** | 3072 | OpenAI apps, high accuracy |
 | **text-embedding-3-small** | 1536 | OpenAI apps, cost-effective |

@@ -115,7 +115,7 @@ from langchain_core.tools import tool
 import ast
 import operator
 
-# Initialize LLM (Claude Sonnet 4.5 recommended)
+# Initialize LLM (Sonnet 4.5 recommended)
 llm = ChatAnthropic(model="claude-sonnet-4-5", temperature=0)
 
 # Define tools with Pydantic schemas

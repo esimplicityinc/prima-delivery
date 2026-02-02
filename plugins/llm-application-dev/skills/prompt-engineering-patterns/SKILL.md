@@ -475,6 +475,6 @@ Track these KPIs for your prompts:
 ## Resources
 
 - [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
-- [Claude Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+- [Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
 - [OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)
 - [LangChain Prompts](https://python.langchain.com/docs/concepts/prompts/)

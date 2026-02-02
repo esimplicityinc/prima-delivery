@@ -22,8 +22,8 @@ Guide to selecting and optimizing embedding models for vector search application
 
 | Model                      | Dimensions | Max Tokens | Best For                            |
 | -------------------------- | ---------- | ---------- | ----------------------------------- |
-| **voyage-3-large**         | 1024       | 32000      | Claude apps (Anthropic recommended) |
-| **voyage-3**               | 1024       | 32000      | Claude apps, cost-effective         |
+| **voyage-3-large**         | 1024       | 32000      | AI apps (Anthropic recommended) |
+| **voyage-3**               | 1024       | 32000      | AI apps, cost-effective         |
 | **voyage-code-3**          | 1024       | 32000      | Code search                         |
 | **voyage-finance-2**       | 1024       | 32000      | Financial documents                 |
 | **voyage-law-2**           | 1024       | 32000      | Legal documents                     |
@@ -43,14 +43,14 @@ Document → Chunking → Preprocessing → Embedding Model → Vector
 
 ## Templates
 
-### Template 1: Voyage AI Embeddings (Recommended for Claude)
+### Template 1: Voyage AI Embeddings (Recommended)
 
 ```python
 from langchain_voyageai import VoyageAIEmbeddings
 from typing import List
 import os
 
-# Initialize Voyage AI embeddings (recommended by Anthropic for Claude)
+# Initialize Voyage AI embeddings (recommended by Anthropic)
 embeddings = VoyageAIEmbeddings(
     model="voyage-3-large",
     voyage_api_key=os.environ.get("VOYAGE_API_KEY")
@@ -589,7 +589,7 @@ def compare_embedding_models(
 - **Normalize embeddings**: For cosine similarity search
 - **Batch requests**: More efficient than one-by-one
 - **Cache embeddings**: Avoid recomputing for static content
-- **Use Voyage AI for Claude apps**: Recommended by Anthropic
+- **Use Voyage AI for AI apps**: Recommended by Anthropic
 
 ### Don'ts
 

@@ -58,7 +58,7 @@ Expert prompt engineer specializing in advanced prompting methodologies and LLM 
 - Multi-turn conversation management
 - Image and multimodal prompt engineering
 
-#### Anthropic Claude (Claude Opus 4.5, Sonnet 4.5, Haiku 4.5)
+#### Anthropic Claude (Opus 4.5, Sonnet 4.5, Haiku 4.5)
 
 - Constitutional AI alignment with Claude's training
 - Tool use optimization for complex workflows
