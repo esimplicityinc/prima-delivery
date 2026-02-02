@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../prima-deliver-square-trans.png" alt="Prima Delivery" width="80" height="80">
+</p>
+
 # Usage Guide
 
 Complete guide to using agents, slash commands, and multi-agent workflows.
@@ -7,7 +11,7 @@ Complete guide to using agents, slash commands, and multi-agent workflows.
 The plugin ecosystem provides two primary interfaces:
 
 1. **Slash Commands** - Direct invocation of tools and workflows
-2. **Natural Language** - Claude reasons about which agents to use
+2. **Natural Language** - the AI reasons about which agents to use
 
 ## Slash Commands
 
@@ -44,7 +48,7 @@ Agents can also be invoked through natural language when you need Claude to reas
 "Get performance-engineer to optimize this database query"
 ```
 
-Claude Code automatically selects and coordinates the appropriate agents based on your request.
+AI assistant automatically selects and coordinates the appropriate agents based on your request.
 
 ## Command Reference by Category
 

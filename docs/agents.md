@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../prima-deliver-square-trans.png" alt="Prima Delivery" width="80" height="80">
+</p>
+
 # Agent Reference
 
-Complete reference for all **100 specialized AI agents** organized by category with model assignments.
+Complete reference for all **108 specialized AI agents** organized by category with model assignments.
 
 ## Agent Categories
 

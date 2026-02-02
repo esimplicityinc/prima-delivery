@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../prima-deliver-square-trans.png" alt="Prima Delivery" width="80" height="80">
+</p>
+
 # Agent Skills
 
-Agent Skills are modular packages that extend Claude's capabilities with specialized domain knowledge, following Anthropic's [Agent Skills Specification](https://github.com/anthropics/skills/blob/main/agent_skills_spec.md). This plugin ecosystem includes **129 specialized skills** across 27 plugins, enabling progressive disclosure and efficient token usage.
+Agent Skills are modular packages that extend AI capabilities with specialized domain knowledge, following the Agent Skills Specification. This plugin ecosystem includes **140 specialized skills** across 27 plugins, enabling progressive disclosure and efficient token usage.
 
 ## Overview
 
@@ -306,7 +310,7 @@ fastapi-templates skill → Supplies production-ready templates
 
 ## Specification Compliance
 
-All 107 skills follow the [Agent Skills Specification](https://github.com/anthropics/skills/blob/main/agent_skills_spec.md):
+All 107 skills follow the [Agent Skills Specification]():
 
 - ✓ Required `name` field (hyphen-case)
 - ✓ Required `description` field with "Use when" clause
@@ -355,4 +359,3 @@ plugins/{plugin-name}/
 ## Resources
 
 - [Anthropic Skills Repository](https://github.com/anthropics/skills)
-- [Agent Skills Documentation](https://docs.claude.com/en/docs/claude-code/skills)

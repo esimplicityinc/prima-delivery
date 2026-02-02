@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../prima-deliver-square-trans.png" alt="Prima Delivery" width="80" height="80">
+</p>
+
 # Complete Plugin Reference
 
 Browse all **72 focused, single-purpose plugins** organized by category.
@@ -329,7 +333,7 @@ plugins/python-development/
 ### Step 1: Add the Marketplace
 
 ```bash
-/plugin marketplace add wshobson/agents
+/plugin marketplace add prima-delivery
 ```
 
 This makes all 67 plugins available for installation, but **does not load any agents or tools** into your context.

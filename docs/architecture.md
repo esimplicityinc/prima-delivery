@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="../prima-deliver-square-trans.png" alt="Prima Delivery" width="80" height="80">
+</p>
+
 # Architecture & Design Principles
 
-This marketplace follows industry best practices with a focus on granularity, composability, and minimal token usage.
+Prima Delivery follows industry best practices with a focus on granularity, composability, and minimal token usage.
 
 ## Core Philosophy
 
@@ -176,7 +180,7 @@ Skills use a three-tier architecture for token efficiency:
 
 ### Specification Compliance
 
-All skills follow the [Agent Skills Specification](https://github.com/anthropics/skills/blob/main/agent_skills_spec.md):
+All skills follow the [Agent Skills Specification]():
 
 ```yaml
 ---
