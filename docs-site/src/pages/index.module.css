@@ -100,20 +100,42 @@
   height: 100%;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .featureCard:hover {
   border-color: var(--ifm-color-primary);
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 8px 24px var(--shadow-primary);
   text-decoration: none;
   color: inherit;
+}
+
+.featureCard:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px var(--focus-ring-primary);
 }
 
 .featureIcon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featureIconSvg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--ifm-color-primary);
+  stroke-width: 1.5;
+  transition: color 0.2s ease;
+}
+
+.featureCard:hover .featureIconSvg {
+  color: var(--ifm-color-primary-dark);
 }
 
 .featureTitle {
@@ -177,13 +199,23 @@
 }
 
 /* Responsive */
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 1024px) {
+  .heroBanner {
+    padding: 4rem 1rem;
+  }
+
+  .heroTitle {
+    font-size: 2.8rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .heroBanner {
     padding: 3rem 1rem;
   }
 
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .heroSubtitle {
@@ -205,5 +237,38 @@
 
   .buttons {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .buttons a {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heroBanner {
+    padding: 2rem 1rem;
+  }
+
+  .heroLogo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.9rem;
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+
+  .featureIconSvg {
+    width: 2rem;
+    height: 2rem;
   }
 }

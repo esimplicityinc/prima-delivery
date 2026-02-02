@@ -7,14 +7,22 @@
    Light Theme Variables
    ============================================ */
 :root {
-  /* Primary Colors - Indigo */
-  --ifm-color-primary: #6366f1;
-  --ifm-color-primary-dark: #4f46e5;
-  --ifm-color-primary-darker: #4338ca;
-  --ifm-color-primary-darkest: #3730a3;
-  --ifm-color-primary-light: #818cf8;
-  --ifm-color-primary-lighter: #a5b4fc;
-  --ifm-color-primary-lightest: #c7d2fe;
+  /* Primary Colors - Indigo (Improved Contrast) */
+  --ifm-color-primary: #4f46e5;
+  --ifm-color-primary-dark: #4338ca;
+  --ifm-color-primary-darker: #3730a3;
+  --ifm-color-primary-darkest: #312e81;
+  --ifm-color-primary-light: #6366f1;
+  --ifm-color-primary-lighter: #818cf8;
+  --ifm-color-primary-lightest: #a5b4fc;
+
+  /* Better Text Colors for Light Mode */
+  --ifm-font-color-base: #1e293b;
+  --ifm-font-color-secondary: #475569;
+  
+  /* Background Colors */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8fafc;
 
   /* Typography */
   --ifm-font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
@@ -38,6 +46,11 @@
   --model-sonnet-text: #ffffff;
   --model-haiku-bg: #10b981;
   --model-haiku-text: #ffffff;
+
+  /* Shadow and Focus Ring Variables */
+  --shadow-primary: rgba(99, 102, 241, 0.15);
+  --shadow-primary-hover: rgba(99, 102, 241, 0.25);
+  --focus-ring-primary: rgba(99, 102, 241, 0.2);
 }
 
 /* ============================================
@@ -69,6 +82,11 @@
 
   /* Code Highlighting */
   --docusaurus-highlighted-code-line-bg: rgba(129, 140, 248, 0.15);
+
+  /* Shadow and Focus Ring Variables */
+  --shadow-primary: rgba(129, 140, 248, 0.2);
+  --shadow-primary-hover: rgba(129, 140, 248, 0.3);
+  --focus-ring-primary: rgba(129, 140, 248, 0.25);
 }
 
 /* ============================================
@@ -76,6 +94,25 @@
    ============================================ */
 html {
   scroll-behavior: smooth;
+}
+
+/* Global Focus States */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring-primary);
 }
 
 /* Better link underlines */
@@ -86,6 +123,23 @@ html {
 
 .markdown a:hover {
   text-decoration-thickness: 2px;
+}
+
+/* Skip Link for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--ifm-color-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  z-index: 100;
+  border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+  top: 0;
 }
 
 /* ============================================
@@ -380,6 +434,20 @@ code {
 
   .stat-item__number {
     font-size: 2rem;
+  }
+}
+
+/* ============================================
+   Reduced Motion Preferences
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

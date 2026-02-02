@@ -4,6 +4,14 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import { 
+  CpuChipIcon, 
+  BookOpenIcon, 
+  BoltIcon, 
+  ArrowPathIcon, 
+  Square3Stack3DIcon, 
+  WrenchScrewdriverIcon 
+} from '@heroicons/react/24/outline';
 
 import styles from './index.module.css';
 
@@ -65,7 +73,7 @@ type FeatureItem = {
   title: string;
   description: string;
   link: string;
-  icon: string;
+  icon: ReactNode;
 };
 
 const FeatureList: FeatureItem[] = [
@@ -73,37 +81,37 @@ const FeatureList: FeatureItem[] = [
     title: 'Specialized Agents',
     description: 'Domain experts for architecture, languages, infrastructure, security, AI/ML, and more.',
     link: '/docs/agents/overview',
-    icon: '🤖',
+    icon: <CpuChipIcon className={styles.featureIconSvg} />,
   },
   {
     title: 'Modular Skills',
     description: 'Knowledge packages with progressive disclosure - load expertise only when needed.',
     link: '/docs/skills/overview',
-    icon: '📚',
+    icon: <BookOpenIcon className={styles.featureIconSvg} />,
   },
   {
     title: 'Workflow Plugins',
     description: 'Pre-configured bundles for full-stack development, security, ML pipelines, and incident response.',
     link: '/docs/plugins/overview',
-    icon: '⚡',
+    icon: <BoltIcon className={styles.featureIconSvg} />,
   },
   {
     title: 'Dual Platform',
     description: 'Works with both OpenCode and Claude Code for maximum flexibility.',
     link: '/docs/getting-started/installation',
-    icon: '🔄',
+    icon: <ArrowPathIcon className={styles.featureIconSvg} />,
   },
   {
     title: 'Model Tiers',
     description: 'Strategic model assignment (Opus, Sonnet, Haiku) for optimal performance and cost.',
     link: '/docs/architecture/model-tiers',
-    icon: '🎯',
+    icon: <Square3Stack3DIcon className={styles.featureIconSvg} />,
   },
   {
     title: 'Fully Customizable',
     description: 'Override agents, add custom skills, and extend with your own domain expertise.',
     link: '/docs/getting-started/configuration',
-    icon: '🛠️',
+    icon: <WrenchScrewdriverIcon className={styles.featureIconSvg} />,
   },
 ];
 
@@ -111,7 +119,9 @@ function Feature({title, description, link, icon}: FeatureItem) {
   return (
     <div className={clsx('col col--4', styles.featureCol)}>
       <Link to={link} className={styles.featureCard}>
-        <div className={styles.featureIcon}>{icon}</div>
+        <div className={styles.featureIcon}>
+          {icon}
+        </div>
         <Heading as="h3" className={styles.featureTitle}>{title}</Heading>
         <p className={styles.featureDescription}>{description}</p>
       </Link>
@@ -174,8 +184,9 @@ export default function Home(): ReactNode {
     <Layout
       title="Home"
       description="Prima Delivery - Internal AI Development Toolkit with 108 Agents, 140 Skills, and 72 Plugins">
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <HomepageHeader />
-      <main>
+      <main id="main-content">
         <StatsSection />
         <FeaturesSection />
         <QuickStartSection />
