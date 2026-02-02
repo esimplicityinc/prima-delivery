@@ -1,0 +1,38 @@
+{
+  "name": "prima-delivery",
+  "version": "1.0.0",
+  "description": "Internal AI development toolkit with 108 specialized agents and 140 skills",
+  "author": "Prima Team <team@esimplicity.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "keywords": [
+    "ai-agents",
+    "development-tools",
+    "code-review",
+    "testing",
+    "devops",
+    "llm",
+    "automation"
+  ],
+  "files": [
+    ".opencode/",
+    ".claude-plugin/",
+    "plugins/",
+    "opencode.json",
+    "README.md"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0",
+    "yaml": "^2.0.0"
+  },
+  "scripts": {
+    "build": "bun run scripts/build.ts",
+    "convert:agents": "bun run scripts/convert-agents.ts",
+    "convert:skills": "bun run scripts/convert-skills.ts",
+    "validate": "bun run scripts/convert-skills.ts --validate"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
