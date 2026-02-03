@@ -20,30 +20,30 @@ Skills are modular knowledge packages that provide:
 
 | Category | Skills |
 |----------|--------|
-| [Python](./python) | 18 |
-| [Javascript](./javascript) | 12 |
-| [Systems](./systems) | 5 |
-| [Backend](./backend) | 13 |
-| [Frontend](./frontend) | 7 |
-| [Infrastructure](./infrastructure) | 12 |
-| [Cicd](./cicd) | 6 |
-| [Database](./database) | 4 |
-| [Testing](./testing) | 15 |
-| [Quality](./quality) | 2 |
-| [Security](./security) | 10 |
-| [Ai Ml](./ai-ml) | 6 |
-| [Observability](./observability) | 6 |
-| [Data](./data) | 2 |
-| [Documentation](./documentation) | 2 |
-| [Monorepo](./monorepo) | 4 |
-| [Blockchain](./blockchain) | 1 |
-| [Finance](./finance) | 1 |
-| [Payments](./payments) | 2 |
-| [Gaming](./gaming) | 2 |
-| [Business](./business) | 5 |
-| [Hr Legal](./hr-legal) | 1 |
-| [Reverse Engineering](./reverse-engineering) | 1 |
-| [Other](./other) | 3 |
+| Python | 18 |
+| Javascript | 12 |
+| Systems | 5 |
+| Backend | 13 |
+| Frontend | 7 |
+| Infrastructure | 12 |
+| CI/CD | 6 |
+| Database | 4 |
+| Testing | 15 |
+| Quality | 2 |
+| Security | 10 |
+| AI/ML | 6 |
+| Observability | 6 |
+| Data | 2 |
+| Documentation | 2 |
+| Monorepo | 4 |
+| Blockchain | 1 |
+| Finance | 1 |
+| Payments | 2 |
+| Gaming | 2 |
+| Business | 5 |
+| HR/Legal | 1 |
+| Reverse Engineering | 1 |
+| Other | 3 |
 
 ## How Skills Work
 
@@ -63,4 +63,4 @@ Skills activate automatically when:
 
 ## Browse All Skills
 
-Use the sidebar to browse skills by category, or use search to find a specific skill.
+**Use the sidebar on the left** to browse skills by category, or use the search bar to find a specific skill. Each category in the sidebar can be expanded to view all available skills.

@@ -99,13 +99,25 @@ async function main() {
 
   // Step 3: Generate opencode.json
   console.log('\n┌──────────────────────────────────────────┐');
-  console.log('│ Step 3: Generating Configuration         │');
+  console.log('│ Step 3: Generating OpenCode Configuration │');
   console.log('└──────────────────────────────────────────┘\n');
 
   try {
     await generateOpenCodeConfig();
   } catch (e) {
     console.error('Config generation failed:', e);
+    process.exit(1);
+  }
+
+  // Step 4: Generate OpenPackage manifests
+  console.log('\n┌──────────────────────────────────────────┐');
+  console.log('│ Step 4: Generating OpenPackage Manifests │');
+  console.log('└──────────────────────────────────────────┘\n');
+
+  try {
+    await $`bun run scripts/build-openpackage.ts`;
+  } catch (e) {
+    console.error('OpenPackage manifest generation failed:', e);
     process.exit(1);
   }
 
@@ -119,8 +131,9 @@ async function main() {
   console.log(`\nTotal time: ${duration}s`);
   console.log('\nNext steps:');
   console.log('1. Review generated files in .opencode/');
-  console.log('2. Test with: opencode --config ./opencode.json');
-  console.log('3. Press @ in TUI to verify agents load');
+  console.log('2. Test OpenCode: opencode --config ./opencode.json');
+  console.log('3. Test OpenPackage: opkg install . --plugins debugging-toolkit');
+  console.log('4. For multi-platform: opkg install gh@esimplicityinc/prima-delivery');
 }
 
 main().catch((e) => {

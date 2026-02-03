@@ -8,6 +8,20 @@ description: Get productive with Prima Delivery in 5 minutes
 
 Get productive with Prima Delivery in under 5 minutes.
 
+## Install (30 seconds)
+
+```bash
+# Install OpenPackage CLI
+npm install -g opkg
+
+# Install Prima Delivery (works on Cursor, Claude Code, OpenCode, Windsurf, etc.)
+opkg install gh@esimplicityinc/prima-delivery
+```
+
+See [Installation Guide](/docs/getting-started/installation) for more options.
+
+---
+
 ## Using Agents
 
 ### OpenCode

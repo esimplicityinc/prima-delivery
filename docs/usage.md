@@ -6,6 +6,12 @@
 
 Complete guide to using agents, slash commands, and multi-agent workflows.
 
+> **Multi-Platform Support**: Prima Delivery works across 13+ AI coding platforms via [OpenPackage](https://openpackage.dev):
+> ```bash
+> opkg install gh@esimplicityinc/prima-delivery
+> ```
+> Supports Cursor, Claude Code, OpenCode, Windsurf, Codex, Factory, and more.
+
 ## Overview
 
 The plugin ecosystem provides two primary interfaces:

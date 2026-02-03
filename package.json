@@ -23,14 +23,18 @@
   ],
   "devDependencies": {
     "@types/bun": "latest",
+    "opkg": "^0.7.10",
     "typescript": "^5.0.0",
     "yaml": "^2.0.0"
   },
   "scripts": {
     "build": "bun run scripts/build.ts",
+    "build:openpackage": "bun run scripts/build-openpackage.ts",
     "convert:agents": "bun run scripts/convert-agents.ts",
     "convert:skills": "bun run scripts/convert-skills.ts",
-    "validate": "bun run scripts/convert-skills.ts --validate"
+    "validate": "bun run scripts/convert-skills.ts --validate",
+    "opkg:test": "opkg install . --plugins debugging-toolkit --dry-run",
+    "opkg:list": "opkg show ."
   },
   "engines": {
     "node": ">=18.0.0"

@@ -8,6 +8,89 @@ description: Configure Prima Delivery for your workflow
 
 Customize Prima Delivery for your specific needs.
 
+## OpenPackage Configuration
+
+When installed via [OpenPackage](https://openpackage.dev), Prima Delivery uses manifest files for package metadata and platform-specific settings.
+
+### openpackage.yml (Root Manifest)
+
+The root manifest defines the package metadata:
+
+```yaml
+name: prima-delivery
+version: 1.3.7
+description: Production-ready workflow orchestration with 71 plugins
+author: Prima Team <team@esimplicity.com>
+license: UNLICENSED
+homepage: https://esimplicityinc.github.io/prima-delivery/
+repository: https://github.com/esimplicityinc/prima-delivery
+
+keywords:
+  - ai-agents
+  - code-review
+  - testing
+
+packages: []      # Dependencies
+dev-packages: []  # Dev dependencies
+```
+
+### Plugin Manifests
+
+Each plugin has its own `openpackage.yml`:
+
+```yaml
+name: python-development
+version: 1.2.1
+description: Modern Python development with FastAPI, Django, and async patterns
+author: Prima Team
+license: UNLICENSED
+keywords:
+  - python
+  - django
+  - fastapi
+category: languages
+```
+
+### Platform-Specific Frontmatter
+
+Agents can include platform-specific overrides in their frontmatter:
+
+```markdown
+---
+name: my-agent
+description: Agent description
+model: sonnet
+openpackage:
+  opencode:
+    mode: subagent
+    model: sonnet
+  cursor:
+    type: agent
+  claude:
+    tools: Read, Edit, Bash, Grep, Glob
+  windsurf:
+    mode: agent
+---
+
+Agent prompt content...
+```
+
+### Workspace Configuration
+
+OpenPackage tracks installed packages in `.openpackage/`:
+
+```
+your-project/
+├── .openpackage/
+│   ├── openpackage.yml        # Workspace manifest
+│   └── openpackage.index.yml  # File tracking (auto-generated)
+├── .opencode/                  # OpenCode files
+├── .cursor/                    # Cursor files
+└── ...
+```
+
+---
+
 ## OpenCode Configuration
 
 ### opencode.json

@@ -1,0 +1,26 @@
+# OpenPackage Manifest for Prima Delivery
+# https://openpackage.dev/docs/packages
+
+name: prima-delivery
+version: 1.3.7
+description: Production-ready workflow orchestration with 72 focused plugins, 108 specialized agents, and 140 skills - optimized for granular installation and minimal token usage
+author: Prima Team <team@esimplicity.com>
+license: UNLICENSED
+homepage: https://esimplicityinc.github.io/prima-delivery/
+repository: https://github.com/esimplicityinc/prima-delivery
+
+keywords:
+  - ai-agents
+  - code-review
+  - testing
+  - devops
+  - llm
+  - automation
+  - documentation
+  - security
+  - infrastructure
+  - development-tools
+
+# Package dependencies (none for root - this is the foundation)
+packages: []
+dev-packages: []

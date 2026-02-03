@@ -18,7 +18,41 @@ Prima Delivery provides a comprehensive collection of AI-powered development too
 
 ## Installation
 
-### OpenCode (Recommended)
+### OpenPackage (Recommended)
+
+Install using [OpenPackage](https://openpackage.dev) for multi-platform support (Cursor, Claude Code, OpenCode, Windsurf, and more):
+
+```bash
+# Install OpenPackage CLI
+npm install -g opkg
+
+# Install full toolkit (all 72 plugins)
+opkg install gh@esimplicityinc/prima-delivery
+
+# Install specific plugins
+opkg install gh@esimplicityinc/prima-delivery --plugins debugging-toolkit
+opkg install gh@esimplicityinc/prima-delivery --plugins python-development backend-development
+
+# Install specific agents only
+opkg install gh@esimplicityinc/prima-delivery --agents docs-architect code-reviewer
+
+# Install to global scope (user-wide)
+opkg install gh@esimplicityinc/prima-delivery -g
+```
+
+**Supported Platforms:**
+- Cursor
+- Claude Code
+- OpenCode
+- Windsurf
+- Codex
+- Factory
+- Kilo Code
+- Roo
+- Qwen Code
+- And more...
+
+### OpenCode (Manual)
 
 Copy the `.opencode/` directory to your project root:
 
@@ -41,7 +75,7 @@ cp -r .opencode/ ~/.config/opencode/
 └── plugins/    # TypeScript plugins
 ```
 
-### Claude Code
+### Claude Code (Manual)
 
 Add the marketplace to your Claude Code installation:
 
@@ -158,19 +192,22 @@ Agents are assigned to specific model tiers based on task complexity:
 
 ```
 prima-delivery/
+├── openpackage.yml         # OpenPackage root manifest
 ├── .opencode/              # OpenCode configuration
 │   ├── agents/             # 108 agent definitions
 │   ├── skills/             # 140 skill packages
 │   └── commands/           # Custom commands
 ├── .claude-plugin/         # Claude Code configuration
 │   └── marketplace.json    # Plugin definitions
-├── plugins/                # Plugin source files
+├── plugins/                # 72 plugin directories
 │   ├── python-development/
+│   │   └── openpackage.yml # Plugin manifest (auto-generated)
 │   ├── backend-development/
 │   └── ...
 ├── docs/                   # Documentation
 ├── scripts/                # Build scripts
-└── opencode.json           # OpenCode config
+├── opencode.json           # OpenCode config
+└── PLUGINS.md              # Plugin catalog (auto-generated)
 ```
 
 ## License
