@@ -1,5 +1,9 @@
 {
   "label": "Business",
   "position": 24,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/business"
+  }
 }

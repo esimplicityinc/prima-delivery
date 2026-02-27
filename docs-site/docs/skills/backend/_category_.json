@@ -1,5 +1,9 @@
 {
   "label": "Backend",
   "position": 5,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/backend"
+  }
 }

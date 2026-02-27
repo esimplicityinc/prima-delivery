@@ -1,5 +1,9 @@
 {
   "label": "Cicd",
   "position": 9,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/cicd"
+  }
 }

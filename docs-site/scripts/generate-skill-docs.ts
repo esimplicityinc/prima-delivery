@@ -361,6 +361,10 @@ async function main() {
       label: categoryLabel,
       position: getCategoryPosition(category),
       collapsed: true,
+      link: {
+        type: 'generated-index',
+        slug: `/skills/${category}`,
+      },
     }, null, 2));
 
     console.log(`Generated ${categorySkills.length} skills in ${category}/`);

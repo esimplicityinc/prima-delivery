@@ -1,5 +1,9 @@
 {
   "label": "Quality",
   "position": 12,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/quality"
+  }
 }

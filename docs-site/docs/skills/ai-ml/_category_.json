@@ -1,5 +1,9 @@
 {
   "label": "Ai Ml",
   "position": 14,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/ai-ml"
+  }
 }

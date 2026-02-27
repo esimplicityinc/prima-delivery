@@ -1,5 +1,9 @@
 {
   "label": "Documentation",
   "position": 17,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/documentation"
+  }
 }

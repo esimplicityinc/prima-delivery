@@ -1,5 +1,9 @@
 {
   "label": "Frontend",
   "position": 6,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/skills/frontend"
+  }
 }
