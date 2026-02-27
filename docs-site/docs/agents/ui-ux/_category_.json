@@ -1,5 +1,8 @@
 {
   "label": "Ui Ux",
   "position": 2,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index"
+  }
 }

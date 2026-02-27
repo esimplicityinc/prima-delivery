@@ -1,5 +1,8 @@
 {
   "label": "Quality",
   "position": 11,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index"
+  }
 }

@@ -1,5 +1,8 @@
 {
   "label": "Javascript",
   "position": 4,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index"
+  }
 }

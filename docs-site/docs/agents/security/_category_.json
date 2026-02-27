@@ -1,5 +1,8 @@
 {
   "label": "Security",
   "position": 12,
-  "collapsed": true
+  "collapsed": true,
+  "link": {
+    "type": "generated-index"
+  }
 }

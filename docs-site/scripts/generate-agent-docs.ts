@@ -270,6 +270,9 @@ async function main() {
       label: categoryLabel,
       position: getCategoryPosition(category),
       collapsed: true,
+      link: {
+        type: 'generated-index',
+      },
     }, null, 2));
 
     console.log(`Generated ${categoryAgents.length} agents in ${category}/`);
