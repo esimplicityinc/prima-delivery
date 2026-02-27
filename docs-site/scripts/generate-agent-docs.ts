@@ -272,6 +272,7 @@ async function main() {
       collapsed: true,
       link: {
         type: 'generated-index',
+        slug: `/agents/${category}`,
       },
     }, null, 2));
 
