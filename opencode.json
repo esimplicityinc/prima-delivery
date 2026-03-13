@@ -1,3 +1,68 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+
+  // === Instructions ===
+  "instructions": ["AGENTS.md"],
+
+  // === Agent Configuration ===
+  // Agents are defined in .opencode/agent/*.md files
+  // These settings customize their behavior
+  "agent": {
+    "orchestrator": {
+      "description": "Orchestrates Red→Green→Refactor cycle using specialized subagents",
+      "mode": "primary"
+    },
+    "app-runner": {
+      "description": "Manages Docker dev environment and monitors application health",
+      "mode": "subagent"
+    },
+    "test-writer": {
+      "description": "Writes unit tests, runs all tests, executes BDD scenarios",
+      "mode": "subagent"
+    },
+    "critic": {
+      "description": "Reviews implementation quality and performs visual inspection",
+      "mode": "subagent"
+    },
+    "git-manager": {
+      "description": "Recommends commits at clean points, drafts messages, executes only when approved",
+      "mode": "subagent"
+    },
+    "ddd-critic": {
+      "description": "Ensures implementation aligns with domain model, suggests updates",
+      "mode": "subagent"
+    },
+    "explorer": {
+      "description": "Codebase research, find patterns, answer questions",
+      "mode": "subagent"
+    },
+    "architect": {
+      "description": "Enforces patterns, hexagonal architecture, DRY, and naming conventions",
+      "mode": "subagent"
+    },
+    "doc-generator": {
+      "description": "Generates CI documentation for each commit across three dimensions",
+      "mode": "subagent"
+    },
+    "domain-extractor": {
+      "description": "Orchestrates deep analysis to extract domain models, BDD scenarios, and capabilities",
+      "mode": "subagent"
+    },
+    "type-extractor": {
+      "description": "Extracts types, entities, value objects, and relationships from codebase",
+      "mode": "subagent"
+    },
+    "behavior-extractor": {
+      "description": "Extracts behaviors from tests and code, generates BDD scenarios",
+      "mode": "subagent"
+    },
+    "capability-extractor": {
+      "description": "Extracts API endpoints, features, authorization model, and integrations",
+      "mode": "subagent"
+    },
+    "ui-extractor": {
+      "description": "Explores running UI via browser to extract behaviors, capabilities, and domain concepts",
+      "mode": "subagent"
+    }
+  }
 }
