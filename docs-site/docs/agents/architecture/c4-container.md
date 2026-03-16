@@ -2,12 +2,12 @@
 sidebar_label: C4 Container
 title: C4 Container
 description: Expert C4 Container-level documentation specialist. Synthesizes Component-level documentation into Container-level architecture, mapping components to deploymen
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # C4 Container
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert C4 Container-level documentation specialist. Synthesizes Component-level documentation into Container-level architecture, mapping components to deployment units, documenting container interfaces as APIs, and creating container diagrams. Use when synthesizing components into deployment containers and documenting system deployment architecture.
 
@@ -272,4 +272,4 @@ Use c4-container to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

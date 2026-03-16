@@ -2,12 +2,12 @@
 sidebar_label: Docs Architect
 title: Docs Architect
 description: Creates comprehensive technical documentation from existing codebases. Analyzes architecture, design patterns, and implementation details to produce long-form t
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Docs Architect
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Creates comprehensive technical documentation from existing codebases. Analyzes architecture, design patterns, and implementation details to produce long-form technical manuals and ebooks. Use PROACTIVELY for system documentation, architecture guides, or technical deep-dives.
 
@@ -102,4 +102,4 @@ Use docs-architect to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

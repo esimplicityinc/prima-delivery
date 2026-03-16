@@ -2,12 +2,12 @@
 sidebar_label: Minecraft Bukkit Pro
 title: Minecraft Bukkit Pro
 description: Master Minecraft server plugin development with Bukkit, Spigot, and Paper APIs. Specializes in event-driven architecture, command systems, world manipulation, p
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Minecraft Bukkit Pro
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Master Minecraft server plugin development with Bukkit, Spigot, and Paper APIs. Specializes in event-driven architecture, command systems, world manipulation, player management, and performance optimization. Use PROACTIVELY for plugin architecture, gameplay mechanics, server-side features, or cross-version compatibility.
 
@@ -139,4 +139,4 @@ Use minecraft-bukkit-pro to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

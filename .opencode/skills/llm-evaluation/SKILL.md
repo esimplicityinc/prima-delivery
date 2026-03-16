@@ -246,7 +246,7 @@ def calculate_factuality(claim: str, sources: list[str], **kwargs) -> float:
 ### Single Output Evaluation
 
 ```python
-from anthropic import Anthropic
+# from your_provider import Client  # Use your preferred AI provider
 from pydantic import BaseModel, Field
 import json
 
@@ -261,8 +261,8 @@ async def llm_judge_quality(
     question: str,
     context: str = None
 ) -> QualityRating:
-    """Use Claude to judge response quality."""
-    client = Anthropic()
+    """Use an LLM to judge response quality."""
+    client = None  # Initialize with your preferred AI provider
 
     system = """You are an expert evaluator of AI responses.
     Rate responses on accuracy, helpfulness, and clarity (1-10 scale).
@@ -283,7 +283,7 @@ Provide ratings in JSON format:
 }}"""
 
     message = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="your-model-here",  # Use your preferred model
         max_tokens=500,
         system=system,
         messages=[{"role": "user", "content": prompt}]
@@ -309,7 +309,7 @@ async def compare_responses(
     response_b: str
 ) -> ComparisonResult:
     """Compare two responses using LLM judge."""
-    client = Anthropic()
+    client = None  # Initialize with your preferred AI provider
 
     prompt = f"""Compare these two responses and determine which is better.
 
@@ -329,7 +329,7 @@ Answer with JSON:
 }}"""
 
     message = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="your-model-here",  # Use your preferred model
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -352,7 +352,7 @@ async def evaluate_against_reference(
     question: str
 ) -> ReferenceEvaluation:
     """Evaluate response against gold standard reference."""
-    client = Anthropic()
+    client = None  # Initialize with your preferred AI provider
 
     prompt = f"""Compare the response to the reference answer.
 
@@ -375,7 +375,7 @@ Respond in JSON:
 }}"""
 
     message = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="your-model-here",  # Use your preferred model
         max_tokens=500,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -605,7 +605,7 @@ experiment_results = await evaluate(
     data=dataset.name,
     evaluators=evaluators,
     experiment_prefix="v1.0.0",
-    metadata={"model": "claude-sonnet-4-5", "version": "1.0.0"}
+    metadata={"model": "your-model-here", "version": "1.0.0"}
 )
 
 print(f"Mean score: {experiment_results.aggregate_metrics['qa']['mean']}")

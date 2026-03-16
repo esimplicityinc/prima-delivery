@@ -2,12 +2,12 @@
 sidebar_label: Firmware Analyst
 title: Firmware Analyst
 description: Expert firmware analyst specializing in embedded systems, IoT security, and hardware reverse engineering. Masters firmware extraction, analysis, and vulnerabili
-tags: [security, opus]
+tags: [security, high]
 ---
 
 # Firmware Analyst
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert firmware analyst specializing in embedded systems, IoT security, and hardware reverse engineering. Masters firmware extraction, analysis, and vulnerability research for routers, IoT devices, automotive systems, and industrial controllers. Use PROACTIVELY for firmware security audits, IoT penetration testing, or embedded systems research.
 
@@ -382,4 +382,4 @@ Use firmware-analyst to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

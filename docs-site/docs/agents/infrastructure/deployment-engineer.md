@@ -2,12 +2,12 @@
 sidebar_label: Deployment Engineer
 title: Deployment Engineer
 description: Expert deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation. Masters GitHub Actions, ArgoCD/Flux, pr
-tags: [infrastructure, haiku]
+tags: [infrastructure, low]
 ---
 
 # Deployment Engineer
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Expert deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation. Masters GitHub Actions, ArgoCD/Flux, progressive delivery, container security, and platform engineering. Handles zero-downtime deployments, security scanning, and developer experience optimization. Use PROACTIVELY for CI/CD design, GitOps implementation, or deployment automation.
 
@@ -181,4 +181,4 @@ Use deployment-engineer to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

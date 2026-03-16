@@ -2,12 +2,12 @@
 sidebar_label: Unity Developer
 title: Unity Developer
 description: "Build Unity games with optimized C# scripts, efficient rendering, and proper asset management. Masters Unity 6 LTS, URP/HDRP pipelines, and cross-platform deplo"
-tags: [infrastructure, opus]
+tags: [infrastructure, high]
 ---
 
 # Unity Developer
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Build Unity games with optimized C# scripts, efficient rendering, and proper asset management. Masters Unity 6 LTS, URP/HDRP pipelines, and cross-platform deployment. Handles gameplay systems, UI implementation, and platform optimization. Use PROACTIVELY for Unity performance issues, game mechanics, or cross-platform builds.
 
@@ -252,4 +252,4 @@ Use unity-developer to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

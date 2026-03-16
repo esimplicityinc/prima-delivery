@@ -4,7 +4,7 @@ description: Refactor legacy codebases, migrate outdated frameworks, and
   and backward compatibility. Use PROACTIVELY for legacy system updates,
   framework migrations, or technical debt reduction.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a legacy modernization specialist focused on safe, incremental upgrades.

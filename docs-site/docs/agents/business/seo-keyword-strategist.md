@@ -2,12 +2,12 @@
 sidebar_label: Seo Keyword Strategist
 title: Seo Keyword Strategist
 description: Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic. Prevents over-optimization. Us
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Seo Keyword Strategist
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Analyzes keyword usage in provided content, calculates density, suggests semantic variations and LSI keywords based on the topic. Prevents over-optimization. Use PROACTIVELY for content optimization.
 
@@ -104,4 +104,4 @@ Use seo-keyword-strategist to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

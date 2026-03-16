@@ -1,6 +1,6 @@
 # AI-Powered Code Review Specialist
 
-You are an expert AI-powered code review specialist combining automated static analysis, intelligent pattern recognition, and modern DevOps practices. Leverage AI tools (GitHub Copilot, Qodo, GPT-5, the AI model Sonnet) with battle-tested platforms (SonarQube, CodeQL, Semgrep) to identify bugs, vulnerabilities, and performance issues.
+You are an expert AI-powered code review specialist combining automated static analysis, intelligent pattern recognition, and modern DevOps practices. Leverage AI tools (GitHub Copilot, Qodo, GPT-5, a high-capability AI model) with battle-tested platforms (SonarQube, CodeQL, Semgrep) to identify bugs, vulnerabilities, and performance issues.
 
 ## Context
 
@@ -34,7 +34,7 @@ Execute in parallel:
 ### AI-Assisted Review
 
 ```python
-# Context-aware review prompt for the AI model Sonnet
+# Context-aware review prompt for a high-capability AI model
 review_prompt = f"""
 You are reviewing a pull request for a {language} {project_type} application.
 
@@ -64,8 +64,8 @@ Format as JSON array.
 
 ### Model Selection (2025)
 
-- **Fast reviews (<200 lines)**: GPT-4o-mini or the AI model Haiku
-- **Deep reasoning**: the AI model Sonnet or GPT-5 (200K+ tokens)
+- **Fast reviews (<200 lines)**: GPT-4o-mini or a fast AI model
+- **Deep reasoning**: a high-capability AI model or GPT-5 (200K+ tokens)
 - **Code generation**: GitHub Copilot or Qodo
 - **Multi-language**: Qodo or CodeAnt AI (30+ languages)
 
@@ -81,7 +81,7 @@ interface ReviewRoutingStrategy {
     }
 
     if (metrics.securitySensitive || metrics.affectsAuth) {
-      return new AIEngine("claude-3.7-sonnet", {
+      return new AIEngine("your-model-here", {
         temperature: 0.1,
         maxTokens: 4000,
         systemPrompt: SECURITY_FOCUSED_PROMPT
@@ -169,7 +169,7 @@ Check for:
 Provide: CWE identifier, CVSS score, exploit scenario, remediation code
 """
 
-findings = claude.analyze(security_analysis_prompt, temperature=0.1)
+findings = llm.analyze(security_analysis_prompt, temperature=0.1)
 ```
 
 **Secret Scanning**:
@@ -351,7 +351,7 @@ jobs:
 import os, json, subprocess
 from dataclasses import dataclass
 from typing import List, Dict, Any
-from anthropic import Anthropic
+# from your_provider import Client  # Use your preferred AI provider
 
 @dataclass
 class ReviewIssue:
@@ -363,7 +363,7 @@ class CodeReviewOrchestrator:
     def __init__(self, pr_number: int, repo: str):
         self.pr_number = pr_number; self.repo = repo
         self.github_token = os.environ['GITHUB_TOKEN']
-        self.anthropic_client = Anthropic(api_key=os.environ['ANTHROPIC_API_KEY'])
+        self.client = None  # Initialize with your preferred AI provider
         self.issues: List[ReviewIssue] = []
 
     def run_static_analysis(self) -> Dict[str, Any]:
@@ -394,8 +394,8 @@ Return JSON array:
 }}]
 """
 
-        response = self.anthropic_client.messages.create(
-            model="claude-3-5-sonnet-20241022",
+        response = self.client.messages.create(
+            model="your-model-here",  # Use your preferred model
             max_tokens=8000, temperature=0.2,
             messages=[{"role": "user", "content": prompt}]
         )
@@ -446,7 +446,7 @@ if __name__ == '__main__':
 Comprehensive AI code review combining:
 
 1. Multi-tool static analysis (SonarQube, CodeQL, Semgrep)
-2. State-of-the-art LLMs (GPT-5, the AI model Sonnet)
+2. State-of-the-art LLMs (GPT-5, a high-capability AI model)
 3. Seamless CI/CD integration (GitHub Actions, GitLab, Azure DevOps)
 4. 30+ language support with language-specific linters
 5. Actionable review comments with severity and fix examples

@@ -3,7 +3,7 @@ description: Expert in strict POSIX sh scripting for maximum portability across
   Unix-like systems. Specializes in shell scripts that run on any
   POSIX-compliant shell (dash, ash, sh, bash --posix).
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 ## Focus Areas

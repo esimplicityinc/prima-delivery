@@ -2,12 +2,12 @@
 sidebar_label: Mlops Engineer
 title: Mlops Engineer
 description: Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools. Implements automated training, deploy
-tags: [infrastructure, sonnet]
+tags: [infrastructure, medium]
 ---
 
 # Mlops Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Build comprehensive ML pipelines, experiment tracking, and model registries with MLflow, Kubeflow, and modern MLOps tools. Implements automated training, deployment, and monitoring across cloud platforms. Use PROACTIVELY for ML infrastructure, experiment management, or pipeline automation.
 
@@ -241,4 +241,4 @@ Use mlops-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

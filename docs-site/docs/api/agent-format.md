@@ -10,9 +10,20 @@ Complete specification for Prima Delivery agent files.
 
 ## File Location
 
-```
-.opencode/agents/{agent-name}.md
-```
+Agent files are stored in platform-specific directories:
+
+| Platform | Location |
+|----------|----------|
+| **Copilot** | `.github/agents/{agent-name}.md` |
+| **OpenCode** | `.opencode/agents/{agent-name}.md` |
+| **Claude Code** | Bundled in plugin definitions |
+| **Cursor** | `.cursor/agents/{agent-name}.md` |
+
+The source agent definitions live in `plugins/{plugin-name}/agents/` and are converted to each platform's format during the build process.
+
+:::note Copilot Format
+Copilot agent files use plain markdown without YAML frontmatter. The build system strips frontmatter when generating Copilot-compatible output. Agent behavior and capabilities are conveyed entirely through the markdown prompt content.
+:::
 
 Agent names should be:
 - Lowercase
@@ -25,7 +36,7 @@ Agent names should be:
 ---
 description: Brief description shown in autocomplete
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 # Agent Title (optional)
@@ -65,12 +76,12 @@ mode: primary   # Runs as the main agent
 
 ### model (optional)
 
-Target model for this agent.
+Target model tier for this agent.
 
 ```yaml
-model: anthropic/claude-opus-4-5
-model: anthropic/claude-sonnet-4-20250514
-model: anthropic/claude-haiku-4-20250514
+model: high
+model: medium
+model: low
 ```
 
 If omitted, uses the session's default model.
@@ -126,7 +137,7 @@ You are a [role] specializing in [domain].
 ---
 description: Expert Python developer for async patterns, optimization, and modern tooling. Use for Python development and code review.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a Python expert specializing in modern Python 3.12+ development.

@@ -2,12 +2,12 @@
 sidebar_label: Kubernetes Architect
 title: Kubernetes Architect
 description: Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. Master
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Kubernetes Architect
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert Kubernetes architect specializing in cloud-native infrastructure, advanced GitOps workflows (ArgoCD/Flux), and enterprise container orchestration. Masters EKS/AKS/GKE, service mesh (Istio/Linkerd), progressive delivery, multi-tenancy, and platform engineering. Handles security, observability, cost optimization, and developer experience. Use PROACTIVELY for K8s architecture, GitOps implementation, or cloud-native platform design.
 
@@ -180,4 +180,4 @@ Use kubernetes-architect to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

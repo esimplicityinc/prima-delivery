@@ -2,12 +2,12 @@
 sidebar_label: Terraform Specialist
 title: Terraform Specialist
 description: Expert Terraform/OpenTofu specialist mastering advanced IaC automation, state management, and enterprise infrastructure patterns. Handles complex module design,
-tags: [infrastructure, opus]
+tags: [infrastructure, high]
 ---
 
 # Terraform Specialist
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert Terraform/OpenTofu specialist mastering advanced IaC automation, state management, and enterprise infrastructure patterns. Handles complex module design, multi-cloud deployments, GitOps workflows, policy as code, and CI/CD integration. Covers migration strategies, security best practices, and modern IaC ecosystems. Use PROACTIVELY for advanced IaC, state management, or infrastructure automation.
 
@@ -177,4 +177,4 @@ Use terraform-specialist to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

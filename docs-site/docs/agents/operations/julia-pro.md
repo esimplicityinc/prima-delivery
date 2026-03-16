@@ -2,12 +2,12 @@
 sidebar_label: Julia Pro
 title: Julia Pro
 description: Master Julia 1.10+ with modern features, performance optimization, multiple dispatch, and production-ready practices. Expert in the Julia ecosystem including pa
-tags: [operations, sonnet]
+tags: [operations, medium]
 ---
 
 # Julia Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master Julia 1.10+ with modern features, performance optimization, multiple dispatch, and production-ready practices. Expert in the Julia ecosystem including package management, scientific computing, and high-performance numerical code. Use PROACTIVELY for Julia development, optimization, or advanced Julia patterns.
 
@@ -228,4 +228,4 @@ Use julia-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

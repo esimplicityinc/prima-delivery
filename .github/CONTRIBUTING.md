@@ -10,13 +10,15 @@ Internal contribution guidelines for the Prima Team.
 
 ## Adding New Agents
 
-1. Create a new markdown file in `.opencode/agents/` or `plugins/{plugin}/agents/`
+1. Create a new markdown file in `plugins/{plugin}/agents/`
 2. Include YAML frontmatter with:
    - `description`: Clear description of the agent's purpose
    - `mode`: `subagent` (default) or `primary`
-   - `model`: Target model (opus/sonnet/haiku)
+   - `model`: Target model tier (high/medium/low)
 3. Write comprehensive system prompt
 4. Run validation: `bun run validate`
+
+Agent files are automatically converted to platform-native formats for Copilot (`.github/agents/`), OpenCode (`.opencode/agents/`), and other platforms during the build process.
 
 ## Adding New Skills
 

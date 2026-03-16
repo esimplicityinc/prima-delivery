@@ -2,12 +2,12 @@
 sidebar_label: Seo Content Writer
 title: Seo Content Writer
 description: Writes SEO-optimized content based on provided keywords and topic briefs. Creates engaging, comprehensive content following best practices. Use PROACTIVELY for 
-tags: [business, sonnet]
+tags: [business, medium]
 ---
 
 # Seo Content Writer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Writes SEO-optimized content based on provided keywords and topic briefs. Creates engaging, comprehensive content following best practices. Use PROACTIVELY for content creation tasks.
 
@@ -106,4 +106,4 @@ Use seo-content-writer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

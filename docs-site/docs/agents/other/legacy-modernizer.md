@@ -2,12 +2,12 @@
 sidebar_label: Legacy Modernizer
 title: Legacy Modernizer
 description: Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization. Handles technical debt, dependency updates, and backward compatibil
-tags: [other, sonnet]
+tags: [other, medium]
 ---
 
 # Legacy Modernizer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Refactor legacy codebases, migrate outdated frameworks, and implement gradual modernization. Handles technical debt, dependency updates, and backward compatibility. Use PROACTIVELY for legacy system updates, framework migrations, or technical debt reduction.
 
@@ -59,4 +59,4 @@ Use legacy-modernizer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

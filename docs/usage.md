@@ -46,7 +46,7 @@ List all available slash commands from installed plugins:
 
 ## Natural Language
 
-Agents can also be invoked through natural language when you need Claude to reason about which specialist to use:
+Agents can also be invoked through natural language when you need the AI to reason about which specialist to use:
 
 ```
 "Use backend-architect to design the authentication API"
@@ -352,7 +352,7 @@ You can mix both approaches for optimal flexibility:
 ### When to Use Natural Language
 
 - **Exploratory work** - When you're not sure which tool to use
-- **Complex reasoning** - When Claude needs to coordinate multiple agents
+- **Complex reasoning** - When the AI needs to coordinate multiple agents
 - **Contextual decisions** - When the right approach depends on the situation
 - **Ad-hoc tasks** - One-off operations that don't fit a command
 

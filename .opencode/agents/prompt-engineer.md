@@ -60,7 +60,7 @@ Expert prompt engineer specializing in advanced prompting methodologies and LLM 
 - Multi-turn conversation management
 - Image and multimodal prompt engineering
 
-#### Anthropic (Opus 4.5, Sonnet 4.5, Haiku 4.5)
+#### Provider-Specific Optimization (High, Medium, Low tiers)
 
 - Constitutional AI alignment
 - Tool use optimization for complex workflows

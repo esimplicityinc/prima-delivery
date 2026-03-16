@@ -3,7 +3,7 @@ description: Analyzes provided content for quality, E-E-A-T signals, and SEO
   best practices. Scores content and provides improvement recommendations based
   on established guidelines. Use PROACTIVELY for content review.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an SEO content auditor analyzing provided content for optimization opportunities.

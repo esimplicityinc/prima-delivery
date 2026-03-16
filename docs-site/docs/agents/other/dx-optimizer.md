@@ -2,12 +2,12 @@
 sidebar_label: Dx Optimizer
 title: Dx Optimizer
 description: Developer Experience specialist. Improves tooling, setup, and workflows. Use PROACTIVELY when setting up new projects, after team feedback, or when development 
-tags: [other, sonnet]
+tags: [other, medium]
 ---
 
 # Dx Optimizer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Developer Experience specialist. Improves tooling, setup, and workflows. Use PROACTIVELY when setting up new projects, after team feedback, or when development friction is noticed.
 
@@ -87,4 +87,4 @@ Use dx-optimizer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

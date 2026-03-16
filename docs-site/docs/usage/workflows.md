@@ -149,33 +149,33 @@ Pass output from one agent to another:
 ### Planning → Execution
 
 ```
-Sonnet: architect (design)
+Medium: architect (design)
   ↓
-Haiku: implement (code generation)
+Low: implement (code generation)
   ↓
-Haiku: test (test generation)
+Low: test (test generation)
   ↓
-Sonnet: review (quality check)
+Medium: review (quality check)
 ```
 
 ### Reasoning → Action
 
 ```
-Sonnet: incident-responder (diagnose)
+Medium: incident-responder (diagnose)
   ↓
-Haiku: devops-troubleshooter (fix)
+Low: devops-troubleshooter (fix)
   ↓
-Haiku: deployment-engineer (deploy)
+Low: deployment-engineer (deploy)
 ```
 
 ### Complex → Simple
 
 ```
-Sonnet: database-architect (design)
+Medium: database-architect (design)
   ↓
-Haiku: sql-pro (generate migrations)
+Low: sql-pro (generate migrations)
   ↓
-Haiku: database-admin (execute)
+Low: database-admin (execute)
 ```
 
 ## Next Steps

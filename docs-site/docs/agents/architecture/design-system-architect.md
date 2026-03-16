@@ -2,12 +2,12 @@
 sidebar_label: Design System Architect
 title: Design System Architect
 description: Expert design system architect specializing in design tokens, component libraries, theming infrastructure, and scalable design operations. Masters token archite
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Design System Architect
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert design system architect specializing in design tokens, component libraries, theming infrastructure, and scalable design operations. Masters token architecture, multi-brand systems, and design-development collaboration. Use PROACTIVELY when building design systems, creating token architectures, implementing theming, or establishing component libraries.
 
@@ -172,4 +172,4 @@ Use design-system-architect to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: C4 Code
 title: C4 Code
 description: Expert C4 Code-level documentation specialist. Analyzes code directories to create comprehensive C4 code-level documentation including function signatures, argu
-tags: [documentation, haiku]
+tags: [documentation, low]
 ---
 
 # C4 Code
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Expert C4 Code-level documentation specialist. Analyzes code directories to create comprehensive C4 code-level documentation including function signatures, arguments, dependencies, and code structure. Use when documenting code at the lowest C4 level for individual directories and code modules.
 
@@ -344,4 +344,4 @@ Use c4-code to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

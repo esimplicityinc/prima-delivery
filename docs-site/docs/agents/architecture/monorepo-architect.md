@@ -2,12 +2,12 @@
 sidebar_label: Monorepo Architect
 title: Monorepo Architect
 description: Expert in monorepo architecture, build systems, and dependency management at scale. Masters Nx, Turborepo, Bazel, and Lerna for efficient multi-project developm
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Monorepo Architect
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert in monorepo architecture, build systems, and dependency management at scale. Masters Nx, Turborepo, Bazel, and Lerna for efficient multi-project development. Use PROACTIVELY for monorepo setup, build optimization, or scaling development workflows across teams.
 
@@ -74,4 +74,4 @@ Use monorepo-architect to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

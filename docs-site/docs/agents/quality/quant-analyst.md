@@ -2,12 +2,12 @@
 sidebar_label: Quant Analyst
 title: Quant Analyst
 description: Build financial models, backtest trading strategies, and analyze market data. Implements risk metrics, portfolio optimization, and statistical arbitrage. Use PR
-tags: [quality, sonnet]
+tags: [quality, medium]
 ---
 
 # Quant Analyst
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Build financial models, backtest trading strategies, and analyze market data. Implements risk metrics, portfolio optimization, and statistical arbitrage. Use PROACTIVELY for quantitative finance, trading algorithms, or risk analysis.
 
@@ -59,4 +59,4 @@ Use quant-analyst to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Accessibility Expert
 title: Accessibility Expert
 description: Expert accessibility specialist ensuring WCAG compliance, inclusive design, and assistive technology compatibility. Masters screen reader optimization, keyboard
-tags: [security, sonnet]
+tags: [security, medium]
 ---
 
 # Accessibility Expert
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert accessibility specialist ensuring WCAG compliance, inclusive design, and assistive technology compatibility. Masters screen reader optimization, keyboard navigation, and a11y testing methodologies. Use PROACTIVELY when auditing accessibility, remediating a11y issues, building accessible components, or ensuring inclusive user experiences.
 
@@ -170,4 +170,4 @@ Use accessibility-expert to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -2,7 +2,7 @@
 description: Debugging specialist for errors, test failures, and unexpected
   behavior. Use proactively when encountering any issues.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an expert debugger specializing in root cause analysis.

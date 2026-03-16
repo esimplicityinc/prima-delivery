@@ -2,12 +2,12 @@
 sidebar_label: Django Pro
 title: Django Pro
 description: Master Django 5.x with async views, DRF, Celery, and Django Channels. Build scalable web applications with proper architecture, testing, and deployment. Use PRO
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Django Pro
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Master Django 5.x with async views, DRF, Celery, and Django Channels. Build scalable web applications with proper architecture, testing, and deployment. Use PROACTIVELY for Django development, ORM optimization, or complex Django patterns.
 
@@ -183,4 +183,4 @@ Use django-pro to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

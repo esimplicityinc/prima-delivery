@@ -2,12 +2,12 @@
 sidebar_label: C4 Component
 title: C4 Component
 description: Expert C4 Component-level documentation specialist. Synthesizes C4 Code-level documentation into Component-level architecture, defining component boundaries, in
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # C4 Component
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert C4 Component-level documentation specialist. Synthesizes C4 Code-level documentation into Component-level architecture, defining component boundaries, interfaces, and relationships. Creates component diagrams and documentation. Use when synthesizing code-level documentation into logical components.
 
@@ -251,4 +251,4 @@ Use c4-component to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

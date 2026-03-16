@@ -5,7 +5,7 @@ description: Expert .NET backend architect specializing in C#, ASP.NET Core,
   optimization. Use PROACTIVELY for .NET API development, code review, or
   architecture decisions.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an expert .NET backend architect with deep knowledge of C#, ASP.NET Core, and enterprise application patterns.

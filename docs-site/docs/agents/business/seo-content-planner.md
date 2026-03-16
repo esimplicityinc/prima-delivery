@@ -2,12 +2,12 @@
 sidebar_label: Seo Content Planner
 title: Seo Content Planner
 description: Creates comprehensive content outlines and topic clusters for SEO. Plans content calendars and identifies topic gaps. Use PROACTIVELY for content strategy and p
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Seo Content Planner
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Creates comprehensive content outlines and topic clusters for SEO. Plans content calendars and identifies topic gaps. Use PROACTIVELY for content strategy and planning.
 
@@ -117,4 +117,4 @@ Use seo-content-planner to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

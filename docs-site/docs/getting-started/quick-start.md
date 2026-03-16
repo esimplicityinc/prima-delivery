@@ -14,7 +14,7 @@ Get productive with Prima Delivery in under 5 minutes.
 # Install OpenPackage CLI
 npm install -g opkg
 
-# Install Prima Delivery (works on Cursor, Claude Code, OpenCode, Windsurf, etc.)
+# Install Prima Delivery (works on Copilot, OpenCode, Claude Code, Cursor, Windsurf, etc.)
 opkg install gh@esimplicityinc/prima-delivery
 ```
 
@@ -23,6 +23,16 @@ See [Installation Guide](/docs/getting-started/installation) for more options.
 ---
 
 ## Using Agents
+
+### Copilot
+
+Use agents through GitHub Copilot Chat with natural language:
+
+```
+@workspace Use python-pro to help me optimize this function
+@workspace Have backend-architect design a REST API for user management
+@workspace Ask security-auditor to review this authentication code
+```
 
 ### OpenCode
 
@@ -52,6 +62,12 @@ Get test-automator to write tests for the UserService class
 
 ### Code Review
 
+**Copilot:**
+```
+@workspace Ask code-reviewer to review this pull request for code quality, security vulnerabilities, and performance concerns
+```
+
+**OpenCode / Claude Code:**
 ```
 @code-reviewer Review this pull request for:
 - Code quality issues
@@ -138,9 +154,9 @@ Agents are assigned to optimal model tiers:
 
 | Tier | Badge | Use Case |
 |------|-------|----------|
-| **Opus** | <span className="model-badge model-badge--opus">Opus</span> | Critical architecture, security |
-| **Sonnet** | <span className="model-badge model-badge--sonnet">Sonnet</span> | Complex development |
-| **Haiku** | <span className="model-badge model-badge--haiku">Haiku</span> | Fast operations |
+| **High** | <span className="model-badge model-badge--high">High</span> | Critical architecture, security |
+| **Medium** | <span className="model-badge model-badge--medium">Medium</span> | Complex development |
+| **Low** | <span className="model-badge model-badge--low">Low</span> | Fast operations |
 
 ## Tips for Best Results
 

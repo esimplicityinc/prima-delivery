@@ -2,12 +2,12 @@
 sidebar_label: Tutorial Engineer
 title: Tutorial Engineer
 description: Creates step-by-step tutorials and educational content from code. Transforms complex concepts into progressive learning experiences with hands-on examples. Use 
-tags: [documentation, sonnet]
+tags: [documentation, medium]
 ---
 
 # Tutorial Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Creates step-by-step tutorials and educational content from code. Transforms complex concepts into progressive learning experiences with hands-on examples. Use PROACTIVELY for onboarding guides, feature tutorials, or concept explanations.
 
@@ -149,4 +149,4 @@ Use tutorial-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

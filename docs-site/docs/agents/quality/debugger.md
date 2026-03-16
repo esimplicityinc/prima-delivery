@@ -2,12 +2,12 @@
 sidebar_label: Debugger
 title: Debugger
 description: Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
-tags: [quality, sonnet]
+tags: [quality, medium]
 ---
 
 # Debugger
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues.
 
@@ -57,4 +57,4 @@ Use debugger to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

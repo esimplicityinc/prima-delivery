@@ -4,7 +4,7 @@ description: Master TypeScript with advanced types, generics, and strict type
   patterns. Use PROACTIVELY for TypeScript architecture, type inference
   optimization, or advanced typing patterns.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a TypeScript expert specializing in advanced typing and enterprise-grade development.

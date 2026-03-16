@@ -12,9 +12,9 @@ Prima Delivery includes **108 specialized AI agents** organized by domain expert
 
 | Model | Count | Use Case |
 |-------|-------|----------|
-| <span className="model-badge model-badge--opus">Opus</span> | 30 | Critical architecture, security, code review |
-| <span className="model-badge model-badge--sonnet">Sonnet</span> | 63 | Complex development, debugging |
-| <span className="model-badge model-badge--haiku">Haiku</span> | 15 | Fast operations, SEO, deployment |
+| <span className="model-badge model-badge--high">High</span> | 30 | Critical architecture, security, code review |
+| <span className="model-badge model-badge--medium">Medium</span> | 63 | Complex development, debugging |
+| <span className="model-badge model-badge--low">Low</span> | 15 | Fast operations, SEO, deployment |
 
 ## Categories
 
@@ -40,6 +40,13 @@ Prima Delivery includes **108 specialized AI agents** organized by domain expert
 | [Other](./other) | 4 |
 
 ## Quick Start
+
+### Copilot
+
+```
+@workspace Use python-pro to help me optimize this function
+@workspace Have backend-architect design a REST API for user management
+```
 
 ### OpenCode
 

@@ -2,12 +2,12 @@
 sidebar_label: Javascript Pro
 title: Javascript Pro
 description: Master modern JavaScript with ES6+, async patterns, and Node.js APIs. Handles promises, event loops, and browser/Node compatibility. Use PROACTIVELY for JavaScr
-tags: [languages-javascript, sonnet]
+tags: [languages-javascript, medium]
 ---
 
 # Javascript Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master modern JavaScript with ES6+, async patterns, and Node.js APIs. Handles promises, event loops, and browser/Node compatibility. Use PROACTIVELY for JavaScript optimization, async debugging, or complex JS patterns.
 
@@ -59,4 +59,4 @@ Use javascript-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

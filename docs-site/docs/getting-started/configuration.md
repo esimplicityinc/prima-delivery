@@ -59,11 +59,13 @@ Agents can include platform-specific overrides in their frontmatter:
 ---
 name: my-agent
 description: Agent description
-model: sonnet
+model: medium
 openpackage:
+  copilot:
+    mode: agent
   opencode:
     mode: subagent
-    model: sonnet
+    model: medium
   cursor:
     type: agent
   claude:
@@ -84,12 +86,68 @@ your-project/
 ├── .openpackage/
 │   ├── openpackage.yml        # Workspace manifest
 │   └── openpackage.index.yml  # File tracking (auto-generated)
+├── .github/                    # Copilot configuration
+│   ├── copilot-instructions.md
+│   └── agents/
 ├── .opencode/                  # OpenCode files
 ├── .cursor/                    # Cursor files
 └── ...
 ```
 
 ---
+
+## Copilot Configuration
+
+### Custom Instructions
+
+Copilot uses a repository-level instructions file for customization:
+
+```
+.github/
+├── copilot-instructions.md    # Global custom instructions
+└── agents/                    # Agent-specific instructions
+    ├── python-pro.md
+    ├── backend-architect.md
+    └── security-auditor.md
+```
+
+### Instructions File Format
+
+The `copilot-instructions.md` file provides global context to Copilot Chat:
+
+```markdown
+# Project Instructions
+
+You are working on a project that uses Prima Delivery agents.
+
+## Available Agents
+- python-pro: Python development expert
+- backend-architect: Backend architecture specialist
+- security-auditor: Security review expert
+
+## Coding Standards
+- Follow the project's established patterns
+- Use type hints in Python code
+- Write tests for all new functionality
+```
+
+### Agent Files
+
+Individual agent files in `.github/agents/` are plain markdown (no YAML frontmatter):
+
+```markdown
+You are python-pro, an expert Python developer.
+
+## Capabilities
+- Code optimization and refactoring
+- Type safety and modern Python patterns
+- Testing with pytest
+
+## Guidelines
+- Use Python 3.12+ features
+- Prefer composition over inheritance
+- Write comprehensive docstrings
+```
 
 ## OpenCode Configuration
 
@@ -114,7 +172,7 @@ Agents are defined in `.opencode/agents/*.md` with YAML frontmatter:
 ---
 description: Your agent description here
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 Your agent prompt content here...
@@ -126,19 +184,19 @@ Your agent prompt content here...
 |-------|----------|-------------|
 | `description` | Yes | Brief description shown in autocomplete |
 | `mode` | No | `subagent` (default) or `primary` |
-| `model` | No | Model to use (defaults to session model) |
+| `model` | No | Model tier to use (defaults to session model) |
 
 #### Model Options
 
 ```yaml
-# Opus - for critical tasks
-model: anthropic/claude-opus-4-5
+# High - for critical tasks
+model: high
 
-# Sonnet - balanced performance  
-model: anthropic/claude-sonnet-4-20250514
+# Medium - balanced performance  
+model: medium
 
-# Haiku - fast operations
-model: anthropic/claude-haiku-4-20250514
+# Low - fast operations
+model: low
 ```
 
 ### Skill File Format
@@ -198,7 +256,7 @@ Create a file with the same name in your project's `.opencode/agents/` to overri
 ---
 description: My customized Python expert
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a Python expert specialized in MY company's coding standards...
@@ -212,7 +270,7 @@ Add a new `.md` file to `.opencode/agents/`:
 ---
 description: Expert in our internal framework
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an expert in our internal framework with knowledge of:
@@ -275,8 +333,8 @@ description: Description with "Use when..." activation triggers
 ## Environment Variables
 
 ```bash
-# Set default model
-export OPENCODE_MODEL=anthropic/claude-sonnet-4-20250514
+# Set default model tier
+export OPENCODE_MODEL=medium
 
 # Enable debug logging
 export OPENCODE_DEBUG=true

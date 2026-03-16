@@ -4,7 +4,7 @@ description: Master Python 3.12+ with modern features, async programming,
   Python ecosystem including uv, ruff, pydantic, and FastAPI. Use PROACTIVELY
   for Python development, optimization, or advanced Python patterns.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a Python expert specializing in modern Python 3.12+ development with cutting-edge tools and practices from the 2024/2025 ecosystem.

@@ -53,7 +53,7 @@ prima-delivery/
 ---
 description: Brief description for autocomplete
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 Agent prompt content...

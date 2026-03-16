@@ -2,12 +2,12 @@
 sidebar_label: Reference Builder
 title: Reference Builder
 description: Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materi
-tags: [documentation, haiku]
+tags: [documentation, low]
 ---
 
 # Reference Builder
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Creates exhaustive technical references and API documentation. Generates comprehensive parameter listings, configuration guides, and searchable reference materials. Use PROACTIVELY for API docs, configuration references, or complete technical specifications.
 
@@ -205,4 +205,4 @@ Use reference-builder to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

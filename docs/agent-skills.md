@@ -8,7 +8,7 @@ Agent Skills are modular packages that extend AI capabilities with specialized d
 
 ## Overview
 
-Skills provide Claude with deep expertise in specific domains without loading everything into context upfront. Each skill includes:
+Skills provide the AI with deep expertise in specific domains without loading everything into context upfront. Each skill includes:
 
 - **YAML Frontmatter**: Name and activation criteria
 - **Progressive Disclosure**: Metadata → Instructions → Resources
@@ -268,9 +268,11 @@ Skills provide Claude with deep expertise in specific domains without loading ev
 
 ## How Skills Work
 
+> **Platform Support:** Skills are available across all platforms including Copilot, OpenCode, Claude Code, and Cursor. The skill system automatically adapts to each platform's capabilities.
+
 ### Activation
 
-Skills are automatically activated when Claude detects matching patterns in your request:
+Skills are automatically activated when the AI detects matching patterns in your request:
 
 ```
 User: "Set up Kubernetes deployment with Helm chart"
@@ -358,4 +360,4 @@ plugins/{plugin-name}/
 
 ## Resources
 
-- [Anthropic Skills Repository](https://github.com/anthropics/skills)
+- [Agent Skills Repository](https://github.com/anthropics/skills)

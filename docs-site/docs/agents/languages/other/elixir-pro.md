@@ -2,12 +2,12 @@
 sidebar_label: Elixir Pro
 title: Elixir Pro
 description: Write idiomatic Elixir code with OTP patterns, supervision trees, and Phoenix LiveView. Masters concurrency, fault tolerance, and distributed systems. Use PROAC
-tags: [languages-other, sonnet]
+tags: [languages-other, medium]
 ---
 
 # Elixir Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Write idiomatic Elixir code with OTP patterns, supervision trees, and Phoenix LiveView. Masters concurrency, fault tolerance, and distributed systems. Use PROACTIVELY for Elixir refactoring, OTP design, or complex BEAM optimizations.
 
@@ -62,4 +62,4 @@ Use elixir-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

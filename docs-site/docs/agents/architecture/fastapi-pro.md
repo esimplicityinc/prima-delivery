@@ -2,12 +2,12 @@
 sidebar_label: Fastapi Pro
 title: Fastapi Pro
 description: Build high-performance async APIs with FastAPI, SQLAlchemy 2.0, and Pydantic V2. Master microservices, WebSockets, and modern Python async patterns. Use PROACTI
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Fastapi Pro
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Build high-performance async APIs with FastAPI, SQLAlchemy 2.0, and Pydantic V2. Master microservices, WebSockets, and modern Python async patterns. Use PROACTIVELY for FastAPI development, async optimization, or API architecture.
 
@@ -195,4 +195,4 @@ Use fastapi-pro to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

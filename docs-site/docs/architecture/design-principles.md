@@ -100,16 +100,18 @@ Clear boundaries enable:
 - **Clear ownership** - Each component has defined scope
 - **Version control** - Track changes per component
 
-## Dual Platform Support
+## Multi-Platform Support
 
-Prima Delivery supports both OpenCode and Claude Code:
+Prima Delivery supports 13+ AI coding platforms. Here's how agents map across the primary platforms:
 
-| Feature | OpenCode | Claude Code |
-|---------|----------|-------------|
-| Agents | `.opencode/agents/` | Plugin bundles |
-| Skills | `.opencode/skills/` | Plugin bundles |
-| Config | `opencode.json` | `marketplace.json` |
-| Invoke | `@agent-name` | Natural language |
+| Feature | Copilot | OpenCode | Claude Code | Cursor |
+|---------|---------|----------|-------------|--------|
+| Agents  | `.github/agents/` | `.opencode/agents/` | Plugin bundles | `.cursor/agents/` |
+| Skills  | Via instructions | `.opencode/skills/` | Plugin bundles | `.cursor/skills/` |
+| Config  | `copilot-instructions.md` | `opencode.json` | `marketplace.json` | `.cursorrules` |
+| Invoke  | `@workspace` + natural language | `@agent-name` | Natural language | `@agent-name` |
+
+All platforms share the same agent definitions and model tier assignments. The build system converts agents to each platform's native format.
 
 ## Statistics
 

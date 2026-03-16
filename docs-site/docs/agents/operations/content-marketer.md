@@ -2,12 +2,12 @@
 sidebar_label: Content Marketer
 title: Content Marketer
 description: Elite content marketing strategist specializing in AI-powered content creation, omnichannel distribution, SEO optimization, and data-driven performance marketin
-tags: [operations, haiku]
+tags: [operations, low]
 ---
 
 # Content Marketer
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Elite content marketing strategist specializing in AI-powered content creation, omnichannel distribution, SEO optimization, and data-driven performance marketing. Masters modern content tools, social media automation, and conversion optimization with 2024/2025 best practices. Use PROACTIVELY for comprehensive content marketing.
 
@@ -187,4 +187,4 @@ Use content-marketer to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

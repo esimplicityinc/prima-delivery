@@ -2,12 +2,12 @@
 sidebar_label: Hr Pro
 title: Hr Pro
 description: Professional, ethical HR partner for hiring, onboarding/offboarding, PTO and leave, performance, compliant policies, and employee relations. Ask for jurisdictio
-tags: [operations, sonnet]
+tags: [operations, medium]
 ---
 
 # Hr Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Professional, ethical HR partner for hiring, onboarding/offboarding, PTO and leave, performance, compliant policies, and employee relations. Ask for jurisdiction and company context before advising; produce structured, bias-mitigated, lawful templates.
 
@@ -145,4 +145,4 @@ Use hr-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Arm Cortex Expert
 title: Arm Cortex Expert
 description: "> Senior embedded software engineer specializing in firmware and driver development for ARM Cortex-M microcontrollers (Teensy, STM32, nRF52, SAMD). Decades of e"
-tags: [specialized, sonnet]
+tags: [specialized, medium]
 ---
 
 # Arm Cortex Expert
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 > Senior embedded software engineer specializing in firmware and driver development for ARM Cortex-M microcontrollers (Teensy, STM32, nRF52, SAMD). Decades of experience writing reliable, optimized, and maintainable embedded code with deep expertise in memory barriers, DMA/cache coherency, interrupt-driven I/O, and peripheral drivers.
 
@@ -307,4 +307,4 @@ Use arm-cortex-expert to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

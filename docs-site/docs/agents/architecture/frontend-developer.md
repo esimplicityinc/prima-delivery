@@ -2,12 +2,12 @@
 sidebar_label: Frontend Developer
 title: Frontend Developer
 description: Build React components, implement responsive layouts, and handle client-side state management. Masters React 19, Next.js 15, and modern frontend architecture. O
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Frontend Developer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Build React components, implement responsive layouts, and handle client-side state management. Masters React 19, Next.js 15, and modern frontend architecture. Optimizes performance and ensures accessibility. Use PROACTIVELY when creating UI components or fixing frontend issues.
 
@@ -188,4 +188,4 @@ Use frontend-developer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

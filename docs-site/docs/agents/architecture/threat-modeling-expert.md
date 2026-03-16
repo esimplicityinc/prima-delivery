@@ -2,12 +2,12 @@
 sidebar_label: Threat Modeling Expert
 title: Threat Modeling Expert
 description: Expert in threat modeling methodologies, security architecture review, and risk assessment. Masters STRIDE, PASTA, attack trees, and security requirement extrac
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Threat Modeling Expert
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert in threat modeling methodologies, security architecture review, and risk assessment. Masters STRIDE, PASTA, attack trees, and security requirement extraction. Use PROACTIVELY for security architecture reviews, threat identification, or building secure-by-design systems.
 
@@ -74,4 +74,4 @@ Use threat-modeling-expert to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Flutter Expert
 title: Flutter Expert
 description: Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment. Handles state management, animations, testing, and performance optimiza
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Flutter Expert
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master Flutter development with Dart 3, advanced widgets, and multi-platform deployment. Handles state management, animations, testing, and performance optimization for mobile, web, desktop, and embedded platforms. Use PROACTIVELY for Flutter architecture, UI implementation, or cross-platform features.
 
@@ -219,4 +219,4 @@ Use flutter-expert to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

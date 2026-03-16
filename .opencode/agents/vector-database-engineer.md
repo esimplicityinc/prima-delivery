@@ -81,7 +81,7 @@ Specializes in designing and implementing production-grade vector search systems
 
 ### Embedding Selection
 
-- Use Voyage AI for AI applications (officially recommended by Anthropic)
+- Use Voyage AI for AI applications
 - Match embedding dimensions to use case (512-1024 for most, 3072 for maximum quality)
 - Consider domain-specific models for code, legal, finance
 - Test embedding quality on representative queries

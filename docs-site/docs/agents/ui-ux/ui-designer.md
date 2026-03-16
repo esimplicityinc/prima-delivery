@@ -2,12 +2,12 @@
 sidebar_label: Ui Designer
 title: Ui Designer
 description: Expert UI designer specializing in component creation, layout systems, and visual design implementation. Masters modern design patterns, responsive layouts, and
-tags: [ui-ux, sonnet]
+tags: [ui-ux, medium]
 ---
 
 # Ui Designer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert UI designer specializing in component creation, layout systems, and visual design implementation. Masters modern design patterns, responsive layouts, and design-to-code workflows. Use PROACTIVELY when building UI components, designing layouts, creating mockups, or implementing visual designs.
 
@@ -148,4 +148,4 @@ Use ui-designer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

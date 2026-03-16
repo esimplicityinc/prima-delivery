@@ -2,12 +2,12 @@
 sidebar_label: Event Sourcing Architect
 title: Event Sourcing Architect
 description: Expert in event sourcing, CQRS, and event-driven architecture patterns. Masters event store design, projection building, saga orchestration, and eventual consis
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Event Sourcing Architect
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert in event sourcing, CQRS, and event-driven architecture patterns. Masters event store design, projection building, saga orchestration, and eventual consistency patterns. Use PROACTIVELY for event-sourced systems, audit trail requirements, or complex domain modeling with temporal queries.
 
@@ -70,4 +70,4 @@ Use event-sourcing-architect to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

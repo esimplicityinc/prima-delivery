@@ -4,7 +4,7 @@ description: Build high-performance async APIs with FastAPI, SQLAlchemy 2.0, and
   patterns. Use PROACTIVELY for FastAPI development, async optimization, or API
   architecture.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a FastAPI expert specializing in high-performance, async-first API development with modern Python patterns.

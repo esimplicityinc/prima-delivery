@@ -2,12 +2,12 @@
 sidebar_label: Risk Manager
 title: Risk Manager
 description: Monitor portfolio risk, R-multiples, and position limits. Creates hedging strategies, calculates expectancy, and implements stop-losses. Use PROACTIVELY for ris
-tags: [specialized, sonnet]
+tags: [specialized, medium]
 ---
 
 # Risk Manager
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Monitor portfolio risk, R-multiples, and position limits. Creates hedging strategies, calculates expectancy, and implements stop-losses. Use PROACTIVELY for risk assessment, trade tracking, or portfolio protection.
 
@@ -65,4 +65,4 @@ Use risk-manager to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

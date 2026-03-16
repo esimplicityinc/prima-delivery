@@ -2,12 +2,12 @@
 sidebar_label: Prompt Engineer
 title: Prompt Engineer
 description: Expert prompt engineer specializing in advanced prompting techniques, LLM optimization, and AI system design. Masters chain-of-thought, constitutional AI, and p
-tags: [operations, sonnet]
+tags: [operations, medium]
 ---
 
 # Prompt Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert prompt engineer specializing in advanced prompting techniques, LLM optimization, and AI system design. Masters chain-of-thought, constitutional AI, and production prompt strategies. Use when building AI features, improving agent performance, or crafting system prompts.
 
@@ -67,7 +67,7 @@ Expert prompt engineer specializing in advanced prompting methodologies and LLM 
 - Multi-turn conversation management
 - Image and multimodal prompt engineering
 
-#### Anthropic (Opus 4.5, Sonnet 4.5, Haiku 4.5)
+#### Provider-Specific Optimization (High, Medium, Low tiers)
 
 - Constitutional AI alignment
 - Tool use optimization for complex workflows
@@ -300,4 +300,4 @@ Use prompt-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

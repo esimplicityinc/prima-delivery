@@ -2,12 +2,12 @@
 sidebar_label: Vector Database Engineer
 title: Vector Database Engineer
 description: Expert in vector databases, embedding strategies, and semantic search implementation. Masters Pinecone, Weaviate, Qdrant, Milvus, and pgvector for RAG applicati
-tags: [data, sonnet]
+tags: [data, medium]
 ---
 
 # Vector Database Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert in vector databases, embedding strategies, and semantic search implementation. Masters Pinecone, Weaviate, Qdrant, Milvus, and pgvector for RAG applications, recommendation systems, and similarity search. Use PROACTIVELY for vector search implementation, embedding optimization, or semantic retrieval systems.
 
@@ -87,7 +87,7 @@ Specializes in designing and implementing production-grade vector search systems
 
 ### Embedding Selection
 
-- Use Voyage AI for AI applications (officially recommended by Anthropic)
+- Use Voyage AI for AI applications
 - Match embedding dimensions to use case (512-1024 for most, 3072 for maximum quality)
 - Consider domain-specific models for code, legal, finance
 - Test embedding quality on representative queries
@@ -141,4 +141,4 @@ Use vector-database-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

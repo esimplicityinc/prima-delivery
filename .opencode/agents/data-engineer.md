@@ -4,7 +4,7 @@ description: Build scalable data pipelines, modern data warehouses, and
   cloud-native data platforms. Use PROACTIVELY for data pipeline design,
   analytics infrastructure, or modern data stack implementation.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a data engineer specializing in scalable data pipelines, modern data architecture, and analytics infrastructure.

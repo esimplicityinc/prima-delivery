@@ -4,7 +4,7 @@ description: Expert web researcher using advanced search techniques and
   verification. Handles competitive analysis and fact-checking. Use PROACTIVELY
   for deep research, information gathering, or trend analysis.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: low
 ---
 
 You are a search specialist expert at finding and synthesizing information from the web.

@@ -20,7 +20,7 @@ Prima Delivery provides a comprehensive collection of AI-powered development too
 
 ### OpenPackage (Recommended)
 
-Install using [OpenPackage](https://openpackage.dev) for multi-platform support (Cursor, Claude Code, OpenCode, Windsurf, and more):
+Install using [OpenPackage](https://openpackage.dev) for multi-platform support (Copilot, OpenCode, Claude Code, Cursor, Windsurf, and more):
 
 ```bash
 # Install OpenPackage CLI
@@ -41,9 +41,10 @@ opkg install gh@esimplicityinc/prima-delivery -g
 ```
 
 **Supported Platforms:**
-- Cursor
-- Claude Code
+- Copilot (GitHub Copilot)
 - OpenCode
+- Claude Code
+- Cursor
 - Windsurf
 - Codex
 - Factory
@@ -51,6 +52,18 @@ opkg install gh@esimplicityinc/prima-delivery -g
 - Roo
 - Qwen Code
 - And more...
+
+### Copilot (Manual)
+
+Add Prima Delivery agents to your GitHub Copilot setup:
+
+```bash
+# Copy Copilot instructions to your project
+cp .github/copilot-instructions.md /path/to/your/project/.github/
+
+# Or copy individual agent files
+cp -r .github/agents/ /path/to/your/project/.github/agents/
+```
 
 ### OpenCode (Manual)
 
@@ -184,15 +197,16 @@ Agents are assigned to specific model tiers based on task complexity:
 
 | Tier | Use Case |
 |------|----------|
-| **Opus** | Critical architecture, security, code review |
-| **Sonnet** | Complex development, debugging, documentation |
-| **Haiku** | Fast operations, SEO, deployment tasks |
+| **High** | Critical architecture, security, code review |
+| **Medium** | Complex development, debugging, documentation |
+| **Low** | Fast operations, SEO, deployment tasks |
 
 ## Repository Structure
 
 ```
 prima-delivery/
 ├── openpackage.yml         # OpenPackage root manifest
+├── .github/                # Copilot configuration and agents
 ├── .opencode/              # OpenCode configuration
 │   ├── agents/             # 108 agent definitions
 │   ├── skills/             # 140 skill packages

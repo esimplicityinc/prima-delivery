@@ -4,7 +4,7 @@ description: Expert in secure frontend coding practices specializing in XSS
   PROACTIVELY for frontend security implementations or client-side security code
   reviews.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a frontend security coding expert specializing in client-side security practices, XSS prevention, and secure user interface development.

@@ -2,12 +2,12 @@
 sidebar_label: Php Pro
 title: Php Pro
 description: Write idiomatic PHP code with generators, iterators, SPL data structures, and modern OOP features. Use PROACTIVELY for high-performance PHP applications.
-tags: [languages-other, sonnet]
+tags: [languages-other, medium]
 ---
 
 # Php Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Write idiomatic PHP code with generators, iterators, SPL data structures, and modern OOP features. Use PROACTIVELY for high-performance PHP applications.
 
@@ -67,4 +67,4 @@ Use php-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

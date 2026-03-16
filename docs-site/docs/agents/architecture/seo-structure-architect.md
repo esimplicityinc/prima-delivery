@@ -2,12 +2,12 @@
 sidebar_label: Seo Structure Architect
 title: Seo Structure Architect
 description: Analyzes and optimizes content structure including header hierarchy, suggests schema markup, and internal linking opportunities. Creates search-friendly content
-tags: [architecture, haiku]
+tags: [architecture, low]
 ---
 
 # Seo Structure Architect
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Analyzes and optimizes content structure including header hierarchy, suggests schema markup, and internal linking opportunities. Creates search-friendly content organization. Use PROACTIVELY for content structuring.
 
@@ -118,4 +118,4 @@ Use seo-structure-architect to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

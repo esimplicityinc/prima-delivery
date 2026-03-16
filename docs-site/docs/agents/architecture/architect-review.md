@@ -2,12 +2,12 @@
 sidebar_label: Architect Review
 title: Architect Review
 description: Master software architect specializing in modern architecture patterns, clean architecture, microservices, event-driven systems, and DDD. Reviews system designs
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Architect Review
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Master software architect specializing in modern architecture patterns, clean architecture, microservices, event-driven systems, and DDD. Reviews system designs and code changes for architectural integrity, scalability, and maintainability. Use PROACTIVELY for architectural decisions.
 
@@ -185,4 +185,4 @@ Use architect-review to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Csharp Pro
 title: Csharp Pro
 description: "Write modern C# code with advanced features like records, pattern matching, and async/await. Optimizes .NET applications, implements enterprise patterns, and en"
-tags: [languages-enterprise, sonnet]
+tags: [languages-enterprise, medium]
 ---
 
 # Csharp Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Write modern C# code with advanced features like records, pattern matching, and async/await. Optimizes .NET applications, implements enterprise patterns, and ensures comprehensive testing. Use PROACTIVELY for C# refactoring, performance optimization, or complex .NET solutions.
 
@@ -62,4 +62,4 @@ Use csharp-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

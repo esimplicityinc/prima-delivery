@@ -2,12 +2,12 @@
 sidebar_label: Temporal Python Pro
 title: Temporal Python Pro
 description: Master Temporal workflow orchestration with Python SDK. Implements durable workflows, saga patterns, and distributed transactions. Covers async/await, testing s
-tags: [languages-python, sonnet]
+tags: [languages-python, medium]
 ---
 
 # Temporal Python Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master Temporal workflow orchestration with Python SDK. Implements durable workflows, saga patterns, and distributed transactions. Covers async/await, testing strategies, and production deployment. Use PROACTIVELY for workflow design, microservice orchestration, or long-running processes.
 
@@ -373,4 +373,4 @@ Use temporal-python-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

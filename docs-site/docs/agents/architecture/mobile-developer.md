@@ -2,12 +2,12 @@
 sidebar_label: Mobile Developer
 title: Mobile Developer
 description: Develop React Native, Flutter, or native mobile apps with modern architecture patterns. Masters cross-platform development, native integrations, offline sync, a
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Mobile Developer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Develop React Native, Flutter, or native mobile apps with modern architecture patterns. Masters cross-platform development, native integrations, offline sync, and app store optimization. Use PROACTIVELY for mobile features, cross-platform code, or app optimization.
 
@@ -226,4 +226,4 @@ Use mobile-developer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

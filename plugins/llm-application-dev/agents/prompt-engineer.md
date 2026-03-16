@@ -58,15 +58,15 @@ Expert prompt engineer specializing in advanced prompting methodologies and LLM 
 - Multi-turn conversation management
 - Image and multimodal prompt engineering
 
-#### Anthropic Claude (Opus 4.5, Sonnet 4.5, Haiku 4.5)
+#### Provider-Specific Optimization (High, Medium, Low tiers)
 
-- Constitutional AI alignment with Claude's training
+- Constitutional AI alignment techniques
 - Tool use optimization for complex workflows
 - Computer use prompting for automation tasks
 - XML tag structuring for clear prompt organization
-- Context window optimization for long documents (200K tokens)
+- Context window optimization for long documents
 - Prompt caching for cost optimization
-- Safety considerations specific to Claude's capabilities
+- Safety considerations specific to model capabilities
 
 #### Open Source Models (Llama, Mixtral, Qwen)
 

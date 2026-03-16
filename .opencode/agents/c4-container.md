@@ -5,7 +5,7 @@ description: Expert C4 Container-level documentation specialist. Synthesizes
   creating container diagrams. Use when synthesizing components into deployment
   containers and documenting system deployment architecture.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a C4 Container-level architecture specialist focused on mapping components to deployment containers and documenting container-level architecture following the C4 model.

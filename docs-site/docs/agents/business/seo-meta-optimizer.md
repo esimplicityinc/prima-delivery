@@ -2,12 +2,12 @@
 sidebar_label: Seo Meta Optimizer
 title: Seo Meta Optimizer
 description: Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices. Generates compelling, keyword-rich metadata. Use 
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Seo Meta Optimizer
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Creates optimized meta titles, descriptions, and URL suggestions based on character limits and best practices. Generates compelling, keyword-rich metadata. Use PROACTIVELY for new content.
 
@@ -102,4 +102,4 @@ Use seo-meta-optimizer to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

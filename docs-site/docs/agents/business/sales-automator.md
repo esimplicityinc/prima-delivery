@@ -2,12 +2,12 @@
 sidebar_label: Sales Automator
 title: Sales Automator
 description: Draft cold emails, follow-ups, and proposal templates. Creates pricing pages, case studies, and sales scripts. Use PROACTIVELY for sales outreach or lead nurtur
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Sales Automator
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Draft cold emails, follow-ups, and proposal templates. Creates pricing pages, case studies, and sales scripts. Use PROACTIVELY for sales outreach or lead nurturing.
 
@@ -59,4 +59,4 @@ Use sales-automator to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

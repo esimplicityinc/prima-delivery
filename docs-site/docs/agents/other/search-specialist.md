@@ -2,12 +2,12 @@
 sidebar_label: Search Specialist
 title: Search Specialist
 description: Expert web researcher using advanced search techniques and synthesis. Masters search operators, result filtering, and multi-source verification. Handles competi
-tags: [other, haiku]
+tags: [other, low]
 ---
 
 # Search Specialist
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Expert web researcher using advanced search techniques and synthesis. Masters search operators, result filtering, and multi-source verification. Handles competitive analysis and fact-checking. Use PROACTIVELY for deep research, information gathering, or trend analysis.
 
@@ -83,4 +83,4 @@ Use search-specialist to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

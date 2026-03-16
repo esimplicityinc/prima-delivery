@@ -2,12 +2,12 @@
 sidebar_label: Seo Content Auditor
 title: Seo Content Auditor
 description: Analyzes provided content for quality, E-E-A-T signals, and SEO best practices. Scores content and provides improvement recommendations based on established gui
-tags: [security, sonnet]
+tags: [security, medium]
 ---
 
 # Seo Content Auditor
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Analyzes provided content for quality, E-E-A-T signals, and SEO best practices. Scores content and provides improvement recommendations based on established guidelines. Use PROACTIVELY for content review.
 
@@ -88,4 +88,4 @@ Use seo-content-auditor to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

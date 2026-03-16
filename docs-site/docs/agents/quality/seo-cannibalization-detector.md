@@ -2,12 +2,12 @@
 sidebar_label: Seo Cannibalization Detector
 title: Seo Cannibalization Detector
 description: Analyzes multiple provided pages to identify keyword overlap and potential cannibalization issues. Suggests differentiation strategies. Use PROACTIVELY when rev
-tags: [quality, haiku]
+tags: [quality, low]
 ---
 
 # Seo Cannibalization Detector
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Analyzes multiple provided pages to identify keyword overlap and potential cannibalization issues. Suggests differentiation strategies. Use PROACTIVELY when reviewing similar content.
 
@@ -135,4 +135,4 @@ Use seo-cannibalization-detector to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

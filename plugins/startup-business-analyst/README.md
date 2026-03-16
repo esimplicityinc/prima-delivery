@@ -200,8 +200,8 @@ Business model coverage:
 ## Model Configuration
 
 - **Agent Model**: `inherit` (uses your session default model)
-- **Recommended**: Sonnet for balance of speed and quality
-- **Use Opus for**: Complex multi-market analysis or detailed financial models
+- **Recommended**: Medium tier for balance of speed and quality
+- **Use High tier for**: Complex multi-market analysis or detailed financial models
 
 ## Contributing
 

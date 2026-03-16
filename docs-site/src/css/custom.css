@@ -40,12 +40,12 @@
   --docusaurus-highlighted-code-line-bg: rgba(99, 102, 241, 0.1);
 
   /* Custom Model Badge Colors */
-  --model-opus-bg: #f59e0b;
-  --model-opus-text: #ffffff;
-  --model-sonnet-bg: #3b82f6;
-  --model-sonnet-text: #ffffff;
-  --model-haiku-bg: #10b981;
-  --model-haiku-text: #ffffff;
+  --model-high-bg: #f59e0b;
+  --model-high-text: #ffffff;
+  --model-medium-bg: #3b82f6;
+  --model-medium-text: #ffffff;
+  --model-low-bg: #10b981;
+  --model-low-text: #ffffff;
 
   /* Shadow and Focus Ring Variables */
   --shadow-primary: rgba(99, 102, 241, 0.15);
@@ -243,19 +243,19 @@ code {
   letter-spacing: 0.025em;
 }
 
-.model-badge--opus {
-  background-color: var(--model-opus-bg);
-  color: var(--model-opus-text);
+.model-badge--high {
+  background-color: var(--model-high-bg);
+  color: var(--model-high-text);
 }
 
-.model-badge--sonnet {
-  background-color: var(--model-sonnet-bg);
-  color: var(--model-sonnet-text);
+.model-badge--medium {
+  background-color: var(--model-medium-bg);
+  color: var(--model-medium-text);
 }
 
-.model-badge--haiku {
-  background-color: var(--model-haiku-bg);
-  color: var(--model-haiku-text);
+.model-badge--low {
+  background-color: var(--model-low-bg);
+  color: var(--model-low-text);
 }
 
 /* ============================================

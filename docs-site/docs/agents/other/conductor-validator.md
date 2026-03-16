@@ -2,12 +2,12 @@
 sidebar_label: Conductor Validator
 title: Conductor Validator
 description: Validates Conductor project artifacts for completeness, consistency, and correctness. Use after setup, when diagnosing issues, or before implementation to verif
-tags: [other, opus]
+tags: [other, high]
 ---
 
 # Conductor Validator
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Validates Conductor project artifacts for completeness, consistency, and correctness. Use after setup, when diagnosing issues, or before implementation to verify project context.
 
@@ -267,4 +267,4 @@ Use conductor-validator to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

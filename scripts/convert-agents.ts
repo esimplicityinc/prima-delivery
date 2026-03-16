@@ -35,9 +35,9 @@ interface ConversionResult {
 
 // Mappings
 const MODEL_MAP: Record<string, string> = {
-  'opus': 'anthropic/claude-opus-4-5',
-  'sonnet': 'anthropic/claude-sonnet-4-20250514',
-  'haiku': 'anthropic/claude-haiku-4-20250514',
+  'high': 'high',
+  'medium': 'medium',
+  'low': 'low',
 };
 
 const COLOR_MAP: Record<string, string> = {

@@ -330,6 +330,8 @@ plugins/python-development/
 
 ## Installation
 
+> **Multi-Platform Support:** Plugins are available across all supported platforms. Use `opkg install` for universal installation, or platform-specific methods for Copilot, OpenCode, and Claude Code. Plugins distribute agents and skills to all platforms automatically.
+
 ### Step 1: Add the Marketplace
 
 ```bash
@@ -353,7 +355,7 @@ Install only the plugins you need:
 /plugin install backend-development
 ```
 
-Each installed plugin loads **only its specific agents and commands** into Claude's context.
+Each installed plugin loads **only its specific agents and commands** into the AI's context.
 
 ## Plugin Design Principles
 
@@ -361,7 +363,7 @@ Each installed plugin loads **only its specific agents and commands** into Claud
 
 - Each plugin does **one thing well** (Unix philosophy)
 - Clear, focused purposes (describable in 5-10 words)
-- Average plugin size: **3.4 components** (follows Anthropic's 2-8 pattern)
+- Average plugin size: **3.4 components** (follows the recommended 2-8 pattern)
 
 ### Minimal Token Usage
 

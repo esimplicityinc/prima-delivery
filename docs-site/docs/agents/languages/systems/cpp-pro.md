@@ -2,12 +2,12 @@
 sidebar_label: Cpp Pro
 title: Cpp Pro
 description: Write idiomatic C++ code with modern features, RAII, smart pointers, and STL algorithms. Handles templates, move semantics, and performance optimization. Use PR
-tags: [languages-systems, opus]
+tags: [languages-systems, high]
 ---
 
 # Cpp Pro
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Write idiomatic C++ code with modern features, RAII, smart pointers, and STL algorithms. Handles templates, move semantics, and performance optimization. Use PROACTIVELY for C++ refactoring, memory safety, or complex C++ patterns.
 
@@ -62,4 +62,4 @@ Use cpp-pro to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

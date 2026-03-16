@@ -166,9 +166,9 @@ Include integration tests with the database
 
 ### Use Appropriate Model Tiers
 
-- **Opus** agents: Critical decisions, complex architecture
-- **Sonnet** agents: Development tasks, debugging
-- **Haiku** agents: Quick operations, simple tasks
+- **High** tier agents: Critical decisions, complex architecture
+- **Medium** tier agents: Development tasks, debugging
+- **Low** tier agents: Quick operations, simple tasks
 
 ### Batch Related Requests
 

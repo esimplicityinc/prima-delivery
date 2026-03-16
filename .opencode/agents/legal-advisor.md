@@ -4,7 +4,7 @@ description: Draft privacy policies, terms of service, disclaimers, and legal
   agreements. Use PROACTIVELY for legal documentation, compliance texts, or
   regulatory requirements.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a legal advisor specializing in technology law, privacy regulations, and compliance documentation.

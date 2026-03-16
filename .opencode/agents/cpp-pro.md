@@ -4,7 +4,7 @@ description: Write idiomatic C++ code with modern features, RAII, smart
   performance optimization. Use PROACTIVELY for C++ refactoring, memory safety,
   or complex C++ patterns.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a C++ programming expert specializing in modern C++ and high-performance software.

@@ -1,26 +1,46 @@
 ---
 sidebar_position: 2
 title: Model Tiers
-description: Strategic model assignment for optimal performance
+description: Provider-agnostic model tier strategy for optimal performance
 ---
 
 # Model Tiers
 
-Prima Delivery uses a three-tier model strategy for optimal performance and cost.
+Prima Delivery uses a **provider-agnostic, three-tier model strategy** to optimize for performance, cost, and task complexity. Instead of referencing specific model names, agents are assigned to a tier — **High**, **Medium**, or **Low** — which maps to the most capable model available at that tier from your configured AI provider.
+
+:::tip Platform Universal
+Model tiers apply consistently across all supported platforms — Copilot, OpenCode, Claude Code, Cursor, and others. The tier assignment determines agent capability regardless of which platform you use.
+:::
+
+## What Are Model Tiers?
+
+Model tiers are an abstraction layer that decouples agent definitions from specific AI providers. This means:
+
+- **Your agents work with any supported AI provider** without modification
+- **Upgrading models** requires changing only the tier mapping, not every agent
+- **Cost optimization** is built into the tier system by design
+- **Task complexity** drives model selection, not vendor-specific naming
 
 ## Tier Overview
 
-| Tier | Model | Agents | Use Case |
+| Tier | Label | Agents | Use Case |
 |------|-------|--------|----------|
-| **Tier 1** | Opus | 42 | Critical architecture, security, code review |
-| **Tier 2** | Sonnet | 48 | Complex development, debugging, documentation |
-| **Tier 3** | Haiku | 18 | Fast operations, SEO, deployment |
+| **Tier 1** | High | 42 | Critical architecture, security, code review |
+| **Tier 2** | Medium | 48 | Complex development, debugging, documentation |
+| **Tier 3** | Low | 18 | Fast operations, SEO, deployment |
 
-## Opus Tier
+## High Tier
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
-**Best for:** Critical decisions requiring deep reasoning
+**The most capable model tier.** Use for tasks requiring deep reasoning, multi-step analysis, and high-stakes decisions.
+
+### Characteristics
+
+- Strongest reasoning and analytical capabilities
+- Best at handling ambiguity and complex trade-offs
+- Highest token cost per request
+- Slower response times compared to lower tiers
 
 ### Assigned Agents
 
@@ -38,11 +58,18 @@ Prima Delivery uses a three-tier model strategy for optimal performance and cost
 - Complex AI/ML implementations
 - Business-critical operations
 
-## Sonnet Tier
+## Medium Tier
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
-**Best for:** Balanced performance for development tasks
+**Balanced performance tier.** Use for day-to-day development tasks that need solid reasoning without the cost of the highest tier.
+
+### Characteristics
+
+- Strong reasoning with good speed
+- Excellent for code generation and debugging
+- Moderate token cost — the default for most work
+- Good balance of quality, speed, and cost
 
 ### Assigned Agents
 
@@ -60,11 +87,18 @@ Prima Delivery uses a three-tier model strategy for optimal performance and cost
 - Technical documentation
 - Code implementation
 
-## Haiku Tier
+## Low Tier
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
-**Best for:** Fast, routine operations
+**Fastest, most economical tier.** Use for routine, well-defined operations where speed and cost matter more than deep reasoning.
+
+### Characteristics
+
+- Fastest response times
+- Lowest token cost per request
+- Good for templated or well-defined tasks
+- Ideal for high-volume operations
 
 ### Assigned Agents
 
@@ -81,51 +115,57 @@ Prima Delivery uses a three-tier model strategy for optimal performance and cost
 - Simple documentation tasks
 - High-volume operations
 
-## Cost Considerations
+## Cost Optimization
 
-| Model | Input | Output | Best For |
-|-------|-------|--------|----------|
-| Opus | $15/M | $75/M | Critical, complex tasks |
-| Sonnet | $3/M | $15/M | Development, debugging |
-| Haiku | $0.25/M | $1.25/M | High-volume, simple tasks |
+The tier system is designed for cost efficiency. General guidance:
+
+| Tier | Relative Cost | Best For |
+|------|--------------|----------|
+| High | $$$ | Critical, complex tasks |
+| Medium | $$ | Development, debugging |
+| Low | $ | High-volume, simple tasks |
+
+Actual costs depend on your AI provider and the specific models mapped to each tier.
 
 ### Optimization Tips
 
-1. **Use Haiku** for routine tasks
-2. **Reserve Opus** for critical decisions
-3. **Default to Sonnet** for development
+1. **Use Low** for routine tasks to minimize cost
+2. **Reserve High** for critical decisions where quality matters most
+3. **Default to Medium** for general development work
 4. **Batch operations** to reduce API calls
 
 ## Orchestration Patterns
 
+Tier-aware orchestration lets you chain agents across tiers for optimal performance:
+
 ### Planning → Execution
 
 ```
-Opus: backend-architect (design)
+High: backend-architect (design)
   ↓
-Sonnet: python-pro (implement)
+Medium: python-pro (implement)
   ↓
-Haiku: deployment-engineer (deploy)
+Low: deployment-engineer (deploy)
 ```
 
 ### Reasoning → Action
 
 ```
-Opus: incident-responder (diagnose)
+High: incident-responder (diagnose)
   ↓
-Sonnet: debugger (fix)
+Medium: debugger (fix)
   ↓
-Haiku: deployment-engineer (deploy)
+Low: deployment-engineer (deploy)
 ```
 
 ### Review Pipeline
 
 ```
-Sonnet: code-reviewer (initial review)
+Medium: code-reviewer (initial review)
   ↓
-Opus: security-auditor (security review)
+High: security-auditor (security review)
   ↓
-Opus: architect-reviewer (architecture review)
+High: architect-reviewer (architecture review)
 ```
 
 ## Customizing Model Assignments
@@ -135,7 +175,7 @@ Override model assignments in agent definitions:
 ```yaml
 ---
 description: My custom agent
-model: anthropic/claude-opus-4-5  # Force Opus
+model: high  # Force high-tier model
 ---
 ```
 

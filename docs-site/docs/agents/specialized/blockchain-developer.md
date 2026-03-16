@@ -2,12 +2,12 @@
 sidebar_label: Blockchain Developer
 title: Blockchain Developer
 description: Build production-ready Web3 applications, smart contracts, and decentralized systems. Implements DeFi protocols, NFT platforms, DAOs, and enterprise blockchain 
-tags: [specialized, opus]
+tags: [specialized, high]
 ---
 
 # Blockchain Developer
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Build production-ready Web3 applications, smart contracts, and decentralized systems. Implements DeFi protocols, NFT platforms, DAOs, and enterprise blockchain integrations. Use PROACTIVELY for smart contracts, Web3 apps, DeFi protocols, or blockchain infrastructure.
 
@@ -211,4 +211,4 @@ Use blockchain-developer to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

@@ -3,7 +3,7 @@ description: Analyzes multiple provided pages to identify keyword overlap and
   potential cannibalization issues. Suggests differentiation strategies. Use
   PROACTIVELY when reviewing similar content.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: low
 ---
 
 You are a keyword cannibalization specialist analyzing content overlap between provided pages.

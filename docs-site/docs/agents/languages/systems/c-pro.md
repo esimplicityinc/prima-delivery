@@ -2,12 +2,12 @@
 sidebar_label: C Pro
 title: C Pro
 description: Write efficient C code with proper memory management, pointer arithmetic, and system calls. Handles embedded systems, kernel modules, and performance-critical c
-tags: [languages-systems, opus]
+tags: [languages-systems, high]
 ---
 
 # C Pro
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Write efficient C code with proper memory management, pointer arithmetic, and system calls. Handles embedded systems, kernel modules, and performance-critical code. Use PROACTIVELY for C optimization, memory issues, or system programming.
 
@@ -59,4 +59,4 @@ Use c-pro to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

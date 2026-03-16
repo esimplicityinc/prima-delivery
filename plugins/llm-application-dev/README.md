@@ -5,7 +5,7 @@ Build production-ready LLM applications, advanced RAG systems, and intelligent a
 ## Version 2.0.0 Highlights
 
 - **LangGraph Integration**: Updated from deprecated LangChain patterns to LangGraph StateGraph workflows
-- **Modern Model Support**: Claude Opus/Sonnet/Haiku 4.5 and GPT-5.2/GPT-5.2-mini
+- **Modern Model Support**: High, Medium, Low tier models with provider flexibility
 - **Voyage AI Embeddings**: Recommended embedding models for AI applications
 - **Structured Outputs**: Pydantic-based structured output patterns
 

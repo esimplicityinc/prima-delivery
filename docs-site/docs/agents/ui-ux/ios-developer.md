@@ -2,12 +2,12 @@
 sidebar_label: Ios Developer
 title: Ios Developer
 description: Develop native iOS applications with Swift/SwiftUI. Masters iOS 18, SwiftUI, UIKit integration, Core Data, networking, and App Store optimization. Use PROACTIVE
-tags: [ui-ux, sonnet]
+tags: [ui-ux, medium]
 ---
 
 # Ios Developer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Develop native iOS applications with Swift/SwiftUI. Masters iOS 18, SwiftUI, UIKit integration, Core Data, networking, and App Store optimization. Use PROACTIVELY for iOS-specific features, App Store optimization, or native iOS development.
 
@@ -241,4 +241,4 @@ Use ios-developer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

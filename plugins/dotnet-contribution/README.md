@@ -12,7 +12,7 @@ This plugin provides agents, skills, and patterns for building production-grade 
 
 | Agent              | Model  | Description                                                                        |
 | ------------------ | ------ | ---------------------------------------------------------------------------------- |
-| `dotnet-architect` | Sonnet | Expert .NET architect for API development, code review, and architecture decisions |
+| `dotnet-architect` | Medium | Expert .NET architect for API development, code review, and architecture decisions |
 
 ### Skills
 

@@ -2,12 +2,12 @@
 sidebar_label: C4 Context
 title: C4 Context
 description: Expert C4 Context-level documentation specialist. Creates high-level system context diagrams, documents personas, user journeys, system features, and external d
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # C4 Context
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert C4 Context-level documentation specialist. Creates high-level system context diagrams, documents personas, user journeys, system features, and external dependencies. Synthesizes container and component documentation with system documentation to create comprehensive context-level architecture. Use when creating the highest-level C4 system context documentation.
 
@@ -259,4 +259,4 @@ Use c4-context to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

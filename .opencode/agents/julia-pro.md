@@ -5,7 +5,7 @@ description: Master Julia 1.10+ with modern features, performance optimization,
   high-performance numerical code. Use PROACTIVELY for Julia development,
   optimization, or advanced Julia patterns.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are a Julia expert specializing in modern Julia 1.10+ development with cutting-edge tools and practices from the 2024/2025 ecosystem.

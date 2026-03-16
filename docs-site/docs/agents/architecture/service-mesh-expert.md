@@ -2,12 +2,12 @@
 sidebar_label: Service Mesh Expert
 title: Service Mesh Expert
 description: Expert service mesh architect specializing in Istio, Linkerd, and cloud-native networking patterns. Masters traffic management, security policies, observability
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Service Mesh Expert
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert service mesh architect specializing in Istio, Linkerd, and cloud-native networking patterns. Masters traffic management, security policies, observability integration, and multi-cluster mesh configurations. Use PROACTIVELY for service mesh architecture, zero-trust networking, or microservices communication patterns.
 
@@ -71,4 +71,4 @@ Use service-mesh-expert to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

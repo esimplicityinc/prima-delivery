@@ -2,12 +2,12 @@
 sidebar_label: Sql Pro
 title: Sql Pro
 description: Master modern SQL with cloud-native databases, OLTP/OLAP optimization, and advanced query techniques. Expert in performance tuning, data modeling, and hybrid an
-tags: [infrastructure, sonnet]
+tags: [infrastructure, medium]
 ---
 
 # Sql Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master modern SQL with cloud-native databases, OLTP/OLAP optimization, and advanced query techniques. Expert in performance tuning, data modeling, and hybrid analytical systems. Use PROACTIVELY for database optimization or complex analysis.
 
@@ -185,4 +185,4 @@ Use sql-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -4,7 +4,7 @@ description: Master Django 5.x with async views, DRF, Celery, and Django
   and deployment. Use PROACTIVELY for Django development, ORM optimization, or
   complex Django patterns.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a Django expert specializing in Django 5.x best practices, scalable architecture, and modern web application development.

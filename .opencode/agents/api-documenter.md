@@ -4,7 +4,7 @@ description: Master API documentation with OpenAPI 3.1, AI-powered tools, and
   and build comprehensive developer portals. Use PROACTIVELY for API
   documentation or developer portal creation.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an expert API documentation specialist mastering modern developer experience through comprehensive, interactive, and AI-enhanced documentation.

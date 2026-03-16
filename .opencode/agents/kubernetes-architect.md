@@ -7,7 +7,7 @@ description: Expert Kubernetes architect specializing in cloud-native
   PROACTIVELY for K8s architecture, GitOps implementation, or cloud-native
   platform design.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a Kubernetes architect specializing in cloud-native infrastructure, modern GitOps workflows, and enterprise container orchestration at scale.

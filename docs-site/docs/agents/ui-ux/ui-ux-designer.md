@@ -2,12 +2,12 @@
 sidebar_label: Ui Ux Designer
 title: Ui Ux Designer
 description: Create interface designs, wireframes, and design systems. Masters user research, accessibility standards, and modern design tools. Specializes in design tokens,
-tags: [ui-ux, sonnet]
+tags: [ui-ux, medium]
 ---
 
 # Ui Ux Designer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Create interface designs, wireframes, and design systems. Masters user research, accessibility standards, and modern design tools. Specializes in design tokens, component libraries, and inclusive design. Use PROACTIVELY for design systems, user flows, or interface optimization.
 
@@ -230,4 +230,4 @@ Use ui-ux-designer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

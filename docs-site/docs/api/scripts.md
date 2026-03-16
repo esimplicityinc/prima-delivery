@@ -19,9 +19,10 @@ bun run scripts/build.ts
 ```
 
 Orchestrates the complete build process:
-1. Converts agents to OpenCode format
+1. Converts agents to platform-specific formats (Copilot, OpenCode, Claude Code, Cursor)
 2. Validates and copies skills
-3. Generates `opencode.json`
+3. Generates platform configuration files
+4. Builds OpenPackage manifests for distribution
 
 ### Convert Agents
 
@@ -31,13 +32,19 @@ npm run convert:agents
 bun run scripts/convert-agents.ts
 ```
 
-Converts agent files from source format to OpenCode format.
+Converts agent files from plugin source format to platform-native formats for Copilot, OpenCode, Claude Code, and Cursor.
 
 **Operations:**
 - Parse YAML frontmatter
 - Map model names to full provider/model IDs
 - Validate required fields
-- Output to `.opencode/agents/`
+**Output:**
+| Platform | Output Directory |
+|----------|-----------------|
+| Copilot | `.github/agents/` |
+| OpenCode | `.opencode/agents/` |
+| Cursor | `.cursor/agents/` |
+| Claude Code | `.claude-plugin/` bundles |
 
 ### Convert Skills
 
@@ -53,7 +60,13 @@ Validates and processes skill files.
 - Validate skill name format
 - Validate description length
 - Check directory structure
-- Copy to `.opencode/skills/`
+**Output:**
+| Platform | Output Directory |
+|----------|-----------------|
+| Copilot | `.github/skills/` |
+| OpenCode | `.opencode/skills/` |
+| Cursor | `.cursor/skills/` |
+| Claude Code | `.claude-plugin/` bundles |
 
 ### Validate Only
 
@@ -134,13 +147,13 @@ interface Options {
 
 ## Model Mapping
 
-Agents with short model names are mapped to full IDs:
+Agents use provider-agnostic model tier names:
 
-| Short | Full ID |
-|-------|---------|
-| `opus` | `anthropic/claude-opus-4-5` |
-| `sonnet` | `anthropic/claude-sonnet-4-20250514` |
-| `haiku` | `anthropic/claude-haiku-4-20250514` |
+| Tier | Description |
+|------|-------------|
+| `high` | Most capable tier for critical tasks |
+| `medium` | Balanced performance for development |
+| `low` | Fast, economical for routine operations |
 | `inherit` | (omitted - uses session default) |
 
 ## Category Rules

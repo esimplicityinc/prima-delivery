@@ -12,7 +12,7 @@ Prima Delivery follows industry best practices with a focus on granularity, comp
 
 - Each plugin does **one thing well** (Unix philosophy)
 - Clear, focused purposes (describable in 5-10 words)
-- Average plugin size: **3.4 components** (follows Anthropic's 2-8 pattern)
+- Average plugin size: **3.4 components** (follows the recommended 2-8 pattern)
 - **Zero bloated plugins** - all plugins focused and purposeful
 
 ### Composability Over Bundling
@@ -56,7 +56,7 @@ Prima Delivery follows industry best practices with a focus on granularity, comp
 
 - Domain experts with deep knowledge
 - Organized across architecture, languages, infrastructure, quality, data/AI, documentation, business, and SEO
-- Model-optimized with three-tier strategy (Opus, Sonnet, Haiku) for performance and cost
+- Model-optimized with three-tier strategy (High, Medium, Low) for performance and cost
 
 **15 Workflow Orchestrators**
 
@@ -78,12 +78,17 @@ Prima Delivery follows industry best practices with a focus on granularity, comp
 - Modular knowledge packages
 - Progressive disclosure architecture
 - Domain-specific expertise across 18 plugins
-- Spec-compliant (Anthropic Agent Skills Specification)
+- Spec-compliant (Agent Skills Specification)
 
 ## Repository Structure
 
 ```
 claude-agents/
+├── .github/                       # Copilot configuration and agents
+│   ├── copilot-instructions.md    # Copilot custom instructions
+│   └── agents/                    # Copilot agent definitions
+├── .opencode/                     # OpenCode configuration and agents
+│   └── agents/                    # OpenCode agent definitions
 ├── .claude-plugin/
 │   └── marketplace.json          # Marketplace catalog (67 plugins)
 ├── plugins/                       # Isolated plugin directories
@@ -202,19 +207,19 @@ See [Agent Skills](./agent-skills.md) for complete details on the 107 skills.
 
 ## Model Configuration Strategy
 
-### Two-Tier Architecture
+### Three-Tier Architecture
 
-The system uses Claude Opus and Sonnet models strategically:
+The system uses a three-tier model strategy:
 
-| Model  | Count     | Use Case                                     |
+| Tier   | Count     | Use Case                                     |
 | ------ | --------- | -------------------------------------------- |
-| Opus   | 42 agents | Critical architecture, security, code review |
-| Sonnet | 39 agents | Complex tasks, support with intelligence     |
-| Haiku  | 18 agents | Fast operational tasks                       |
+| High   | 42 agents | Critical architecture, security, code review |
+| Medium | 39 agents | Complex tasks, support with intelligence     |
+| Low    | 18 agents | Fast operational tasks                       |
 
 ### Selection Criteria
 
-**Haiku - Fast Execution & Deterministic Tasks**
+**Low - Fast Execution & Deterministic Tasks**
 
 - Generating code from well-defined specifications
 - Creating tests following established patterns
@@ -225,7 +230,7 @@ The system uses Claude Opus and Sonnet models strategically:
 - Processing SEO optimization tasks
 - Managing deployment pipelines
 
-**Sonnet - Complex Reasoning & Architecture**
+**Medium - Complex Reasoning & Architecture**
 
 - Designing system architecture
 - Making technology selection decisions
@@ -241,16 +246,16 @@ The system uses Claude Opus and Sonnet models strategically:
 Combine models for optimal performance and cost:
 
 ```
-Planning Phase (Sonnet) → Execution Phase (Haiku) → Review Phase (Sonnet)
+Planning Phase (Medium) → Execution Phase (Low) → Review Phase (Medium)
 
 Example:
-backend-architect (Sonnet) designs API
+backend-architect (Medium) designs API
   ↓
-Generate endpoints (Haiku) implements spec
+Generate endpoints (Low) implements spec
   ↓
-test-automator (Haiku) creates tests
+test-automator (Low) creates tests
   ↓
-code-reviewer (Sonnet) validates architecture
+code-reviewer (Medium) validates architecture
 ```
 
 ## Performance & Quality
@@ -376,6 +381,8 @@ Feature Development Workflow:
 3. Write comprehensive system prompt
 4. Update plugin definition
 
+Agent files are automatically converted to platform-native formats for Copilot (`.github/agents/`), OpenCode (`.opencode/agents/`), and Claude Code during the build process.
+
 ### Adding a Skill
 
 1. Create `plugins/{plugin-name}/skills/{skill-name}/SKILL.md`
@@ -389,7 +396,7 @@ Feature Development Workflow:
 - **Focused scope** - Single responsibility
 - **Complete documentation** - What, when, how
 - **Tested functionality** - Verify before committing
-- **Spec compliance** - Follow Anthropic guidelines
+- **Spec compliance** - Follow agent skills guidelines
 
 ## See Also
 

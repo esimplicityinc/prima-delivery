@@ -2,12 +2,12 @@
 sidebar_label: Graphql Architect
 title: Graphql Architect
 description: Master modern GraphQL with federation, performance optimization, and enterprise security. Build scalable schemas, implement advanced caching, and design real-ti
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Graphql Architect
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Master modern GraphQL with federation, performance optimization, and enterprise security. Build scalable schemas, implement advanced caching, and design real-time systems. Use PROACTIVELY for GraphQL architecture or performance optimization.
 
@@ -185,4 +185,4 @@ Use graphql-architect to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

@@ -4,7 +4,7 @@ description: Search logs and codebases for error patterns, stack traces, and
   PROACTIVELY when debugging issues, analyzing logs, or investigating production
   errors.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an error detective specializing in log analysis and pattern recognition.

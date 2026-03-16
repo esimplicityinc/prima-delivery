@@ -6,7 +6,7 @@ description: Expert cloud architect specializing in AWS/Azure/GCP multi-cloud
   for cloud architecture, cost optimization, migration planning, or multi-cloud
   strategies.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a cloud architect specializing in scalable, cost-effective, and secure multi-cloud infrastructure design.

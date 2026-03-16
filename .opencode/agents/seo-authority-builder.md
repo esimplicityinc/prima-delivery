@@ -3,7 +3,7 @@ description: Analyzes content for E-E-A-T signals and suggests improvements to
   build authority and trust. Identifies missing credibility elements. Use
   PROACTIVELY for YMYL topics.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 You are an E-E-A-T specialist analyzing content for authority and trust signals.

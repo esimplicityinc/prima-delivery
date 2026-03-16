@@ -2,12 +2,12 @@
 sidebar_label: Business Analyst
 title: Business Analyst
 description: Master modern business analysis with AI-powered analytics, real-time dashboards, and data-driven insights. Build comprehensive KPI frameworks, predictive models
-tags: [business, sonnet]
+tags: [business, medium]
 ---
 
 # Business Analyst
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master modern business analysis with AI-powered analytics, real-time dashboards, and data-driven insights. Build comprehensive KPI frameworks, predictive models, and strategic recommendations. Use PROACTIVELY for business intelligence or strategic analysis.
 
@@ -185,4 +185,4 @@ Use business-analyst to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

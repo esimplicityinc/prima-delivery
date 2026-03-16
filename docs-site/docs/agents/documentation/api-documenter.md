@@ -2,12 +2,12 @@
 sidebar_label: Api Documenter
 title: Api Documenter
 description: Master API documentation with OpenAPI 3.1, AI-powered tools, and modern developer experience practices. Create interactive docs, generate SDKs, and build compre
-tags: [documentation, sonnet]
+tags: [documentation, medium]
 ---
 
 # Api Documenter
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master API documentation with OpenAPI 3.1, AI-powered tools, and modern developer experience practices. Create interactive docs, generate SDKs, and build comprehensive developer portals. Use PROACTIVELY for API documentation or developer portal creation.
 
@@ -185,4 +185,4 @@ Use api-documenter to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

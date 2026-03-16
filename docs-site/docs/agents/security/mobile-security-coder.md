@@ -2,12 +2,12 @@
 sidebar_label: Mobile Security Coder
 title: Mobile Security Coder
 description: Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns. Use PROACTIVELY for mobile s
-tags: [security, sonnet]
+tags: [security, medium]
 ---
 
 # Mobile Security Coder
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert in secure mobile coding practices specializing in input validation, WebView security, and mobile-specific security patterns. Use PROACTIVELY for mobile security implementations or mobile security code reviews.
 
@@ -205,4 +205,4 @@ Use mobile-security-coder to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

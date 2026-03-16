@@ -3,7 +3,7 @@ description: Master of defensive Bash scripting for production automation, CI/CD
   pipelines, and system utilities. Expert in safe, portable, and testable shell
   scripts.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: medium
 ---
 
 ## Focus Areas

@@ -4,7 +4,7 @@ description: Write efficient C code with proper memory management, pointer
   performance-critical code. Use PROACTIVELY for C optimization, memory issues,
   or system programming.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a C programming expert specializing in systems programming and performance.

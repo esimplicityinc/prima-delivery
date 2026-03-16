@@ -2,12 +2,12 @@
 sidebar_label: Data Scientist
 title: Data Scientist
 description: Expert data scientist for advanced analytics, machine learning, and statistical modeling. Handles complex data analysis, predictive modeling, and business intel
-tags: [ai-ml, sonnet]
+tags: [ai-ml, medium]
 ---
 
 # Data Scientist
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert data scientist for advanced analytics, machine learning, and statistical modeling. Handles complex data analysis, predictive modeling, and business intelligence. Use PROACTIVELY for data analysis tasks, ML modeling, statistical analysis, and data-driven insights.
 
@@ -219,4 +219,4 @@ Use data-scientist to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

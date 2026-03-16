@@ -87,7 +87,7 @@ class SQLQuery(BaseModel):
     tables_used: list[str] = Field(description="List of tables referenced")
 
 # Initialize model with structured output
-llm = ChatAnthropic(model="claude-sonnet-4-5")
+llm = ChatAnthropic(model="your-model-here")  # Use your preferred model
 structured_llm = llm.with_structured_output(SQLQuery)
 
 # Create prompt template
@@ -114,7 +114,7 @@ print(result.explanation)
 ### Pattern 1: Structured Output with Pydantic
 
 ```python
-from anthropic import Anthropic
+# from your_provider import Client  # Use your preferred AI provider
 from pydantic import BaseModel, Field
 from typing import Literal
 import json
@@ -127,10 +127,10 @@ class SentimentAnalysis(BaseModel):
 
 async def analyze_sentiment(text: str) -> SentimentAnalysis:
     """Analyze sentiment with structured output."""
-    client = Anthropic()
+    client = None  # Initialize with your preferred AI provider
 
     message = client.messages.create(
-        model="claude-sonnet-4-5",
+        model="your-model-here",  # Use your preferred model
         max_tokens=500,
         messages=[{
             "role": "user",
@@ -427,13 +427,13 @@ Summary:"""
 ### Caching Common Prefixes
 
 ```python
-from anthropic import Anthropic
+# from your_provider import Client  # Use your preferred AI provider
 
-client = Anthropic()
+client = None  # Initialize with your preferred AI provider
 
 # Use prompt caching for repeated system prompts
 response = client.messages.create(
-    model="claude-sonnet-4-5",
+    model="your-model-here",  # Use your preferred model
     max_tokens=1000,
     system=[
         {
@@ -480,8 +480,8 @@ Track these KPIs for your prompts:
 
 ## Resources
 
-- [Anthropic Prompt Engineering Guide](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering)
-- [Prompt Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)
+- See your AI provider's prompt engineering documentation
+- See your AI provider's prompt caching documentation
 - [OpenAI Prompt Engineering](https://platform.openai.com/docs/guides/prompt-engineering)
 - [LangChain Prompts](https://python.langchain.com/docs/concepts/prompts/)
 

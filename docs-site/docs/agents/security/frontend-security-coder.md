@@ -2,12 +2,12 @@
 sidebar_label: Frontend Security Coder
 title: Frontend Security Coder
 description: Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns. Use PROACTIVELY for frontend 
-tags: [security, sonnet]
+tags: [security, medium]
 ---
 
 # Frontend Security Coder
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert in secure frontend coding practices specializing in XSS prevention, output sanitization, and client-side security patterns. Use PROACTIVELY for frontend security implementations or client-side security code reviews.
 
@@ -190,4 +190,4 @@ Use frontend-security-coder to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

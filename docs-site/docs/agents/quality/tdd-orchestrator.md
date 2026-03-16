@@ -2,12 +2,12 @@
 sidebar_label: Tdd Orchestrator
 title: Tdd Orchestrator
 description: Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices. E
-tags: [quality, opus]
+tags: [quality, high]
 ---
 
 # Tdd Orchestrator
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Master TDD orchestrator specializing in red-green-refactor discipline, multi-agent workflow coordination, and comprehensive test-driven development practices. Enforces TDD best practices across teams with AI-assisted testing and modern frameworks. Use PROACTIVELY for TDD implementation and governance.
 
@@ -207,4 +207,4 @@ Use tdd-orchestrator to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Seo Content Refresher
 title: Seo Content Refresher
 description: Identifies outdated elements in provided content and suggests updates to maintain freshness. Finds statistics, dates, and examples that need updating. Use PROAC
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Seo Content Refresher
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Identifies outdated elements in provided content and suggests updates to maintain freshness. Finds statistics, dates, and examples that need updating. Use PROACTIVELY for older content.
 
@@ -130,4 +130,4 @@ Use seo-content-refresher to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

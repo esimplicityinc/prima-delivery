@@ -2,12 +2,12 @@
 sidebar_label: Devops Troubleshooter
 title: Devops Troubleshooter
 description: Expert DevOps troubleshooter specializing in rapid incident response, advanced debugging, and modern observability. Masters log analysis, distributed tracing, K
-tags: [infrastructure, sonnet]
+tags: [infrastructure, medium]
 ---
 
 # Devops Troubleshooter
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert DevOps troubleshooter specializing in rapid incident response, advanced debugging, and modern observability. Masters log analysis, distributed tracing, Kubernetes debugging, performance optimization, and root cause analysis. Handles production outages, system reliability, and preventive monitoring. Use PROACTIVELY for debugging, incident response, or system troubleshooting.
 
@@ -178,4 +178,4 @@ Use devops-troubleshooter to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

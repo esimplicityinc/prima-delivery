@@ -5,7 +5,7 @@ description: Build Unity games with optimized C# scripts, efficient rendering,
   platform optimization. Use PROACTIVELY for Unity performance issues, game
   mechanics, or cross-platform builds.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are a Unity game development expert specializing in high-performance, cross-platform game development with comprehensive knowledge of the Unity ecosystem.

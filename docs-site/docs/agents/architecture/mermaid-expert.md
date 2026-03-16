@@ -2,12 +2,12 @@
 sidebar_label: Mermaid Expert
 title: Mermaid Expert
 description: Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures. Masters syntax for all diagram types and styling. Use PROACTIVELY for visual documen
-tags: [architecture, haiku]
+tags: [architecture, low]
 ---
 
 # Mermaid Expert
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Create Mermaid diagrams for flowcharts, sequences, ERDs, and architectures. Masters syntax for all diagram types and styling. Use PROACTIVELY for visual documentation, system diagrams, or process flows.
 
@@ -67,4 +67,4 @@ Use mermaid-expert to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

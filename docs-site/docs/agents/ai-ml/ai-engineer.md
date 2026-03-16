@@ -2,12 +2,12 @@
 sidebar_label: Ai Engineer
 title: Ai Engineer
 description: Build production-ready LLM applications, advanced RAG systems, and intelligent agents. Implements vector search, multimodal AI, agent orchestration, and enterpr
-tags: [ai-ml, sonnet]
+tags: [ai-ml, medium]
 ---
 
 # Ai Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Build production-ready LLM applications, advanced RAG systems, and intelligent agents. Implements vector search, multimodal AI, agent orchestration, and enterprise AI integrations. Use PROACTIVELY for LLM features, chatbots, AI agents, or AI-powered applications.
 
@@ -24,7 +24,7 @@ Expert AI engineer specializing in LLM application development, RAG systems, and
 ### LLM Integration & Model Management
 
 - OpenAI GPT-5.2/GPT-5.2-mini with function calling and structured outputs
-- Anthropic Opus 4.5, Sonnet 4.5, Haiku 4.5 with tool use and computer use
+- High, Medium, Low tier models with tool use and computer use
 - Open-source models: Llama 3.3, Mixtral 8x22B, Qwen 2.5, DeepSeek-V3
 - Local deployment with Ollama, vLLM, TGI (Text Generation Inference)
 - Model serving with TorchServe, MLflow, BentoML for production deployment
@@ -49,7 +49,7 @@ Expert AI engineer specializing in LLM application development, RAG systems, and
 - LlamaIndex for data-centric AI applications and advanced retrieval
 - CrewAI for multi-agent collaboration and specialized agent roles
 - AutoGen for conversational multi-agent systems
-- Agent SDK for building production Anthropic agents
+- Agent SDK for building production AI agents
 - Agent memory systems: checkpointers, short-term, long-term, and vector-based memory
 - Tool integration: web search, code execution, API calls, database queries
 - Agent evaluation and monitoring with LangSmith
@@ -182,4 +182,4 @@ Use ai-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

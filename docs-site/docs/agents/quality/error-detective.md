@@ -2,12 +2,12 @@
 sidebar_label: Error Detective
 title: Error Detective
 description: Search logs and codebases for error patterns, stack traces, and anomalies. Correlates errors across systems and identifies root causes. Use PROACTIVELY when deb
-tags: [quality, sonnet]
+tags: [quality, medium]
 ---
 
 # Error Detective
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Search logs and codebases for error patterns, stack traces, and anomalies. Correlates errors across systems and identifies root causes. Use PROACTIVELY when debugging issues, analyzing logs, or investigating production errors.
 
@@ -59,4 +59,4 @@ Use error-detective to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

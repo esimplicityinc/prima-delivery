@@ -2,12 +2,12 @@
 sidebar_label: Posix Shell Pro
 title: Posix Shell Pro
 description: Expert in strict POSIX sh scripting for maximum portability across Unix-like systems. Specializes in shell scripts that run on any POSIX-compliant shell (dash, 
-tags: [languages-shell, sonnet]
+tags: [languages-shell, medium]
 ---
 
 # Posix Shell Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert in strict POSIX sh scripting for maximum portability across Unix-like systems. Specializes in shell scripts that run on any POSIX-compliant shell (dash, ash, sh, bash --posix).
 
@@ -314,4 +314,4 @@ Use posix-shell-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -2,12 +2,12 @@
 sidebar_label: Payment Integration
 title: Payment Integration
 description: Integrate Stripe, PayPal, and payment processors. Handles checkout flows, subscriptions, webhooks, and PCI compliance. Use PROACTIVELY when implementing payment
-tags: [specialized, sonnet]
+tags: [specialized, medium]
 ---
 
 # Payment Integration
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Integrate Stripe, PayPal, and payment processors. Handles checkout flows, subscriptions, webhooks, and PCI compliance. Use PROACTIVELY when implementing payments, billing, or subscription features.
 
@@ -87,4 +87,4 @@ Use payment-integration to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -116,11 +116,11 @@ function categorizeAgent(name: string, description: string): string {
 }
 
 function getModelTier(model: string | undefined): string {
-  if (!model) return 'sonnet';
+  if (!model) return 'medium';
   
-  if (model.includes('opus')) return 'opus';
-  if (model.includes('haiku')) return 'haiku';
-  return 'sonnet';
+  if (model.includes('high')) return 'high';
+  if (model.includes('low')) return 'low';
+  return 'medium';
 }
 
 function slugToTitle(slug: string): string {
@@ -321,9 +321,9 @@ function generateOverview(agents: Agent[], byCategory: Record<string, Agent[]>):
     .join('\n');
 
   const modelStats = {
-    opus: agents.filter(a => a.modelTier === 'opus').length,
-    sonnet: agents.filter(a => a.modelTier === 'sonnet').length,
-    haiku: agents.filter(a => a.modelTier === 'haiku').length,
+    high: agents.filter(a => a.modelTier === 'high').length,
+    medium: agents.filter(a => a.modelTier === 'medium').length,
+    low: agents.filter(a => a.modelTier === 'low').length,
   };
 
   return `---
@@ -340,9 +340,9 @@ Prima Delivery includes **${agents.length} specialized AI agents** organized by 
 
 | Model | Count | Use Case |
 |-------|-------|----------|
-| <span className="model-badge model-badge--opus">Opus</span> | ${modelStats.opus} | Critical architecture, security, code review |
-| <span className="model-badge model-badge--sonnet">Sonnet</span> | ${modelStats.sonnet} | Complex development, debugging |
-| <span className="model-badge model-badge--haiku">Haiku</span> | ${modelStats.haiku} | Fast operations, SEO, deployment |
+| <span className="model-badge model-badge--high">High</span> | ${modelStats.high} | Critical architecture, security, code review |
+| <span className="model-badge model-badge--medium">Medium</span> | ${modelStats.medium} | Complex development, debugging |
+| <span className="model-badge model-badge--low">Low</span> | ${modelStats.low} | Fast operations, SEO, deployment |
 
 ## Categories
 

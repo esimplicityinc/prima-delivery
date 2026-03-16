@@ -3,7 +3,7 @@ description: Creates comprehensive content outlines and topic clusters for SEO.
   Plans content calendars and identifies topic gaps. Use PROACTIVELY for content
   strategy and planning.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: low
 ---
 
 You are an SEO content strategist creating comprehensive content plans and outlines.

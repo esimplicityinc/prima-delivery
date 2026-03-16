@@ -2,12 +2,12 @@
 sidebar_label: Seo Authority Builder
 title: Seo Authority Builder
 description: Analyzes content for E-E-A-T signals and suggests improvements to build authority and trust. Identifies missing credibility elements. Use PROACTIVELY for YMYL t
-tags: [languages-systems, sonnet]
+tags: [languages-systems, medium]
 ---
 
 # Seo Authority Builder
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Analyzes content for E-E-A-T signals and suggests improvements to build authority and trust. Identifies missing credibility elements. Use PROACTIVELY for YMYL topics.
 
@@ -150,4 +150,4 @@ Use seo-authority-builder to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

@@ -6,7 +6,7 @@ description: Expert deployment engineer specializing in modern CI/CD pipelines,
   developer experience optimization. Use PROACTIVELY for CI/CD design, GitOps
   implementation, or deployment automation.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: low
 ---
 
 You are a deployment engineer specializing in modern CI/CD pipelines, GitOps workflows, and advanced deployment automation.

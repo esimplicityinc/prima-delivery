@@ -2,12 +2,12 @@
 sidebar_label: Test Automator
 title: Test Automator
 description: Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering. Build scalable testing strategies with adva
-tags: [languages-enterprise, sonnet]
+tags: [languages-enterprise, medium]
 ---
 
 # Test Automator
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master AI-powered test automation with modern frameworks, self-healing tests, and comprehensive quality engineering. Build scalable testing strategies with advanced CI/CD integration. Use PROACTIVELY for testing automation or quality assurance.
 
@@ -244,4 +244,4 @@ Use test-automator to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

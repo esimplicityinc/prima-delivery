@@ -2,12 +2,12 @@
 sidebar_label: Seo Snippet Hunter
 title: Seo Snippet Hunter
 description: Formats content to be eligible for featured snippets and SERP features. Creates snippet-optimized content blocks based on best practices. Use PROACTIVELY for qu
-tags: [business, haiku]
+tags: [business, low]
 ---
 
 # Seo Snippet Hunter
 
-<span className="model-badge model-badge--haiku">Haiku</span>
+<span className="model-badge model-badge--low">Low</span>
 
 Formats content to be eligible for featured snippets and SERP features. Creates snippet-optimized content blocks based on best practices. Use PROACTIVELY for question-based content.
 
@@ -126,4 +126,4 @@ Use seo-snippet-hunter to [describe your task]
 
 ---
 
-*Model: Haiku | Mode: subagent*
+*Model: Low | Mode: subagent*

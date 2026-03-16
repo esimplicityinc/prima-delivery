@@ -2,12 +2,12 @@
 sidebar_label: Dotnet Architect
 title: Dotnet Architect
 description: "Expert .NET backend architect specializing in C#, ASP.NET Core, Entity Framework, Dapper, and enterprise application patterns. Masters async/await, dependency i"
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Dotnet Architect
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert .NET backend architect specializing in C#, ASP.NET Core, Entity Framework, Dapper, and enterprise application patterns. Masters async/await, dependency injection, caching strategies, and performance optimization. Use PROACTIVELY for .NET API development, code review, or architecture decisions.
 
@@ -207,4 +207,4 @@ Use dotnet-architect to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

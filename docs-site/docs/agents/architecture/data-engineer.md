@@ -2,12 +2,12 @@
 sidebar_label: Data Engineer
 title: Data Engineer
 description: Build scalable data pipelines, modern data warehouses, and real-time streaming architectures. Implements Apache Spark, dbt, Airflow, and cloud-native data platf
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Data Engineer
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Build scalable data pipelines, modern data warehouses, and real-time streaming architectures. Implements Apache Spark, dbt, Airflow, and cloud-native data platforms. Use PROACTIVELY for data pipeline design, analytics infrastructure, or modern data stack implementation.
 
@@ -240,4 +240,4 @@ Use data-engineer to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

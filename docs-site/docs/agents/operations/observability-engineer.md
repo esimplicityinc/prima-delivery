@@ -2,12 +2,12 @@
 sidebar_label: Observability Engineer
 title: Observability Engineer
 description: Build production-ready monitoring, logging, and tracing systems. Implements comprehensive observability strategies, SLI/SLO management, and incident response wo
-tags: [operations, sonnet]
+tags: [operations, medium]
 ---
 
 # Observability Engineer
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Build production-ready monitoring, logging, and tracing systems. Implements comprehensive observability strategies, SLI/SLO management, and incident response workflows. Use PROACTIVELY for monitoring infrastructure, performance optimization, or production reliability.
 
@@ -252,4 +252,4 @@ Use observability-engineer to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

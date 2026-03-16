@@ -2,12 +2,12 @@
 sidebar_label: Legal Advisor
 title: Legal Advisor
 description: Draft privacy policies, terms of service, disclaimers, and legal notices. Creates GDPR-compliant texts, cookie policies, and data processing agreements. Use PRO
-tags: [documentation, sonnet]
+tags: [documentation, medium]
 ---
 
 # Legal Advisor
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Draft privacy policies, terms of service, disclaimers, and legal notices. Creates GDPR-compliant texts, cookie policies, and data processing agreements. Use PROACTIVELY for legal documentation, compliance texts, or regulatory requirements.
 
@@ -77,4 +77,4 @@ Use legal-advisor to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

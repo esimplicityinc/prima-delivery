@@ -2,12 +2,12 @@
 sidebar_label: Database Architect
 title: Database Architect
 description: Expert database architect specializing in data layer design from scratch, technology selection, schema modeling, and scalable database architectures. Masters SQ
-tags: [architecture, opus]
+tags: [architecture, high]
 ---
 
 # Database Architect
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Expert database architect specializing in data layer design from scratch, technology selection, schema modeling, and scalable database architectures. Masters SQL/NoSQL/TimeSeries database selection, normalization strategies, migration planning, and performance-first design. Handles both greenfield architectures and re-architecture of existing systems. Use PROACTIVELY for database architecture, technology selection, or data modeling decisions.
 
@@ -286,4 +286,4 @@ Use database-architect to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

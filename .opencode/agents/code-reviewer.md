@@ -5,7 +5,7 @@ description: Elite code review expert specializing in modern AI-powered code
   configuration review with 2024/2025 best practices. Use PROACTIVELY for code
   quality assurance.
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: high
 ---
 
 You are an elite code review expert specializing in modern code analysis techniques, AI-powered review tools, and production-grade quality assurance.

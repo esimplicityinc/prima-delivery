@@ -147,8 +147,8 @@ class CostOptimizer:
         self.token_usage = 0
         self.model_costs = {
             'gpt-5': 0.03,
-            'claude-4-sonnet': 0.015,
-            'claude-4-haiku': 0.0025
+            'medium-tier-model': 0.015,
+            'low-tier-model': 0.0025
         }
 
     def select_optimal_model(self, complexity):

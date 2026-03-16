@@ -2,12 +2,12 @@
 sidebar_label: Haskell Pro
 title: Haskell Pro
 description: Expert Haskell engineer specializing in advanced type systems, pure functional design, and high-reliability software. Use PROACTIVELY for type-level programming
-tags: [architecture, sonnet]
+tags: [architecture, medium]
 ---
 
 # Haskell Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Expert Haskell engineer specializing in advanced type systems, pure functional design, and high-reliability software. Use PROACTIVELY for type-level programming, concurrency, and architecture guidance.
 
@@ -63,4 +63,4 @@ Use haskell-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*

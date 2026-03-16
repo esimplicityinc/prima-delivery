@@ -2,12 +2,12 @@
 sidebar_label: Code Reviewer
 title: Code Reviewer
 description: Elite code review expert specializing in modern AI-powered code analysis, security vulnerabilities, performance optimization, and production reliability. Master
-tags: [security, opus]
+tags: [security, high]
 ---
 
 # Code Reviewer
 
-<span className="model-badge model-badge--opus">Opus</span>
+<span className="model-badge model-badge--high">High</span>
 
 Elite code review expert specializing in modern AI-powered code analysis, security vulnerabilities, performance optimization, and production reliability. Masters static analysis tools, security scanning, and configuration review with 2024/2025 best practices. Use PROACTIVELY for code quality assurance.
 
@@ -195,4 +195,4 @@ Use code-reviewer to [describe your task]
 
 ---
 
-*Model: Opus | Mode: subagent*
+*Model: High | Mode: subagent*

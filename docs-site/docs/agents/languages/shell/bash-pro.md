@@ -2,12 +2,12 @@
 sidebar_label: Bash Pro
 title: Bash Pro
 description: Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
-tags: [languages-shell, sonnet]
+tags: [languages-shell, medium]
 ---
 
 # Bash Pro
 
-<span className="model-badge model-badge--sonnet">Sonnet</span>
+<span className="model-badge model-badge--medium">Medium</span>
 
 Master of defensive Bash scripting for production automation, CI/CD pipelines, and system utilities. Expert in safe, portable, and testable shell scripts.
 
@@ -316,4 +316,4 @@ Use bash-pro to [describe your task]
 
 ---
 
-*Model: Sonnet | Mode: subagent*
+*Model: Medium | Mode: subagent*
