@@ -43,6 +43,9 @@ jobs:
           bunx changelogen --output RELEASE_NOTES.md
           cat RELEASE_NOTES.md
 
+      - name: Package plugin manifests
+        run: tar czf openpackage-manifests.tar.gz openpackage.yml plugins/*/openpackage.yml
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -50,6 +53,6 @@ jobs:
           generate_release_notes: true
           files: |
             openpackage.yml
-            plugins/*/openpackage.yml
+            openpackage-manifests.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
