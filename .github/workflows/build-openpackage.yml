@@ -9,14 +9,7 @@ on:
       - '.opencode/**'
       - 'openpackage.yml'
       - 'scripts/build-openpackage.ts'
-  pull_request:
-    branches: [main]
-    paths:
-      - 'plugins/**'
-      - '.claude-plugin/**'
-      - '.opencode/**'
-      - 'openpackage.yml'
-      - 'scripts/build-openpackage.ts'
+  # PR builds are handled by ci.yml
   workflow_dispatch:
 
 jobs:
