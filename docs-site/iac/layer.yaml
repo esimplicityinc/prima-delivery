@@ -1,0 +1,21 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "iac"
+taxonomyNodeType: layer
+spec:
+  description: "Infrastructure as Code for docs-site static hosting on AWS"
+  owners:
+    - "aaron.west@esimplicity.com"
+  annotations:
+    layout: root
+    layerType: "iac-terragrunt"
+  parents:
+    node: "docs-site"
+  environments:
+    - "dev"
+    - "prod"
+  dependsOn:
+    nodes:
+      - "docs-site"
+  extensions: {}

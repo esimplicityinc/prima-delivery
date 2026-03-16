@@ -1,0 +1,19 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "docs-site"
+taxonomyNodeType: stack
+spec:
+  description: "Documentation site built with Docusaurus, deployed to AWS CloudFront"
+  owners:
+    - "aaron.west@esimplicity.com"
+  annotations:
+    layout: root
+  parents:
+    node: "delivery"
+  environments:
+    - "dev"
+    - "prod"
+  dependsOn:
+    nodes:
+      - "delivery"

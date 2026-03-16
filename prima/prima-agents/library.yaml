@@ -1,0 +1,11 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "prima-agents"
+taxonomyNodeType: library
+spec:
+  description: "Shared library for Prima agent skill definitions and configurations"
+  owners:
+    - "aaron.west@esimplicity.com"
+  environments:
+    - "dev"

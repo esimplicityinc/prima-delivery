@@ -22,3 +22,25 @@ venv
 node_modules
 .sass-cache
 .claude
+
+# Terraform / Terragrunt
+.terraform/
+*.tfstate
+*.tfstate.*
+.terragrunt-cache/
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Terragrunt generated files
+context.yaml
+provider.tf
+versions.tf
+backend.tf
+
+# Docusaurus build output
+docs-site/build/
+docs-site/.docusaurus/

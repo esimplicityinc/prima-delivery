@@ -1,0 +1,17 @@
+{
+  "name": "layer_types",
+  "version": "0.1.0",
+  "description": "Canonical layer type templates",
+  "canonical": [
+    "app-docker",
+    "iac-terragrunt",
+    "k8s-argocd",
+    "k8s-kustomize"
+  ],
+  "templates": [
+    "app-docker",
+    "iac-terragrunt",
+    "k8s-argocd",
+    "k8s-kustomize"
+  ]
+}

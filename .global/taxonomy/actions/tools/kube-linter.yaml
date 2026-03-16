@@ -1,0 +1,13 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-lint
+spec:
+  description: Scan rendered Kubernetes manifests with kube-linter.
+  type: shell
+  when: pre
+  run: just k8s-kustomize-lint
+  tags:
+    - lint
+    - policy
+    - kubernetes

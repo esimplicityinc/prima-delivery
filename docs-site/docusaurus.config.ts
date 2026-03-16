@@ -2,6 +2,14 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+// Environment-aware configuration
+const deployEnv = process.env.DEPLOY_ENV || 'local';
+const siteUrl = process.env.DOCUSAURUS_URL || 'https://alvisprima.com';
+const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/';
+const commitSha = process.env.COMMIT_SHA || '';
+const commitUrl = process.env.COMMIT_URL || '';
+const isDev = deployEnv === 'dev';
+
 const config: Config = {
   title: 'Prima Delivery',
   tagline: 'Internal AI Development Toolkit - 108 Agents, 140 Skills, 72 Plugins',
@@ -11,8 +19,16 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://esimplicityinc.github.io',
-  baseUrl: '/prima-delivery/',
+  url: siteUrl,
+  baseUrl: baseUrl,
+
+  // Custom fields available to components via useDocusaurusContext()
+  customFields: {
+    deployEnv,
+    commitSha,
+    commitUrl,
+    isDev,
+  },
 
   organizationName: 'esimplicityinc',
   projectName: 'prima-delivery',
@@ -50,6 +66,16 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/prima-delivery-social.png',
+    // Dev environment banner showing deployed commit SHA
+    ...(isDev && commitSha ? {
+      announcementBar: {
+        id: 'dev_banner',
+        content: `DEV ENVIRONMENT — Deployed from <a href="${commitUrl}" target="_blank" rel="noopener noreferrer">${commitSha.slice(0, 7)}</a>`,
+        backgroundColor: '#f59e0b',
+        textColor: '#000000',
+        isCloseable: false,
+      },
+    } : {}),
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,

@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ layer_name }}
+  namespace: argocd
+spec:
+  project: {{ environment }}
+  source:
+    path: {{ environment }}
+  destination:
+    namespace: {{ environment }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

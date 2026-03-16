@@ -1,0 +1,9 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "{{ environment_name }}"
+taxonomyNodeType: environment
+spec:
+  description: "{{ environment_name }} environment for {{ layer_name }}"
+  parents:
+    node: "{{ layer_name }}"

@@ -1,0 +1,24 @@
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: Stage
+metadata:
+  name: ci
+spec:
+  description: "Continuous Integration stage"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: Stage
+metadata:
+  name: cd
+spec:
+  description: "Continuous Delivery stage"
+  dependsOn:
+    - ci
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: Stage
+metadata:
+  name: post
+spec:
+  description: "Post-deployment verification stage"
+  dependsOn:
+    - cd

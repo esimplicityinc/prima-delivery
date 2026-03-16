@@ -1,0 +1,6 @@
+region: us-east-1
+assume_role: prima-cicd-bootstrap-dev
+admin_role: eks-cluster-admin
+permissions_boundary: prima-permissions-boundary-policy
+domain_name: dev.alvisprima.com
+hosted_zone_id: PLACEHOLDER_DEV_HOSTED_ZONE_ID

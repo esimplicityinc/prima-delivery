@@ -1,0 +1,4 @@
+region: us-east-1
+assume_role: katalyst-staging
+admin_role: cluster-admin
+permissions_boundary: default-boundary

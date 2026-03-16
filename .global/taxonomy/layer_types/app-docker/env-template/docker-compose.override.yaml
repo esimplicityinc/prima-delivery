@@ -1,0 +1,12 @@
+# Docker Compose overrides for {{ environment_name }} environment
+# Layer: {{ system_name }}/{{ stack_name }}/{{ layer_name }}
+#
+# Usage: docker compose -f docker-compose.yaml -f {{ environment_name }}/docker-compose.override.yaml up
+
+services:
+  "{{ layer_name }}":
+    environment:
+      - "NODE_ENV={{ environment_name }}"
+      - "LOG_LEVEL={{ log_level | default('info') }}"
+    env_file:
+      - "./{{ environment_name }}/.env"

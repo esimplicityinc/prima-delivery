@@ -1,0 +1,13 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-security
+spec:
+  description: Run kubesec security risk analysis against rendered manifests.
+  type: shell
+  when: post
+  run: just k8s-kustomize-security
+  tags:
+    - security
+    - scan
+    - kubernetes

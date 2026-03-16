@@ -1,0 +1,80 @@
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-dev
+spec:
+  description: GitHub Actions workflow for dev validation and deploys.
+  parameters:
+    service:
+      description: Target service identifier.
+      type: string
+      required: true
+    image_tag:
+      description: Container tag to deploy.
+      type: string
+      required: true
+  template:
+    path: templates/gha-dev.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  jobs:
+    - name: build-test-dev
+      templateRef: gha-app-docker-layer-ci
+      with:
+        environment: dev
+        deploy: true
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-staging
+spec:
+  description: GitHub Actions workflow for staging promotion.
+  parameters:
+    service:
+      description: Target service identifier.
+      type: string
+      required: true
+    image_tag:
+      description: Container tag to promote.
+      type: string
+      required: true
+  template:
+    path: templates/gha-staging.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  jobs:
+    - name: build-test-staging
+      templateRef: gha-app-docker-layer-cd
+      with:
+        environment: staging
+        deploy: true
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: WorkflowTemplate
+metadata:
+  name: gha-prod
+spec:
+  description: GitHub Actions workflow for production rollouts.
+  parameters:
+    service:
+      description: Target service identifier.
+      type: string
+      required: true
+    image_tag:
+      description: Container tag to release.
+      type: string
+      required: true
+  template:
+    path: templates/gha-prod.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  jobs:
+    - name: deploy-prod
+      templateRef: gha-app-docker-layer-cd
+      with:
+        environment: prod
+        deploy: true

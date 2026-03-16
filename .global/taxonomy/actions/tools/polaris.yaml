@@ -1,0 +1,13 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-polaris
+spec:
+  description: Audit rendered Kubernetes manifests with Polaris best-practice checks.
+  type: shell
+  when: post
+  run: just k8s-kustomize-polaris
+  tags:
+    - audit
+    - policy
+    - kubernetes

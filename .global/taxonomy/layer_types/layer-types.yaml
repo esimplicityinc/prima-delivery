@@ -1,0 +1,61 @@
+apiVersion: katalyst.taxonomy.plugins.layer_types/v1alpha
+kind: LayerType
+metadata:
+  name: app-docker
+spec:
+  description: Application Docker layer with shared base and environment overlays.
+  template: app-docker
+  defaultLayerDir: app
+  environmentContract:
+    templateReplacements:
+      - environment_name
+---
+apiVersion: katalyst.taxonomy.plugins.layer_types/v1alpha
+kind: LayerType
+metadata:
+  name: k8s-argocd
+spec:
+  description: Argo CD application layer scaffold.
+  template: k8s-argocd
+  defaultLayerDir: k8s
+  environmentContract:
+    templateReplacements:
+      - environment
+    layerTemplates:
+      - environment_namespace
+      - argocd_project_environment
+---
+apiVersion: katalyst.taxonomy.plugins.layer_types/v1alpha
+kind: LayerType
+metadata:
+  name: iac-terragrunt
+spec:
+  description: Terragrunt infrastructure layer scaffold.
+  template: iac-terragrunt
+  globalTemplate: iac-terragrunt/global
+  defaultLayerDir: iac
+  environmentContract:
+    templateReplacements:
+      - environment
+    layerTemplates:
+      - remote_state_bucket
+      - remote_state_region
+---
+apiVersion: katalyst.taxonomy.plugins.layer_types/v1alpha
+kind: LayerType
+metadata:
+  name: k8s-kustomize
+spec:
+  description: Kubernetes layer scaffold with a base Kustomize structure and environment overlays.
+  template: k8s-kustomize
+  globalTemplate: k8s-kustomize/global
+  defaultLayerDir: k8s
+  optionalPaths:
+    - base/deployment.yaml
+    - base/namespace.yaml
+    - base/service.yaml
+  environmentContract:
+    templateReplacements:
+      - environment
+    layerTemplates:
+      - namespace

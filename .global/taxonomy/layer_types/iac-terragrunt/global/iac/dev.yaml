@@ -1,0 +1,4 @@
+region: us-east-1
+assume_role: katalyst-dev
+admin_role: cluster-admin
+permissions_boundary: default-boundary
