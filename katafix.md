@@ -335,7 +335,45 @@ Renamed `docs-site/iac/base/` to `docs-site/iac/composite/` and updated all `ter
 
 ---
 
-## Finding 16: Bundled context.hcl Includes K8s/EKS-Specific Fields
+## Finding 16: Bundled AWS Provider Constraint Is `~> 6.0`
+
+**What was done:**
+Examined the bundled `context.hcl` template at `.global/taxonomy/layer_types/iac-terragrunt/global/iac/context.hcl`, which generates `versions.tf` via a `generate` block.
+
+**What was expected:**
+The bundled provider constraint would use the widely-adopted AWS provider v5.x (`~> 5.0`), which is what most production environments currently run.
+
+**What actually happened:**
+The generated `versions.tf` specifies `hashicorp/aws ~> 6.0`. AWS provider v6 was released in late 2025 and includes breaking changes from v5 (removed deprecated resources, changed argument names, stricter validation). Projects using v5-era Terraform code may hit compatibility issues if they adopt the bundled template without review.
+
+**What had to be done instead:**
+We kept `~> 6.0` to align with the bundled template convention and wrote our Terraform against the v6 API. Projects migrating existing infrastructure should be aware that the bundled template assumes v6 and may need to pin `~> 5.0` instead.
+
+**v0.1.0 vs v0.14.0:** Same bundled template in both versions.
+
+---
+
+## Finding 17: Bundled Environment Templates Use Unprocessed Jinja2 Placeholders
+
+**What was done:**
+Examined the bundled env-template files at `.global/taxonomy/layer_types/iac-terragrunt/env-template/`, specifically `terragrunt.hcl` and `environment.yaml`.
+
+**What was expected:**
+Either ready-to-use files, or files processed by a `kata tax` command (e.g., `kata tax create layer --env dev` would render the templates for each environment).
+
+**What actually happened:**
+The env-template files contain Jinja2-style placeholders like `{{ environment }}` and `{{ remote_state_bucket }}`. These are NOT processed by any `kata tax` command — they are reference patterns only. The `kata tax create layer` command does not copy or render these templates into the layer's environment directories.
+
+The bundled `env-template/terragrunt.hcl` also references a dynamic state bucket pattern `${local.account_id}-${local.system_name}-tf-state` which implies a naming convention but is not documented anywhere.
+
+**What had to be done instead:**
+Manually created `docs-site/iac/dev/terragrunt.hcl`, `docs-site/iac/dev/environment.yaml`, and equivalent prod files by hand, using the env-template as a visual reference rather than a functional template. The state bucket was hardcoded to the actual bucket name (`591639515130-prima-cicd-bootstrap-dev-tf-state`) rather than relying on the dynamic convention.
+
+**v0.1.0 vs v0.14.0:** Same behavior in both versions. The env-template directory exists as a documentation-by-example pattern, not a functional scaffold.
+
+---
+
+## Finding 18: Bundled context.hcl Includes K8s/EKS-Specific Fields
 
 **What was done:**
 Examined the bundled `context.hcl` template at `.global/taxonomy/layer_types/iac-terragrunt/global/iac/context.hcl`.
@@ -374,7 +412,9 @@ Kept the K8s-oriented fields in our `context.hcl` and environment YAML files for
 | 13. Lint reports error without detail | Not tested | Error without detail | New finding |
 | 14. Plugins not installed by default | Same | Same | No change |
 | 15. Bundled template uses `composite/` | Not discovered | Discovered | New finding |
-| 16. Bundled context.hcl has K8s fields | Not discovered | Discovered | New finding |
+| 16. Bundled AWS provider is `~> 6.0` | Not discovered | Discovered | New finding |
+| 17. Env templates use unprocessed Jinja2 | Not discovered | Discovered | New finding |
+| 18. Bundled context.hcl has K8s fields | Not discovered | Discovered | New finding |
 
 **Key v0.14.0 improvements:**
 1. `system.yaml` is now auto-generated during init (Finding 2)
@@ -387,3 +427,5 @@ Kept the K8s-oriented fields in our `context.hcl` and environment YAML files for
 - Node placement requires manual file moves for non-standard directory layouts
 - CI/CD workflows must be written from scratch (bundled Jinja2 templates don't cover static site pattern)
 - Plugins must be explicitly installed after init (`kata tax add --plugin ...`)
+- Bundled env-template files are reference-only — not processed or copied by any CLI command
+- Bundled AWS provider constraint (`~> 6.0`) may surprise teams still on v5.x
