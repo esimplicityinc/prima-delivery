@@ -1,4 +1,4 @@
-# The Kata Advantage: Taxonomy-Guided vs Naive AI Agent Implementation
+# The Kata Advantage: Why Taxonomy Matters for AI-Agent Infrastructure
 
 **Project:** prima-delivery (PRIMA-151)
 **Date:** 2026-03-16
@@ -6,526 +6,480 @@
 
 ---
 
-## Experiment Design
+## What This Document Is
 
-Two AI agent sessions were given identical business requirements:
+We ran an experiment: give an AI agent identical business requirements and let it implement AWS infrastructure two ways — once guided by the Katalyst Taxonomy CLI, once completely naive ("just do what you think is best"). Both produced working code. This document analyzes what a taxonomy framework actually prevents, where the real costs hide, and at what scale the investment pays for itself.
 
-> Deploy a Docusaurus static site to AWS with dev (`dev.alvisprima.com`) and prod (`alvisprima.com`) environments using Terragrunt/Terraform, with GitHub Actions CI/CD and GitHub OIDC authentication.
-
-**Approach A (Kata-Guided):** The orchestrator agent used the Katalyst Taxonomy CLI (`kata`) v0.14.0 to initialize project structure, create taxonomy nodes, install plugins, and then manually filled in the Terraform/Terragrunt/workflow files using the bundled templates as reference. This happened across a multi-session conversation with ~10 phases of work.
-
-**Approach B (Naive):** A single sub-agent was given the same business requirements with NO knowledge of Kata, taxonomy conventions, or organizational frameworks. It was told: "implement it however you think is best as a cloud architect."
-
-Both approaches produced working infrastructure code. The differences reveal what a taxonomy framework actually provides.
+This analysis assumes the Kata CLI works correctly — the v0.14.0 bugs documented in `katafix.md` are temporary friction, not the point. The point is what happens to an organization when AI agents build infrastructure without guardrails.
 
 ---
 
-## Head-to-Head Comparison
+## The Experiment
 
-### Agent Effort
+**Same requirements, two approaches:**
 
-| Metric | Kata-Guided (A) | Naive (B) |
-|--------|-----------------|-----------|
-| Total files created/modified | 141 | 17 |
-| Custom files (hand-written) | ~20 | 17 |
-| Scaffolded files (from Kata plugins) | ~121 | 0 |
-| Terraform `.tf` files | 3 (1 module) | 8 (2 modules) |
-| Terragrunt `.hcl` files | 3 (context + 2 env) | 5 (root + 4 env) |
-| GitHub Actions workflows | 2 | 2 |
-| Taxonomy metadata files | 6 (system, subsystem, stack, layer, library, version) | 0 |
-| Agent tool calls | ~50+ across multiple sessions | ~18 in single session |
-| Agent sessions | Multiple (10 phases over hours) | 1 (single shot) |
-| Human interventions/corrections | 15+ (documented in katafix.md) | 0 |
+| | Kata-Guided | Naive Agent |
+|---|---|---|
+| **Prompt** | "Use Kata to initialize taxonomy, create nodes, follow conventions" | "Deploy a Docusaurus site to S3+CloudFront with dev/prod. Do whatever you think is best." |
+| **Result** | 20 hand-written files + 121 scaffolded convention files | 17 hand-written files |
+| **Taxonomy metadata** | system.yaml, sub_system.yaml, stack.yaml, layer.yaml, library.yaml, version.yaml | None |
+| **Works?** | Yes | Yes |
 
-### Speed and Token Efficiency
-
-| Metric | Kata-Guided (A) | Naive (B) |
-|--------|-----------------|-----------|
-| Time to working implementation | Hours (multi-session) | ~5 minutes (single agent call) |
-| Estimated token consumption | Very high (~200K+ tokens across sessions) | Low (~30K tokens, single round) |
-| Correction loops | 15+ (workarounds for CLI issues) | 0 |
-| Reference project consultation | Yes (prima-common2 alignment) | No (self-contained) |
-| Context window pressure | High (accumulating taxonomy knowledge) | Low (fresh context, single task) |
-
-### Quality of Output
-
-| Dimension | Kata-Guided (A) | Naive (B) |
-|-----------|-----------------|-----------|
-| **Directory structure** | `docs-site/iac/composite/terraform/` (Kata convention) | `infra/terraform/modules/` + `infra/terragrunt/` (industry standard) |
-| **Module separation** | 1 monolithic module (S3+CF+ACM+R53+OIDC) | 2 focused modules (static-site, github-oidc) |
-| **Terraform version** | `~> 1.13` with AWS `~> 6.0` (matches Kata template) | `>= 1.5` with AWS `>= 5.0, < 6.0` (conservative) |
-| **S3 bucket policy** | Inline `jsonencode()` | `aws_iam_policy_document` data source (best practice) |
-| **CloudFront caching** | `forwarded_values` block (legacy) | `cache_policy_id` managed policy (modern) |
-| **CloudFront URI rewrite** | Custom error response only | CloudFront Function for clean URLs + error response |
-| **OIDC provider handling** | Data source + conditional create in same module | Separate module with `dependency` block and mock outputs |
-| **State key** | `${system}/${subsystem}/${stack}/${env}/terraform.tfstate` | `prima-delivery/${env}/${path}/terraform.tfstate` |
-| **Workflow config values** | Hardcoded `PLACEHOLDER` in env block | GitHub repository variables (`${{ vars.* }}`) |
-| **Docusaurus config** | `customFields` with `deployEnv`, `isDev`, `commitUrl` | Simpler: just `COMMIT_SHA` presence toggles banner |
-| **Docusaurus fallback** | Falls back to `https://alvisprima.com` (prod) | Falls back to GitHub Pages URL (backwards-compatible) |
-| **Tags** | Taxonomy-derived (system_name, sub_system_name, stack_name, environment, version, iac) | Simple (ManagedBy, Project, Environment, Repository) |
-| **Trailing newline in .gitignore** | Missing (had to fix manually) | Missing |
+At first glance, the naive agent won: fewer files, faster execution, and it made some individually better technical choices (module separation, modern CloudFront cache policies, GitHub vars instead of placeholders). But "works for one project" and "works for an organization" are different things.
 
 ---
 
-## What the Naive Agent Did Better
+## What the Agent Quietly Gets Wrong Without Taxonomy
 
-### 1. Module Separation
-The naive agent split OIDC into its own module with a Terragrunt `dependency` block, which is objectively better architecture — different lifecycles, independent apply, and the `mock_outputs` pattern enables `plan` without a full dependency chain.
+The naive agent produced good infrastructure. It also made dozens of invisible decisions that will compound into organizational debt. None of these are bugs — they're all reasonable choices that happen to be different from what every other project in the organization will do.
 
-### 2. Modern CloudFront Configuration
-Used `cache_policy_id` (AWS managed CachingOptimized policy) instead of the deprecated `forwarded_values` block. Also added a CloudFront Function for URI rewriting — a real production need for Docusaurus clean URLs that the Kata-guided approach missed.
+### 1. Directory Structure Drift
 
-### 3. GitHub Repository Variables
-Instead of hardcoding `PLACEHOLDER` values in workflow YAML that require manual replacement post-apply, the naive agent used `${{ vars.DEV_DEPLOY_ROLE_ARN }}` — GitHub's built-in mechanism for non-secret configuration. This is a better operational pattern.
-
-### 4. Conservative Version Pinning
-`>= 5.0, < 6.0` for AWS provider is more appropriate for a new project than `~> 6.0`, which locks to a major version that many teams haven't adopted yet.
-
-### 5. Backwards-Compatible Docusaurus Config
-The fallback URL points to the existing GitHub Pages URL (`https://esimplicityinc.github.io/prima-delivery/`), so the existing `deploy-docs.yml` workflow continues to work unchanged during migration. The Kata-guided version defaulted to `https://alvisprima.com` which would break local dev without env vars.
-
-### 6. Speed
-One agent call, ~18 tool invocations, ~5 minutes, zero corrections needed. The Kata-guided approach took hours across multiple sessions with 15+ documented workarounds.
-
----
-
-## What the Kata-Guided Approach Provides
-
-### 1. Organizational Metadata
-Taxonomy nodes (`system.yaml`, `sub_system.yaml`, `stack.yaml`, `layer.yaml`, `library.yaml`) provide machine-readable organizational context. These enable:
-- Automated dependency mapping (`kata tax deps`)
-- Tree visualization (`kata tax tree`)
-- Linting against organizational rules (`kata tax lint`)
-- Cross-project consistency when the same taxonomy is used across multiple repos
-
-The naive approach has none of this — the infrastructure is self-contained but invisible to organizational tooling.
-
-### 2. Shared Convention Library
-The 100+ scaffolded plugin files (`.global/taxonomy/`) establish conventions for:
-- Just task runner recipes for every layer type
-- CI/CD Jinja2 templates for workflow generation
-- Tool configuration (Docker, ArgoCD, Kustomize, etc.)
-- Environment template patterns
-
-Even though most aren't used for this static site project, they provide a foundation for future stacks (K8s, Docker, Lambda) without re-inventing conventions each time.
-
-### 3. Multi-Team Consistency
-The Kata taxonomy enforces a single convention for how environments are configured (`.global/iac/dev.yaml`), how Terragrunt generates context (`context.hcl`), and how metadata propagates as tags. In a multi-team organization, this prevents each team from independently inventing their own patterns.
-
-### 4. Audit and Governance
-The taxonomy metadata enables questions like:
-- "What systems depend on this subsystem?"
-- "Who owns this stack?"
-- "What environments is this layer deployed to?"
-- "What version is deployed?"
-
-These questions are unanswerable from the naive implementation without reading code.
-
-### 5. Rich Default Tags
-The generated `provider.tf` includes `system_name`, `sub_system_name`, `stack_name`, `environment`, `version`, and `iac` tags — derived from taxonomy metadata. This enables cost allocation, drift detection, and compliance reporting at the organizational level.
-
----
-
-## The Core Tradeoff
-
+The naive agent chose:
 ```
-Kata-Guided:    High setup cost + organizational alignment = long-term governance value
-Naive:          Low setup cost + local optimization        = fast, high-quality, but isolated
+infra/terraform/modules/static-site/
+infra/terragrunt/dev/static-site/terragrunt.hcl
 ```
 
-### When Kata Adds Clear Value
-- **Multi-repo organizations** where 10+ repos need consistent infrastructure patterns
-- **Compliance environments** requiring audit trails, ownership metadata, and dependency maps
-- **Platform teams** building golden paths for product teams to follow
-- **Long-lived projects** where the taxonomy metadata pays dividends over years of operations
+This is a perfectly valid Terragrunt layout. But the next agent session, given a different project, will choose something different. We know this because AI agents optimize locally — they pick whatever seems cleanest for the project in front of them. Across 5 projects you'll get:
 
-### When the Naive Approach Wins
-- **Single-repo projects** where organizational consistency is irrelevant
-- **Greenfield prototypes** where speed to working infrastructure matters most
-- **AI-agent-driven workflows** where the agent's general cloud architecture knowledge produces better technical decisions than following a taxonomy template
-- **Small teams** where Conway's Law doesn't yet apply
+```
+Project A:  infra/terraform/modules/         (this agent's preference)
+Project B:  terraform/environments/dev/      (another agent's preference)
+Project C:  deploy/aws/                      (yet another)
+Project D:  cloud/terragrunt/prod/           (yet another)
+Project E:  iac/live/dev/                    (Gruntwork's convention)
+```
+
+Each is defensible. Together they're a nightmare. The human (or next agent) touching any project has to re-learn the layout from scratch.
+
+**What Kata prevents:** `<stack>/iac/composite/terraform/` is the directory, period. Every project, every stack, every time. An agent working within the taxonomy can't choose a different layout because the convention is encoded in the scaffolding.
+
+### 2. State Key Pattern Drift
+
+The naive agent chose:
+```
+key = "prima-delivery/${local.env}/${path_relative_to_include()}/terraform.tfstate"
+```
+
+The Kata-guided approach uses:
+```
+key = "${system}/${subsystem}/${stack}/${env}/terraform.tfstate"
+```
+
+Both work. But the naive pattern encodes the repo name (`prima-delivery`) and relies on directory path, while the taxonomy pattern uses logical identifiers derived from metadata. When you need to find state files across 20 projects in the same S3 bucket, the taxonomy pattern gives you:
+
+```
+prima/delivery/docs-site/dev/terraform.tfstate
+prima/delivery/api-service/prod/terraform.tfstate
+prima/common/shared-infra/dev/terraform.tfstate
+```
+
+The naive pattern gives you whatever each agent decided to put there. Good luck writing a script to audit state across projects.
+
+**What Kata prevents:** State key pattern is defined once in `.global/iac/context.hcl`. Every stack in every project inherits it. No agent can deviate.
+
+### 3. Tagging Strategy Drift
+
+The naive agent chose:
+```hcl
+tags = {
+  ManagedBy   = "terragrunt"
+  Project     = "prima-delivery"
+  Environment = "${local.env}"
+  Repository  = "esimplicityinc/prima-delivery"
+}
+```
+
+The Kata-guided approach generates:
+```hcl
+tags = {
+  system_name     = "prima"
+  sub_system_name = "delivery"
+  stack_name      = "docs-site"
+  environment     = "dev"
+  version         = "1.3.7"
+  iac             = "terraform"
+}
+```
+
+The naive tags are fine for one project. But across an organization:
+- Cost allocation by system/subsystem/stack? Impossible with `Project = "prima-delivery"` — you'd need to parse repo names.
+- "What version is deployed to prod?" — the naive tags don't track version at all.
+- "Find all resources managed by Terraform across all systems" — `ManagedBy = "terragrunt"` and `iac = "terraform"` are different tag keys. Neither is wrong, but they're incompatible for cross-project queries.
+- The next agent might choose `managed-by`, `managed_by`, `ManagedBy`, or `Tool`. There's no enforcement.
+
+**What Kata prevents:** Tags are generated from taxonomy metadata in `context.hcl`. Every resource in every project gets the same tag keys with values derived from the taxonomy hierarchy. AWS Cost Explorer, Config rules, and compliance audits just work.
+
+### 4. Provider Version Drift
+
+The naive agent chose `>= 5.0, < 6.0`. The Kata template uses `~> 6.0`. Neither is wrong, but when Project A runs AWS provider v5.72 and Project B runs v6.3, you get:
+- Different resource argument names (v6 renamed several)
+- Different default behaviors (v6 changed defaults on several resources)
+- Terraform modules that can't be shared between projects
+- Engineers who have to remember "oh, Project A is on v5 so that argument is called X, but Project B is on v6 where it's called Y"
+
+**What Kata prevents:** Provider version is set once in `.global/iac/context.hcl`'s `generate "versions"` block. Every stack gets the same version. Upgrades happen in one place and propagate everywhere.
+
+### 5. Environment Configuration Drift
+
+The naive agent inlines environment-specific values directly in each `terragrunt.hcl`:
+```hcl
+# dev/static-site/terragrunt.hcl
+inputs = {
+  bucket_name      = "prima-delivery-docs-dev"
+  domain_name      = "dev.alvisprima.com"
+  hosted_zone_name = "dev.alvisprima.com"
+}
+```
+
+The Kata approach centralizes environment config in `.global/iac/dev.yaml`:
+```yaml
+region: us-east-1
+domain_name: dev.alvisprima.com
+hosted_zone_id: Z1234567890
+```
+
+When you add a third environment (staging), the naive approach requires editing every Terragrunt file in every stack. The Kata approach requires adding one file (`.global/iac/staging.yaml`) and one entry in `environments.yaml`.
+
+When you need to change the region for dev (say, moving to us-west-2 for cost), the naive approach requires finding and editing every file that hardcodes `us-east-1`. The Kata approach: change one line in `dev.yaml`.
+
+**What Kata prevents:** Environment configuration scattered across dozens of files. The centralized model means environment changes are atomic and auditable.
+
+### 6. Naming Convention Drift
+
+The naive agent named its S3 bucket `prima-delivery-docs-dev`. The Kata approach uses `${system}-${subsystem}-${stack}-${env}` which resolves to `prima-delivery-docs-site-dev`.
+
+Both are fine. But the next agent session might choose:
+- `esimplicity-docs-dev`
+- `prima-docs-development`
+- `delivery-documentation-dev`
+- `pd-docs-d`
+
+There's no enforcement mechanism. A human has to notice the inconsistency in code review.
+
+**What Kata prevents:** Resource names are derived from taxonomy metadata. `${var.context.system_name}-${var.context.sub_system_name}-${var.context.stack_name}-${var.context.environment}` always produces a predictable, parseable name. You can find any resource in AWS by knowing its taxonomy coordinates.
+
+### 7. OIDC Subject Claim Drift
+
+The naive agent used:
+```hcl
+github_subjects = [
+  "repo:esimplicityinc/prima-delivery:ref:refs/heads/main",
+]
+```
+
+This is correct for dev. For prod, it used `refs/tags/v*`. But another agent session might use:
+- `repo:esimplicityinc/prima-delivery:*` (too permissive)
+- `repo:esimplicityinc/prima-delivery:environment:production` (different pattern)
+- `repo:esimplicityinc/*:ref:refs/heads/main` (org-wide, dangerous)
+
+There's no organizational standard for OIDC subject claims. Each agent picks what seems reasonable, and security teams can't audit consistency without reading every Terraform file in every repo.
+
+**What Kata prevents:** OIDC patterns would be part of the Terragrunt inputs template, standardized across all projects. Deviations are visible in code review because they differ from the template.
+
+### 8. Missing Ownership and Dependency Metadata
+
+The naive agent created working infrastructure with zero metadata about who owns it, what depends on it, or how it relates to other systems. If the `docs-site` CloudFront distribution goes down:
+
+- Who do you page? (no owner field anywhere)
+- What depends on this? (no dependency map)
+- Is this the dev or prod instance? (check tags... if they exist... if they're consistent)
+- What system is this part of? (read the repo README and hope)
+
+**What Kata provides:**
+```yaml
+# stack.yaml
+spec:
+  owners:
+    - "aaron.west@esimplicity.com"
+  dependsOn:
+    nodes:
+      - "delivery"
+```
+
+`kata tax tree` shows the full hierarchy. `kata tax deps` shows what depends on what. This isn't optional metadata — it's the organizational nervous system.
 
 ---
 
-## The AI Agent Angle
+## The Real Cost of Organizational Misalignment
 
-This experiment reveals a key insight about AI agents and organizational frameworks:
+The drift described above isn't hypothetical. It's what happens in every organization that lets individual teams (or individual agent sessions) make infrastructure decisions independently. The cost manifests in four ways:
 
-### The Kata Framework as Agent Guardrails
+### 1. Discovery Cost (every interaction)
 
-In theory, Kata provides **guardrails** that keep an AI agent on the organizational rails — enforcing conventions, naming patterns, directory structures, and metadata requirements that a naive agent wouldn't know about.
+Every time a human or agent touches a project without taxonomy, they pay a discovery tax:
 
-In practice, those guardrails came with significant friction:
-- **15 documented workarounds** for CLI behavior that didn't match expectations
-- **Multiple correction loops** to align with bundled template conventions
-- **Reference project consultation** required to understand what "correct" looks like
-- **High token consumption** as the agent accumulated taxonomy-specific knowledge
+| Operation | With taxonomy | Without taxonomy |
+|-----------|--------------|-----------------|
+| Find the Terraform | `<stack>/iac/composite/terraform/` | `grep -r "resource.*aws" .` |
+| Find environment config | `.global/iac/<env>.yaml` | Could be anywhere — inline, in vars, in GitHub, in SSM |
+| Run a plan | `just plan` | Figure out the right directory, the right command, the right flags |
+| Find the owner | `stack.yaml` → owners field | Git blame, Slack, tribal knowledge |
+| Understand dependencies | `kata tax deps` | Read every file, build mental model |
+| Verify what's deployed where | `layer.yaml` → environments | Check AWS console, check workflow files |
 
-The naive agent, freed from these guardrails, made better individual technical decisions (module separation, modern CloudFront config, GitHub vars, version pinning) because it could apply general AWS best-practice knowledge without being constrained by a framework's opinions.
+This tax is paid on **every interaction** — not just setup. Over a year across 10 projects with 5 engineers, it compounds into weeks of lost productivity.
 
-### The Paradox
+### 2. Incident Response Cost (when it matters most)
 
-The Kata framework is most valuable when humans need to coordinate across teams — but it's most costly when an AI agent has to learn and work within its constraints. The framework trades **agent efficiency** for **organizational consistency**.
+At 2 AM when production is down, you need to:
+1. Find the infrastructure code for the affected service
+2. Understand what's deployed and how
+3. Find the right credentials/access
+4. Fix the problem
 
-A potential ideal: **use Kata to define the conventions, then generate a compact context document for the AI agent** rather than having the agent interact with the CLI directly. The agent gets the guardrails as input context (naming patterns, directory structure, tag conventions) without the CLI friction.
+With consistent taxonomy, steps 1-3 are muscle memory. Without it, they're an investigation. The difference is 5 minutes vs 30 minutes — and in an outage, that's the difference between a blip and a customer-facing incident.
 
-### Token and Cost Analysis
+### 3. Onboarding Cost (every new team member or agent session)
 
-| Metric | Kata-Guided | Naive | Ratio |
-|--------|------------|-------|-------|
-| Estimated input tokens | ~150K | ~15K | 10x more |
-| Estimated output tokens | ~50K | ~15K | 3.3x more |
-| Total estimated tokens | ~200K | ~30K | 6.7x more |
-| At Claude Opus pricing ($15/M in, $75/M out) | ~$6.00 | ~$1.35 | 4.4x more expensive |
-| Agent tool calls | ~50+ | ~18 | 2.8x more |
-| Human intervention points | 15+ | 0 | Infinite ratio |
+**Without taxonomy:** "Project A works like this, Project B is different, Project C has its own thing going on." Each project is a new learning curve. A new engineer takes 2+ weeks to internalize the infrastructure patterns across 5 projects.
 
-*Token estimates are approximate based on file sizes, conversation lengths, and tool call patterns observed during both implementations.*
+**With taxonomy:** "Everything follows System → Subsystem → Stack → Layer. Terraform is in `composite/terraform/`. Environments are in `.global/iac/`. Tags come from taxonomy metadata. Run `just plan`." One pattern, learned once, applied everywhere. A new engineer (or a new AI agent session) is productive in hours, not weeks.
+
+### 4. Compliance and Audit Cost (periodic but expensive)
+
+"Show me all production resources, their owners, and when they were last deployed."
+
+**With taxonomy:** `kata tax tree --env prod` + AWS tag query on `environment=prod`. Done.
+
+**Without taxonomy:** Manual audit of every repo, every Terraform state file, every workflow file, every AWS account. Days of work, repeated quarterly.
+
+---
+
+## Cognitive Load: The Invisible Multiplier
+
+Cognitive load doesn't add linearly — it multiplies. Each unique convention set you have to remember compounds with every other one:
+
+```
+1 project:   1 convention to learn                  → cognitive load ≈ 1
+3 projects:  3 conventions + switching overhead      → cognitive load ≈ 5
+5 projects:  5 conventions + switching overhead      → cognitive load ≈ 12
+10 projects: 10 conventions + switching overhead     → cognitive load ≈ 30
+10 projects: 1 convention (taxonomy)                 → cognitive load ≈ 2
+```
+
+The switching overhead comes from **mental cache misses**. You can't keep 5 different directory layouts in your head simultaneously. Every time you move from Project A to Project C, you have to flush your mental model and re-learn. With taxonomy, there's nothing to flush — it's always the same.
+
+### The team dimension
+
+```
+Cognitive load = (projects) × (people) × (unique conventions)
+
+Without taxonomy:  5 projects × 4 engineers × 5 conventions = 100 learning events
+With taxonomy:     5 projects × 4 engineers × 1 convention  =  20 learning events
+```
+
+That's an 80% reduction in organizational learning cost. And it compounds every time you add a project, a team member, or an AI agent session.
+
+### The AI agent version
+
+AI agents have their own cognitive load problem: **context window consumption and session amnesia**.
+
+Without taxonomy, every new agent session burns 5-10 tool calls just to understand the project layout. It reads README files, greps for patterns, infers conventions. If the session ends, all that learned context evaporates. The next session starts from zero.
+
+With taxonomy, the agent reads 4 files — `system.yaml`, `sub_system.yaml`, `stack.yaml`, `.global/iac/context.hcl` — and knows everything. The taxonomy IS the compressed context that survives session boundaries. It's the organizational memory that agents lack.
+
+---
+
+## Where the Taxonomy Keeps Agents on the Rails
+
+This is the core value proposition. AI agents are excellent at implementing infrastructure from requirements. They are terrible at maintaining organizational consistency across sessions, projects, and teams. Here's where taxonomy acts as guardrails:
+
+### Prevents: Inventing new conventions
+
+Without taxonomy, every agent session starts from first principles. "Where should I put the Terraform? I think `infra/` is clean." The next session: "I'll use `terraform/`." The next: "Let me put it in `deploy/`." Each is a reasonable local decision that creates global chaos.
+
+**Taxonomy guardrail:** The directory structure is pre-defined. The agent fills in files within the structure; it doesn't design the structure.
+
+### Prevents: Inconsistent resource naming
+
+An agent names an S3 bucket `my-site-dev`. Another names it `company-docs-development`. Another names it `prod-static-hosting`. None are wrong. All are incompatible with cross-project tooling.
+
+**Taxonomy guardrail:** Names are derived from `${system}-${subsystem}-${stack}-${env}`. The agent provides the Terraform logic; the naming is inherited from metadata.
+
+### Prevents: Tag strategy fragmentation
+
+Tags are where organizational misalignment costs real money (broken cost allocation, failed compliance queries, useless dashboards). Every agent invents its own tags because there's no shared standard to follow.
+
+**Taxonomy guardrail:** `context.hcl` generates provider-level default tags from taxonomy metadata. The agent never touches tags — they're injected automatically.
+
+### Prevents: State backend inconsistency
+
+State key patterns determine whether you can find and manage Terraform state across projects. An agent picks whatever path structure seems logical. Across 20 projects, you get 20 different key patterns in the same S3 bucket.
+
+**Taxonomy guardrail:** State key is `${system}/${subsystem}/${stack}/${env}/terraform.tfstate`, defined once in `context.hcl`. Every stack in every project follows the same pattern.
+
+### Prevents: Missing operational metadata
+
+An agent builds infrastructure that works but is operationally opaque. No owner. No dependency map. No environment list. No version tracking. When something breaks, you're in discovery mode.
+
+**Taxonomy guardrail:** `stack.yaml` requires owners. `layer.yaml` requires environment lists. `dependsOn` maps dependencies. These aren't optional fields — they're part of the taxonomy node schema.
+
+### Prevents: Environment configuration sprawl
+
+An agent inlines environment-specific values wherever they're needed. Region here, domain there, account ID somewhere else. When you need to change something for an environment, you're grepping across dozens of files.
+
+**Taxonomy guardrail:** Environment config lives in `.global/iac/<env>.yaml`. One file per environment. Changes propagate through `context.hcl` to all stacks automatically.
+
+### Prevents: Provider version skew
+
+Agent A pins AWS provider `~> 5.0`. Agent B pins `~> 6.0`. Your Terraform modules are now incompatible across projects. Shared modules break. Engineers have to remember which version each project uses.
+
+**Taxonomy guardrail:** Provider version is generated by `context.hcl`. All projects use the same version. Upgrades are a one-line change that affects everything.
+
+---
+
+## The Break-Even Analysis
+
+The taxonomy has a real setup cost. For a mature CLI, that cost is approximately:
+
+| Activity | Time |
+|----------|------|
+| `kata tax init` + plugin installation | 5 minutes |
+| Create taxonomy nodes (system, subsystem, stack, layer) | 5 minutes |
+| Configure `.global/iac/context.hcl` and environment YAMLs | 15 minutes |
+| Write Terraform modules (same effort as naive) | Same |
+| Write Terragrunt configs (simpler — inherits from context.hcl) | Less |
+| Write GitHub Actions workflows (same effort) | Same |
+
+**First stack overhead vs naive: ~25 minutes** (the taxonomy metadata and global config that a naive approach skips).
+
+**Second stack overhead vs naive: ~5 minutes** (3 kata commands + modify Terraform; everything else is inherited).
+
+**Third+ stack overhead: near zero** — the taxonomy is already there, `context.hcl` handles state/provider/tags, environment configs exist. You're just writing the new Terraform module.
+
+### The curve
+
+```
+             Cumulative organizational cost
+              (discovery + drift + incidents + compliance + onboarding)
+              
+  Naive ─────────────/
+  approach          /
+                   /
+                  /                          The gap only widens
+                 /
+                /───────────────────────────────────── Taxonomy
+               /                                       approach
+              /
+  ───────────┼───────────────────────────────────────────→
+             1     2     3     5     10    15    20    Projects
+             
+  ↑ Taxonomy setup cost (one-time, ~25 min for a working CLI)
+```
+
+| Projects | Naive: cumulative drift cost | Taxonomy: cumulative overhead |
+|----------|---------------------------|------------------------------|
+| 1 | Low (manageable) | Slightly higher (setup cost) |
+| 2 | Medium (first inconsistencies appear) | Lower (second stack nearly free) |
+| 3 | High (3 different conventions to manage) | Much lower (all inherited) |
+| 5 | Very high (discovery tax on every interaction) | Minimal (muscle memory) |
+| 10 | Unsustainable (dedicated documentation needed) | Near-zero marginal cost |
+| 20 | Crisis (nobody knows how anything works) | Same marginal cost as project 3 |
+
+**Break-even: ~2 projects.** After that, every project without taxonomy is adding organizational debt. Every project with taxonomy is paying into a shared infrastructure that makes all projects easier to operate.
+
+---
+
+## What the Naive Agent Actually Demonstrated
+
+The naive agent proved that AI agents are excellent cloud architects in isolation. Given good requirements, an agent will produce clean, well-structured, production-quality infrastructure code in minutes.
+
+What the naive agent also demonstrated — invisibly — is that:
+
+1. **Its decisions are non-transferable.** The next agent session will make different decisions. You can't ask it to "follow the same pattern as Project A" without feeding it Project A's entire codebase as context.
+
+2. **Its conventions are ephemeral.** Once the session ends, the reasoning behind every decision is gone. Why `infra/` instead of `iac/`? Why `>= 5.0, < 6.0`? Why `ManagedBy` instead of `managed_by`? Nobody remembers, and the code doesn't explain.
+
+3. **Its output is organizationally opaque.** There's no machine-readable way to answer "what does this project contain?", "who owns this?", or "what depends on what?" without reading every file.
+
+4. **Its quality is prompt-dependent.** The naive agent got a detailed prompt that pre-decided architecture, auth patterns, domains, state buckets, and environments. Without that prompt, it would have needed multiple clarification rounds and may have made wrong assumptions. The taxonomy replaces that prompt — it IS the pre-decided architecture, encoded in files.
+
+### The prompt IS the taxonomy
+
+Here's the key insight: **the detailed prompt we gave the naive agent was functionally equivalent to a taxonomy.** It codified architectural decisions, naming patterns, environment structure, and deployment strategy. The only difference is:
+
+| | The prompt | The taxonomy |
+|---|---|---|
+| **Format** | English prose in a chat session | YAML files in a repo |
+| **Durability** | Gone when session ends | Persists in version control |
+| **Machine-readable** | No | Yes (`kata tax tree`, `kata tax deps`, `kata tax lint`) |
+| **Reusable across sessions** | Must be re-written or copy-pasted | Inherited automatically |
+| **Reusable across projects** | No (specific to one project) | Yes (shared conventions) |
+| **Enforceable** | No (agent can ignore it) | Yes (`kata tax lint` catches violations) |
+| **Discoverable by new team members** | Only if someone shares it | Always in the repo |
+
+The taxonomy is a **durable, machine-readable, enforceable, discoverable prompt** that every agent session and every team member inherits automatically. The naive approach requires a human to write that prompt fresh every time — and hope they remember all the decisions.
 
 ---
 
 ## Recommendations
 
-### For This Project (prima-delivery)
-The Kata taxonomy was implemented primarily to **test and document the CLI** (see `katafix.md`). The 18 findings are valuable feedback for the Kata team. For the infrastructure itself, the naive approach produced technically superior code in a fraction of the time.
+### For organizations evaluating taxonomy tools
+- Don't evaluate on "does it make the first project faster" — it won't
+- Evaluate on "what happens at project 5, 10, 20 without shared conventions"
+- The taxonomy tax is paid once; the drift tax is paid forever
+- If you have 1 project and 1 engineer, skip it — the overhead isn't justified
+- If you have 3+ projects, 2+ engineers, or AI agents building infrastructure: you need conventions, whether from Kata or something else
 
-### For the Kata Team
-1. **Reduce CLI friction** — the 15 workarounds represent real barriers to adoption, especially for AI agent workflows
-2. **Generate agent context** — produce a `.kata-context.md` or `.kata-context.json` that AI agents can consume as input, rather than requiring CLI interaction
-3. **Ship working templates** — the `create layer` command should scaffold at least a skeleton Terraform module and Terragrunt configs for the specified layer type
-4. **Install plugins by default** — when `--layer-type` is specified, the matching plugin should auto-install
+### For AI agent workflows
+- **Taxonomy-as-context:** Feed the agent taxonomy files as input context, not as CLI commands to run. The agent reads `system.yaml`, `context.hcl`, `environments.yaml` and knows the conventions. It implements within them.
+- **Validate after, don't constrain during:** Let the agent write code freely, then run `kata tax lint` to verify compliance. This gets the best of both worlds — agent creativity within organizational guardrails.
+- **The agent doesn't need to run `kata tax init`:** The taxonomy should already exist. The agent's job is to create new stacks/layers within the existing taxonomy, not to set up the taxonomy itself.
 
-### For AI Agent Workflows
-1. **Taxonomy-as-context, not taxonomy-as-tool** — feed the agent a compact conventions doc rather than having it run CLI commands
-2. **Validate after, don't constrain during** — let the agent implement freely, then run `kata tax lint` to check compliance
-3. **Use the naive output as a reference** — the naive agent's module separation, modern CloudFront config, and GitHub vars pattern could be incorporated as improved Kata templates
-
----
-
-## Cognitive Load: The Real Tax You Pay Without Taxonomy
-
-The token costs and file counts above are measurable. What's harder to measure — but far more expensive over time — is **cognitive load**: the mental effort required to understand, navigate, and operate infrastructure across projects.
-
-### The cognitive load of a one-off project
-
-When an agent (or human) builds infrastructure as a one-off, every project is a unique snowflake. Consider what happens when you need to operate across 5 projects, each built by a different agent session or team member without shared conventions:
-
-```
-Project A:  infra/terraform/modules/static-site/          (agent chose "infra/")
-Project B:  terraform/environments/dev/main.tf             (agent chose "terraform/")
-Project C:  deploy/aws/cloudfront.tf                       (agent chose "deploy/")
-Project D:  cloud/terragrunt/prod/site/terragrunt.hcl      (agent chose "cloud/")
-Project E:  iac/live/dev/docs/terragrunt.hcl               (agent chose "iac/")
-```
-
-Each project works. Each was a "good decision" in isolation. But the human who has to operate all five pays a **context-switching tax** on every interaction:
-
-| Operation | With taxonomy | Without taxonomy |
-|-----------|--------------|-----------------|
-| "Where's the Terraform for project C?" | `<stack>/iac/composite/terraform/` — always | Read the README, grep around, figure out this project's layout |
-| "What environment configs exist?" | `.global/iac/*.yaml` — always | Could be `envs/`, `environments/`, `config/`, inline in terragrunt.hcl, or GitHub vars |
-| "How do I run a plan?" | `just plan` — always (from Just plugin) | `cd` to... somewhere... and run `terragrunt plan`? Or `terraform plan`? Which directory? |
-| "What owns this resource?" | `stack.yaml` → owner field | Git blame? Hope there's a README? Slack someone? |
-| "What depends on what?" | `kata tax deps` | Read every Terragrunt `dependency` block across every project |
-| "Is this deployed to prod?" | `layer.yaml` → environments list | Check the workflow files? Check AWS console? |
-
-### The cognitive load multiplier
-
-Cognitive load doesn't just add — it **multiplies**. Each new convention to remember compounds with every other one:
-
-```
-1 project:   Learn 1 convention set                → cognitive load = 1
-3 projects:  Learn 3 convention sets                → cognitive load = 3 + switching overhead ≈ 5
-5 projects:  Learn 5 convention sets                → cognitive load = 5 + switching overhead ≈ 12
-10 projects: Learn 10 convention sets               → cognitive load = 10 + switching overhead ≈ 30
-10 projects: Learn 1 convention set (taxonomy)      → cognitive load = 1 + minor variations ≈ 2
-```
-
-The switching overhead comes from the fact that you can't keep all 5 layouts in your head simultaneously. Every time you move from Project A to Project C, you pay a **mental cache miss** — you have to re-learn where things are, what the naming pattern is, and how the pieces connect.
-
-With a taxonomy, you pay the learning cost once. After that, `<stack>/iac/composite/terraform/` is where the Terraform lives in every single project. Forever. No thinking required.
-
-### Where this hits hardest: incident response
-
-At 2 AM when production is down, cognitive load isn't an academic concern — it's the difference between a 5-minute fix and a 45-minute scramble:
-
-**With taxonomy (muscle memory):**
-```
-$ cd prima-delivery/docs-site/iac/prod/     # I know exactly where this is
-$ terragrunt output                          # Get the CloudFront distribution ID  
-$ aws cloudfront create-invalidation ...     # Fix it
-```
-
-**Without taxonomy (discovery mode):**
-```
-$ ls                                         # What's in this repo?
-$ ls infra/ deploy/ terraform/ cloud/        # Where's the infra code?
-$ find . -name "terragrunt.hcl"              # Let me search
-$ cat infra/terragrunt/prod/static-site/...  # Okay found it
-$ grep -r "cloudfront" infra/                # What's the output called?
-$ terragrunt output -json | jq ...           # Okay now I can fix it
-```
-
-The taxonomy approach takes 10 seconds of thinking. The naive approach takes 2-3 minutes of discovery — per incident, per project, compounded by stress and urgency.
-
-### The AI agent version of cognitive load
-
-AI agents don't get tired, but they do have an equivalent of cognitive load: **context window consumption**. Every time you start a new agent session against a project with no taxonomy:
-
-1. The agent must **explore** the codebase to understand its structure (~5-10 tool calls)
-2. The agent must **infer** conventions from what it finds (~2-3 analysis rounds)
-3. The agent must **remember** these conventions for the duration of the session
-4. If the session ends, all of that learned context is **lost**
-
-With a taxonomy, the agent reads `system.yaml`, `sub_system.yaml`, `stack.yaml`, and `.global/iac/context.hcl` — and knows everything about the project structure in 4 file reads. The taxonomy IS the compressed context that survives session boundaries.
-
-### The break-even curve
-
-The taxonomy tax is real but it's a **fixed cost** that amortizes to near-zero:
-
-```
-                    Cumulative cognitive overhead
-                    
-   Naive ──────────/
-   approach       /
-                 /
-                /                        The gap only grows
-               /
-              /─────────────────────────────────────── Taxonomy
-             /                                         approach
-            /
-   ────────┼─────────────────────────────────────────────→
-           1    2    3    5    10   15   20   Projects
-           
-   ↑ Taxonomy setup cost (one-time)
-```
-
-| Projects | Naive cumulative overhead | Taxonomy cumulative overhead |
-|----------|-------------------------|----------------------------|
-| 1 | Low | High (setup cost dominates) |
-| 2 | Medium | Medium (break-even zone) |
-| 3 | High | Low (amortization kicks in) |
-| 5 | Very high | Very low |
-| 10 | Unsustainable without documentation | Near-zero marginal cost |
-
-**The break-even point is around 2-3 projects.** After that, every new project with a taxonomy is nearly free from a cognitive load perspective, while every new project without one adds another unique snowflake to your mental model.
-
-### The team dimension
-
-Cognitive load compounds not just across projects but across **people**:
-
-```
-Cognitive load = (projects) × (people) × (convention sets to learn)
-
-Without taxonomy: 5 projects × 4 engineers × 5 unique conventions = 100 learning units
-With taxonomy:    5 projects × 4 engineers × 1 shared convention = 20 learning units
-```
-
-New team member onboarding:
-- **Without taxonomy:** "Here's Project A, it works like this. And Project B, it's different. And Project C, that one's weird because..." (~2 weeks to internalize)
-- **With taxonomy:** "Everything follows the Kata taxonomy. System → Subsystem → Stack → Layer. Terraform is always in `composite/terraform/`. Environments are in `.global/iac/`. Run `just plan`." (~2 days to internalize)
-
-### What this means for the Kata investment
-
-The taxonomy setup cost for prima-delivery was painful:
-- Hours of work across multiple sessions
-- 18 findings documented in katafix.md
-- 15 workarounds applied
-- ~200K tokens consumed
-
-But that cost was **paid once**. Now:
-- Every future stack in this repo inherits the structure for free
-- Every new repo in the prima system can `kata tax init` and get the same conventions
-- Every engineer (or AI agent) who touches any prima project navigates the same way
-- Every incident responder finds things in the same place
-- Every audit query (`kata tax tree`, `kata tax deps`) works across all projects
-
-The naive approach saved hours on this one project. The taxonomy approach saves **years** across an organization.
+### For the Kata team
+- The CLI's primary user will increasingly be AI agents, not humans
+- Optimize for **"agent reads taxonomy files and implements within conventions"** not **"agent runs kata commands"**
+- The most valuable output is the `.global/` directory and the taxonomy metadata files — these are what constrain agents
+- Consider generating a `.kata-context.json` that summarizes all conventions in one file an agent can consume in a single read
 
 ---
 
-## The Hidden Cost: What the Naive Agent Got for Free
+## Appendix A: What the Naive Agent Chose vs Taxonomy Convention
 
-The comparison above has a critical blind spot: **the naive agent's prompt was itself a compressed knowledge artifact.** That prompt didn't come from nowhere — it was written by a human who had just spent hours doing the Kata-guided implementation and knew exactly what to ask for.
+| Decision Point | Naive Agent Choice | Taxonomy Convention | Drift Risk |
+|---|---|---|---|
+| Top-level directory | `infra/` | `<stack>/iac/` | High — every agent picks differently |
+| Terraform module path | `infra/terraform/modules/static-site/` | `<stack>/iac/composite/terraform/` | High |
+| Terragrunt root | `infra/terragrunt/terragrunt.hcl` | `.global/iac/context.hcl` | Medium |
+| Environment config location | Inline in terragrunt.hcl | `.global/iac/<env>.yaml` | High |
+| State key pattern | `prima-delivery/${env}/${path}/...` | `${system}/${subsystem}/${stack}/${env}/...` | High |
+| S3 bucket name | `prima-delivery-docs-dev` | `${system}-${subsystem}-${stack}-${env}` | High |
+| AWS provider version | `>= 5.0, < 6.0` | `~> 6.0` (from template) | Medium |
+| Terraform version | `>= 1.5` | `~> 1.13` (from template) | Low |
+| Default tags | `ManagedBy, Project, Environment, Repository` | `system_name, sub_system_name, stack_name, environment, version, iac` | Very high |
+| Workflow config values | `${{ vars.* }}` (GitHub vars) | Environment variables in workflow YAML | Low |
+| Owner metadata | None | `stack.yaml` → owners field | Critical |
+| Dependency metadata | None | `dependsOn` in taxonomy nodes | Critical |
+| Environment list | Implicit (directory exists = environment exists) | Explicit in `layer.yaml` and `environments.yaml` | Medium |
 
-### What the prompt pre-decided for the agent
-
-The naive agent received these decisions gift-wrapped in its instructions:
-
-| Decision | Who actually made it | Cost to figure out |
-|----------|---------------------|-------------------|
-| "Use S3 + CloudFront + OAC" | Human (from experience) | Research AWS static hosting options, evaluate OAC vs OAI vs public bucket |
-| "Use ACM with DNS validation via Route53" | Human | Research certificate options, understand CloudFront requires us-east-1 |
-| "Use GitHub OIDC for keyless CI/CD" | Human | Research IAM auth patterns, understand OIDC trust policies |
-| "Use Terragrunt wrapping Terraform" | Human | Evaluate Terragrunt vs Terraform workspaces vs CDK vs Pulumi |
-| "Two environments: dev and prod" | Human (business requirement) | Stakeholder conversations |
-| "Dev = push to main, Prod = release publish" | Human (release strategy) | Design deployment strategy, evaluate options |
-| "Commit SHA banner on dev" | Human (UX requirement) | Determine what dev differentiation is needed |
-| "State bucket name and DynamoDB table" | Human (existing infra knowledge) | Know your AWS account, find existing resources |
-| "Hosted zones already exist" | Human (existing infra knowledge) | Audit existing Route53 configuration |
-| "Use npm for docs-site" | Human (project knowledge) | Know the existing build system |
-| "`DOCUSAURUS_URL` env var pattern" | Human (Docusaurus knowledge) | Read Docusaurus docs on environment-aware config |
-
-**Without this prompt, a naive agent would need to:**
-
-1. **Discover the project** — read package.json, docusaurus.config.ts, existing workflows, understand it's a Docusaurus site
-2. **Research hosting options** — evaluate GitHub Pages vs S3+CloudFront vs Vercel vs Netlify vs Amplify
-3. **Ask clarifying questions** — "What domain?", "What AWS account?", "State bucket?", "Environments?", "Deploy trigger?"
-4. **Make IaC tool decisions** — Terraform vs CDK vs CloudFormation? Terragrunt vs workspaces?
-5. **Design the architecture** — what resources? What auth pattern? How to handle certificates?
-6. **Iterate on mistakes** — wrong assumptions about existing infrastructure, missing resources, auth failures
-
-This discovery and decision-making phase is exactly what Kata aims to eliminate by codifying decisions into the taxonomy structure.
-
-### What Kata codifies that the prompt had to spell out
-
-The Kata taxonomy, when populated, answers all of these questions via machine-readable metadata:
-
-| Question | Kata answer | Naive agent needs... |
-|----------|-------------|---------------------|
-| What system is this? | `system.yaml` → `prima` | Human to say "this is the prima system" |
-| What's the subsystem? | `sub_system.yaml` → `delivery` | Human to explain repo purpose |
-| What environments exist? | `environments.yaml` → `dev, prod` | Human to specify environments |
-| What IaC tool? | `layer.yaml` → `layerType: iac-terragrunt` | Human to choose Terragrunt |
-| Where's the state bucket? | `.global/iac/context.hcl` → hardcoded | Human to provide bucket name |
-| What region? | `.global/iac/dev.yaml` → `us-east-1` | Human to specify |
-| What domain? | `.global/iac/dev.yaml` → `dev.alvisprima.com` | Human to specify |
-| Who owns this? | `stack.yaml` → `aaron.west@esimplicity.com` | Human to specify or leave ambiguous |
-| What tags to apply? | `context.hcl` → generates system/subsystem/stack/env/version tags | Human to define tagging strategy |
-| What directory convention? | Plugin templates → `composite/terraform/` | Agent invents its own (or human specifies) |
-
-### The real cost comparison
-
-A fairer comparison would measure the **total human + agent effort** from "I want to deploy this site" to "working infrastructure code":
-
-| Phase | Kata-Guided | Naive (honest accounting) |
-|-------|-------------|--------------------------|
-| **Human: Define requirements** | Minimal — Kata structure prompts the questions | High — must write a detailed prompt covering architecture, auth, domains, state, environments, build system |
-| **Human: Architectural decisions** | Partially codified in Kata layer types and templates | Must be made upfront and encoded in prompt |
-| **Human: Discover existing infra** | Still manual (state bucket, hosted zones) | Still manual (same) |
-| **Agent: Scaffold structure** | `kata tax init` + plugins (~5 min, but 15 workarounds) | Agent invents structure (~2 min, but no organizational alignment) |
-| **Agent: Write infrastructure code** | Manual, guided by plugin templates | Manual, guided by general knowledge |
-| **Agent: Write CI/CD** | Manual (templates are placeholders) | Manual (same) |
-| **Human: Review and correct** | 15 workarounds documented | Review agent output for correctness |
-| **Total human time** | ~1 hour of Kata wrestling + ~30 min review | ~30 min writing prompt + ~15 min review |
-| **Reusability for next stack** | High — taxonomy, context.hcl, environments all reusable | Low — must write another detailed prompt |
-
-### The compounding advantage
-
-The key insight is **amortization**. For a single stack (docs-site), the naive approach wins hands down. But consider what happens when you add a second stack (e.g., an API service):
-
-**Kata-guided, second stack:**
-- `kata tax create stack api-service --parent delivery`
-- `kata tax create layer iac --parent api-service --layer-type iac-terragrunt`
-- Copy and modify Terraform from docs-site
-- Environments, state backend, provider config, tags — all inherited from `.global/iac/context.hcl`
-- Agent prompt: "Add an API service stack following the existing docs-site pattern"
-
-**Naive, second stack:**
-- Write another detailed prompt specifying all architectural decisions again
-- Agent may or may not follow the same conventions as the first stack
-- Different directory structure? Different tagging? Different state key pattern?
-- No organizational metadata linking the two stacks
-- If a different human (or agent session) does it, drift is almost guaranteed
-
-**Kata-guided, tenth stack:**
-- Same 3 commands + modify Terraform
-- Everything else inherited
-- Organizational consistency guaranteed
-
-**Naive, tenth stack:**
-- Same effort as the first time, every time
-- Convention drift compounds
-- No machine-readable way to audit consistency across stacks
-
-### What this means for Kata's value proposition
-
-Kata's value is NOT "it makes the first stack faster" — it demonstrably doesn't. Kata's value is:
-
-1. **Decision codification** — architectural decisions made once, applied everywhere
-2. **Convention durability** — the taxonomy survives team turnover, agent session boundaries, and memory loss
-3. **Amortized cost** — the 121 scaffolded files and 15 workarounds are a one-time cost; every subsequent stack benefits
-4. **Guardrails for the uninformed** — a new team member (or a new agent session) can't accidentally deviate from conventions because the taxonomy structure constrains them
-5. **Organizational observability** — `kata tax tree` and `kata tax deps` answer questions that are unanswerable from a naive file tree
-
-The naive approach is a **local optimum** — best for this one stack, this one time, with this one knowledgeable human writing the prompt. Kata is a **global optimum** — worse for any single stack, but better across an organization's entire infrastructure portfolio.
-
-### The prompt engineering tax
-
-There's a hidden "prompt engineering tax" in the naive approach that scales linearly:
-
-```
-Naive cost per stack  = (human prompt writing) + (agent execution) + (human review)
-Kata cost per stack   = (kata commands) + (agent execution) + (human review)
-Kata one-time cost    = (initial setup) + (workaround documentation) + (plugin installation)
-
-Break-even point ≈ 2-3 stacks (where Kata's reusable context offsets its setup cost)
-```
-
-For an organization with 10+ stacks across multiple repos, the prompt engineering tax of the naive approach becomes the dominant cost — and it's the cost that's invisible because it looks like "the human just knows what to ask for."
-
-### The Just recipes, CI/CD templates, and "all that scaffolding"
-
-The 121 plugin files that looked like bloat in the per-file comparison actually represent:
-
-| Plugin | Files | What it provides |
-|--------|-------|-----------------|
-| **just** | ~30 | Task runner recipes for every layer type — `just plan`, `just apply`, `just destroy`, `just lint`, Docker build/push, K8s deploy, ECR/GHCR push, security scanning (trivy, semgrep, kubesec) |
-| **layer-types** | ~40 | Reference implementations for iac-terragrunt, app-docker, k8s-argocd, k8s-kustomize — complete with Dockerfiles, Kustomize overlays, ArgoCD application specs |
-| **cicd** | ~15 | Jinja2 workflow templates for GitHub Actions — dev/staging/prod pipeline stages, job definitions per layer type |
-| **layer-actions** | ~5 | Action metadata linking layer types to tool configurations |
-
-A naive agent implementing all of this from scratch would need to:
-- Design a Just-based task runner with recipes for Terraform plan/apply/destroy
-- Write Docker build/push/scan recipes
-- Write Kubernetes deploy/lint/validate recipes  
-- Write security scanning integration (trivy, semgrep, kubesec, polaris, kube-linter)
-- Write CI/CD pipeline templates for 3 environments × 4 layer types
-- Write environment utility scripts
-
-**Estimated naive agent effort for the full plugin set:** 3-5 separate agent sessions, ~100K+ additional tokens, significant domain expertise in K8s, Docker, and security tooling. The naive agent we ran only implemented the docs-site — it didn't touch any of this because we didn't ask for it. But the Kata plugins delivered it as a side effect of initialization.
-
----
-
-## Appendix: Directory Structure Comparison
+## Appendix B: Directory Structure Comparison
 
 ### Kata-Guided Structure
 ```
 prima-delivery/
-├── system.yaml                          # Kata: system node
-├── sub_system.yaml                      # Kata: subsystem node
-├── version.yaml                         # Kata: version tracking
-├── Justfile                             # Kata: task runner (from plugin)
-├── .taxignore                           # Kata: lint ignore
+├── system.yaml                          # "What system is this?"
+├── sub_system.yaml                      # "What subsystem?"  
+├── version.yaml                         # "What version?"
+├── Justfile                             # "How do I operate this?"
 ├── .global/
 │   ├── iac/
-│   │   ├── context.hcl                  # Terragrunt shared context
-│   │   ├── dev.yaml                     # Dev environment config
-│   │   └── prod.yaml                    # Prod environment config
-│   └── taxonomy/                        # ~100 plugin files
-│       ├── environments.yaml
-│       ├── taxonomy.lock
-│       ├── templates/                   # 9 node templates
-│       ├── layer_types/                 # 4 layer type scaffolds
-│       ├── actions/                     # Just recipes, tools
-│       └── cicd/                        # Workflow Jinja2 templates
+│   │   ├── context.hcl                  # "How is state/provider/tags configured?"
+│   │   ├── dev.yaml                     # "What are dev's parameters?"
+│   │   └── prod.yaml                    # "What are prod's parameters?"
+│   └── taxonomy/                        # Convention library (~100 files)
+│       ├── environments.yaml            # "What environments exist?"
+│       ├── layer_types/                 # "What infrastructure patterns are available?"
+│       ├── actions/                     # "How do I plan/apply/destroy?"
+│       └── cicd/                        # "How do pipelines work?"
 ├── docs-site/
-│   ├── stack.yaml                       # Kata: stack node
-│   ├── iac/
-│   │   ├── layer.yaml                   # Kata: layer node
-│   │   ├── composite/terraform/         # Terraform module
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   └── outputs.tf
-│   │   ├── dev/
-│   │   │   ├── environment.yaml
-│   │   │   └── terragrunt.hcl
-│   │   └── prod/
-│   │       ├── environment.yaml
-│   │       └── terragrunt.hcl
-│   └── [docusaurus files...]
-├── prima/prima-agents/
-│   └── library.yaml                     # Kata: library node
+│   ├── stack.yaml                       # "Who owns this? What envs? What depends on it?"
+│   └── iac/
+│       ├── layer.yaml                   # "What layer type? What environments?"
+│       ├── composite/terraform/         # The actual infrastructure code
+│       ├── dev/terragrunt.hcl           # Dev environment binding
+│       └── prod/terragrunt.hcl          # Prod environment binding
 └── .github/workflows/
     ├── deploy-docs-dev.yml
     └── deploy-docs-prod.yml
@@ -536,27 +490,18 @@ prima-delivery/
 prima-delivery/
 ├── infra/
 │   ├── terraform/modules/
-│   │   ├── static-site/                 # S3 + CloudFront + ACM + Route53
-│   │   │   ├── main.tf
-│   │   │   ├── variables.tf
-│   │   │   ├── outputs.tf
-│   │   │   └── versions.tf
-│   │   └── github-oidc/                 # OIDC provider + IAM deploy role
-│   │       ├── main.tf
-│   │       ├── variables.tf
-│   │       ├── outputs.tf
-│   │       └── versions.tf
+│   │   ├── static-site/                 # Infrastructure code (good)
+│   │   └── github-oidc/                 # Separated module (good)
 │   └── terragrunt/
-│       ├── terragrunt.hcl               # Root: state, provider, tags
-│       ├── dev/
-│       │   ├── static-site/terragrunt.hcl
-│       │   └── github-oidc/terragrunt.hcl
-│       └── prod/
-│           ├── static-site/terragrunt.hcl
-│           └── github-oidc/terragrunt.hcl
+│       ├── terragrunt.hcl               # Root config (good)
+│       ├── dev/                          # Dev bindings (good)
+│       └── prod/                         # Prod bindings (good)
 └── .github/workflows/
     ├── deploy-docs-dev.yml
     └── deploy-docs-prod.yml
+
+# Missing: owner metadata, dependency map, environment list, version tracking,
+# operational recipes, convention library, organizational context
 ```
 
-**File count:** 141 (Kata) vs 17 (Naive). Of the 141 Kata files, ~121 are scaffolded plugin files not directly used by this project.
+The naive structure answers "how does this infrastructure work?" The taxonomy structure answers that AND "how does this infrastructure relate to everything else in the organization?"
