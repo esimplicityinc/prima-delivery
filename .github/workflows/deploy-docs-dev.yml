@@ -1,0 +1,90 @@
+name: Deploy Docs (Dev)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs-site/**"
+      - ".opencode/**"
+      - "docs/**"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: deploy-docs-dev
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: us-east-1
+  S3_BUCKET: prima-delivery-docs-dev
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.DEV_CLOUDFRONT_DISTRIBUTION_ID }}
+  DEPLOY_ROLE_ARN: ${{ vars.DEV_DEPLOY_ROLE_ARN }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: docs-site/package-lock.json
+
+      - name: Install dependencies
+        working-directory: docs-site
+        run: npm ci
+
+      - name: Build site
+        working-directory: docs-site
+        env:
+          DOCUSAURUS_URL: https://dev.alvisprima.com
+          DOCUSAURUS_BASE_URL: /
+          COMMIT_SHA: ${{ github.sha }}
+        run: npm run build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Sync with smart cache headers:
+      # - HTML files: no-cache (always revalidate)
+      # - Hashed assets (js/css in /assets/): long-lived cache
+      # - Everything else: moderate cache
+      - name: Sync to S3
+        working-directory: docs-site
+        run: |
+          # HTML files — no caching so users always get the latest
+          aws s3 sync build/ "s3://${S3_BUCKET}" \
+            --delete \
+            --exclude "*" \
+            --include "*.html" \
+            --cache-control "public, max-age=0, must-revalidate"
+
+          # Hashed assets (Docusaurus puts them in /assets/) — cache aggressively
+          aws s3 sync build/ "s3://${S3_BUCKET}" \
+            --exclude "*" \
+            --include "assets/*" \
+            --cache-control "public, max-age=31536000, immutable"
+
+          # Everything else (images, fonts, etc.) — moderate cache
+          aws s3 sync build/ "s3://${S3_BUCKET}" \
+            --exclude "*.html" \
+            --exclude "assets/*" \
+            --cache-control "public, max-age=86400"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
+            --paths "/*"

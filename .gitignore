@@ -22,3 +22,19 @@ venv
 node_modules
 .sass-cache
 .claude
+
+# Terraform / Terragrunt
+**/.terraform/
+**/.terragrunt-cache/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+backend.tf
+provider.tf
+crash.log
+crash.*.log

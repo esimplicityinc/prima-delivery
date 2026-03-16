@@ -2,6 +2,23 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+// Environment-aware configuration via env vars set in CI.
+// Falls back to GitHub Pages defaults for local dev / existing workflow.
+const siteUrl = process.env.DOCUSAURUS_URL || 'https://esimplicityinc.github.io';
+const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/prima-delivery/';
+
+// Dev-only announcement banner — only shown when COMMIT_SHA is set (dev CI builds)
+const commitSha = process.env.COMMIT_SHA || '';
+const announcementBar = commitSha
+  ? {
+      id: 'dev_banner',
+      content: `DEV BUILD — commit <a href="https://github.com/esimplicityinc/prima-delivery/commit/${commitSha}" target="_blank" rel="noopener noreferrer"><code>${commitSha.slice(0, 7)}</code></a>`,
+      backgroundColor: '#e3a008',
+      textColor: '#1a1a2e',
+      isCloseable: false,
+    }
+  : undefined;
+
 const config: Config = {
   title: 'Prima Delivery',
   tagline: 'Internal AI Development Toolkit - 108 Agents, 140 Skills, 72 Plugins',
@@ -11,8 +28,8 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://esimplicityinc.github.io',
-  baseUrl: '/prima-delivery/',
+  url: siteUrl,
+  baseUrl,
 
   organizationName: 'esimplicityinc',
   projectName: 'prima-delivery',
@@ -50,6 +67,7 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/prima-delivery-social.png',
+    ...(announcementBar ? { announcementBar } : {}),
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
