@@ -202,6 +202,149 @@ The Kata taxonomy was implemented primarily to **test and document the CLI** (se
 
 ---
 
+## The Hidden Cost: What the Naive Agent Got for Free
+
+The comparison above has a critical blind spot: **the naive agent's prompt was itself a compressed knowledge artifact.** That prompt didn't come from nowhere — it was written by a human who had just spent hours doing the Kata-guided implementation and knew exactly what to ask for.
+
+### What the prompt pre-decided for the agent
+
+The naive agent received these decisions gift-wrapped in its instructions:
+
+| Decision | Who actually made it | Cost to figure out |
+|----------|---------------------|-------------------|
+| "Use S3 + CloudFront + OAC" | Human (from experience) | Research AWS static hosting options, evaluate OAC vs OAI vs public bucket |
+| "Use ACM with DNS validation via Route53" | Human | Research certificate options, understand CloudFront requires us-east-1 |
+| "Use GitHub OIDC for keyless CI/CD" | Human | Research IAM auth patterns, understand OIDC trust policies |
+| "Use Terragrunt wrapping Terraform" | Human | Evaluate Terragrunt vs Terraform workspaces vs CDK vs Pulumi |
+| "Two environments: dev and prod" | Human (business requirement) | Stakeholder conversations |
+| "Dev = push to main, Prod = release publish" | Human (release strategy) | Design deployment strategy, evaluate options |
+| "Commit SHA banner on dev" | Human (UX requirement) | Determine what dev differentiation is needed |
+| "State bucket name and DynamoDB table" | Human (existing infra knowledge) | Know your AWS account, find existing resources |
+| "Hosted zones already exist" | Human (existing infra knowledge) | Audit existing Route53 configuration |
+| "Use npm for docs-site" | Human (project knowledge) | Know the existing build system |
+| "`DOCUSAURUS_URL` env var pattern" | Human (Docusaurus knowledge) | Read Docusaurus docs on environment-aware config |
+
+**Without this prompt, a naive agent would need to:**
+
+1. **Discover the project** — read package.json, docusaurus.config.ts, existing workflows, understand it's a Docusaurus site
+2. **Research hosting options** — evaluate GitHub Pages vs S3+CloudFront vs Vercel vs Netlify vs Amplify
+3. **Ask clarifying questions** — "What domain?", "What AWS account?", "State bucket?", "Environments?", "Deploy trigger?"
+4. **Make IaC tool decisions** — Terraform vs CDK vs CloudFormation? Terragrunt vs workspaces?
+5. **Design the architecture** — what resources? What auth pattern? How to handle certificates?
+6. **Iterate on mistakes** — wrong assumptions about existing infrastructure, missing resources, auth failures
+
+This discovery and decision-making phase is exactly what Kata aims to eliminate by codifying decisions into the taxonomy structure.
+
+### What Kata codifies that the prompt had to spell out
+
+The Kata taxonomy, when populated, answers all of these questions via machine-readable metadata:
+
+| Question | Kata answer | Naive agent needs... |
+|----------|-------------|---------------------|
+| What system is this? | `system.yaml` → `prima` | Human to say "this is the prima system" |
+| What's the subsystem? | `sub_system.yaml` → `delivery` | Human to explain repo purpose |
+| What environments exist? | `environments.yaml` → `dev, prod` | Human to specify environments |
+| What IaC tool? | `layer.yaml` → `layerType: iac-terragrunt` | Human to choose Terragrunt |
+| Where's the state bucket? | `.global/iac/context.hcl` → hardcoded | Human to provide bucket name |
+| What region? | `.global/iac/dev.yaml` → `us-east-1` | Human to specify |
+| What domain? | `.global/iac/dev.yaml` → `dev.alvisprima.com` | Human to specify |
+| Who owns this? | `stack.yaml` → `aaron.west@esimplicity.com` | Human to specify or leave ambiguous |
+| What tags to apply? | `context.hcl` → generates system/subsystem/stack/env/version tags | Human to define tagging strategy |
+| What directory convention? | Plugin templates → `composite/terraform/` | Agent invents its own (or human specifies) |
+
+### The real cost comparison
+
+A fairer comparison would measure the **total human + agent effort** from "I want to deploy this site" to "working infrastructure code":
+
+| Phase | Kata-Guided | Naive (honest accounting) |
+|-------|-------------|--------------------------|
+| **Human: Define requirements** | Minimal — Kata structure prompts the questions | High — must write a detailed prompt covering architecture, auth, domains, state, environments, build system |
+| **Human: Architectural decisions** | Partially codified in Kata layer types and templates | Must be made upfront and encoded in prompt |
+| **Human: Discover existing infra** | Still manual (state bucket, hosted zones) | Still manual (same) |
+| **Agent: Scaffold structure** | `kata tax init` + plugins (~5 min, but 15 workarounds) | Agent invents structure (~2 min, but no organizational alignment) |
+| **Agent: Write infrastructure code** | Manual, guided by plugin templates | Manual, guided by general knowledge |
+| **Agent: Write CI/CD** | Manual (templates are placeholders) | Manual (same) |
+| **Human: Review and correct** | 15 workarounds documented | Review agent output for correctness |
+| **Total human time** | ~1 hour of Kata wrestling + ~30 min review | ~30 min writing prompt + ~15 min review |
+| **Reusability for next stack** | High — taxonomy, context.hcl, environments all reusable | Low — must write another detailed prompt |
+
+### The compounding advantage
+
+The key insight is **amortization**. For a single stack (docs-site), the naive approach wins hands down. But consider what happens when you add a second stack (e.g., an API service):
+
+**Kata-guided, second stack:**
+- `kata tax create stack api-service --parent delivery`
+- `kata tax create layer iac --parent api-service --layer-type iac-terragrunt`
+- Copy and modify Terraform from docs-site
+- Environments, state backend, provider config, tags — all inherited from `.global/iac/context.hcl`
+- Agent prompt: "Add an API service stack following the existing docs-site pattern"
+
+**Naive, second stack:**
+- Write another detailed prompt specifying all architectural decisions again
+- Agent may or may not follow the same conventions as the first stack
+- Different directory structure? Different tagging? Different state key pattern?
+- No organizational metadata linking the two stacks
+- If a different human (or agent session) does it, drift is almost guaranteed
+
+**Kata-guided, tenth stack:**
+- Same 3 commands + modify Terraform
+- Everything else inherited
+- Organizational consistency guaranteed
+
+**Naive, tenth stack:**
+- Same effort as the first time, every time
+- Convention drift compounds
+- No machine-readable way to audit consistency across stacks
+
+### What this means for Kata's value proposition
+
+Kata's value is NOT "it makes the first stack faster" — it demonstrably doesn't. Kata's value is:
+
+1. **Decision codification** — architectural decisions made once, applied everywhere
+2. **Convention durability** — the taxonomy survives team turnover, agent session boundaries, and memory loss
+3. **Amortized cost** — the 121 scaffolded files and 15 workarounds are a one-time cost; every subsequent stack benefits
+4. **Guardrails for the uninformed** — a new team member (or a new agent session) can't accidentally deviate from conventions because the taxonomy structure constrains them
+5. **Organizational observability** — `kata tax tree` and `kata tax deps` answer questions that are unanswerable from a naive file tree
+
+The naive approach is a **local optimum** — best for this one stack, this one time, with this one knowledgeable human writing the prompt. Kata is a **global optimum** — worse for any single stack, but better across an organization's entire infrastructure portfolio.
+
+### The prompt engineering tax
+
+There's a hidden "prompt engineering tax" in the naive approach that scales linearly:
+
+```
+Naive cost per stack  = (human prompt writing) + (agent execution) + (human review)
+Kata cost per stack   = (kata commands) + (agent execution) + (human review)
+Kata one-time cost    = (initial setup) + (workaround documentation) + (plugin installation)
+
+Break-even point ≈ 2-3 stacks (where Kata's reusable context offsets its setup cost)
+```
+
+For an organization with 10+ stacks across multiple repos, the prompt engineering tax of the naive approach becomes the dominant cost — and it's the cost that's invisible because it looks like "the human just knows what to ask for."
+
+### The Just recipes, CI/CD templates, and "all that scaffolding"
+
+The 121 plugin files that looked like bloat in the per-file comparison actually represent:
+
+| Plugin | Files | What it provides |
+|--------|-------|-----------------|
+| **just** | ~30 | Task runner recipes for every layer type — `just plan`, `just apply`, `just destroy`, `just lint`, Docker build/push, K8s deploy, ECR/GHCR push, security scanning (trivy, semgrep, kubesec) |
+| **layer-types** | ~40 | Reference implementations for iac-terragrunt, app-docker, k8s-argocd, k8s-kustomize — complete with Dockerfiles, Kustomize overlays, ArgoCD application specs |
+| **cicd** | ~15 | Jinja2 workflow templates for GitHub Actions — dev/staging/prod pipeline stages, job definitions per layer type |
+| **layer-actions** | ~5 | Action metadata linking layer types to tool configurations |
+
+A naive agent implementing all of this from scratch would need to:
+- Design a Just-based task runner with recipes for Terraform plan/apply/destroy
+- Write Docker build/push/scan recipes
+- Write Kubernetes deploy/lint/validate recipes  
+- Write security scanning integration (trivy, semgrep, kubesec, polaris, kube-linter)
+- Write CI/CD pipeline templates for 3 environments × 4 layer types
+- Write environment utility scripts
+
+**Estimated naive agent effort for the full plugin set:** 3-5 separate agent sessions, ~100K+ additional tokens, significant domain expertise in K8s, Docker, and security tooling. The naive agent we ran only implemented the docs-site — it didn't touch any of this because we didn't ask for it. But the Kata plugins delivered it as a side effect of initialization.
+
+---
+
 ## Appendix: Directory Structure Comparison
 
 ### Kata-Guided Structure
