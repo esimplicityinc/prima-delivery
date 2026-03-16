@@ -202,6 +202,148 @@ The Kata taxonomy was implemented primarily to **test and document the CLI** (se
 
 ---
 
+## Cognitive Load: The Real Tax You Pay Without Taxonomy
+
+The token costs and file counts above are measurable. What's harder to measure — but far more expensive over time — is **cognitive load**: the mental effort required to understand, navigate, and operate infrastructure across projects.
+
+### The cognitive load of a one-off project
+
+When an agent (or human) builds infrastructure as a one-off, every project is a unique snowflake. Consider what happens when you need to operate across 5 projects, each built by a different agent session or team member without shared conventions:
+
+```
+Project A:  infra/terraform/modules/static-site/          (agent chose "infra/")
+Project B:  terraform/environments/dev/main.tf             (agent chose "terraform/")
+Project C:  deploy/aws/cloudfront.tf                       (agent chose "deploy/")
+Project D:  cloud/terragrunt/prod/site/terragrunt.hcl      (agent chose "cloud/")
+Project E:  iac/live/dev/docs/terragrunt.hcl               (agent chose "iac/")
+```
+
+Each project works. Each was a "good decision" in isolation. But the human who has to operate all five pays a **context-switching tax** on every interaction:
+
+| Operation | With taxonomy | Without taxonomy |
+|-----------|--------------|-----------------|
+| "Where's the Terraform for project C?" | `<stack>/iac/composite/terraform/` — always | Read the README, grep around, figure out this project's layout |
+| "What environment configs exist?" | `.global/iac/*.yaml` — always | Could be `envs/`, `environments/`, `config/`, inline in terragrunt.hcl, or GitHub vars |
+| "How do I run a plan?" | `just plan` — always (from Just plugin) | `cd` to... somewhere... and run `terragrunt plan`? Or `terraform plan`? Which directory? |
+| "What owns this resource?" | `stack.yaml` → owner field | Git blame? Hope there's a README? Slack someone? |
+| "What depends on what?" | `kata tax deps` | Read every Terragrunt `dependency` block across every project |
+| "Is this deployed to prod?" | `layer.yaml` → environments list | Check the workflow files? Check AWS console? |
+
+### The cognitive load multiplier
+
+Cognitive load doesn't just add — it **multiplies**. Each new convention to remember compounds with every other one:
+
+```
+1 project:   Learn 1 convention set                → cognitive load = 1
+3 projects:  Learn 3 convention sets                → cognitive load = 3 + switching overhead ≈ 5
+5 projects:  Learn 5 convention sets                → cognitive load = 5 + switching overhead ≈ 12
+10 projects: Learn 10 convention sets               → cognitive load = 10 + switching overhead ≈ 30
+10 projects: Learn 1 convention set (taxonomy)      → cognitive load = 1 + minor variations ≈ 2
+```
+
+The switching overhead comes from the fact that you can't keep all 5 layouts in your head simultaneously. Every time you move from Project A to Project C, you pay a **mental cache miss** — you have to re-learn where things are, what the naming pattern is, and how the pieces connect.
+
+With a taxonomy, you pay the learning cost once. After that, `<stack>/iac/composite/terraform/` is where the Terraform lives in every single project. Forever. No thinking required.
+
+### Where this hits hardest: incident response
+
+At 2 AM when production is down, cognitive load isn't an academic concern — it's the difference between a 5-minute fix and a 45-minute scramble:
+
+**With taxonomy (muscle memory):**
+```
+$ cd prima-delivery/docs-site/iac/prod/     # I know exactly where this is
+$ terragrunt output                          # Get the CloudFront distribution ID  
+$ aws cloudfront create-invalidation ...     # Fix it
+```
+
+**Without taxonomy (discovery mode):**
+```
+$ ls                                         # What's in this repo?
+$ ls infra/ deploy/ terraform/ cloud/        # Where's the infra code?
+$ find . -name "terragrunt.hcl"              # Let me search
+$ cat infra/terragrunt/prod/static-site/...  # Okay found it
+$ grep -r "cloudfront" infra/                # What's the output called?
+$ terragrunt output -json | jq ...           # Okay now I can fix it
+```
+
+The taxonomy approach takes 10 seconds of thinking. The naive approach takes 2-3 minutes of discovery — per incident, per project, compounded by stress and urgency.
+
+### The AI agent version of cognitive load
+
+AI agents don't get tired, but they do have an equivalent of cognitive load: **context window consumption**. Every time you start a new agent session against a project with no taxonomy:
+
+1. The agent must **explore** the codebase to understand its structure (~5-10 tool calls)
+2. The agent must **infer** conventions from what it finds (~2-3 analysis rounds)
+3. The agent must **remember** these conventions for the duration of the session
+4. If the session ends, all of that learned context is **lost**
+
+With a taxonomy, the agent reads `system.yaml`, `sub_system.yaml`, `stack.yaml`, and `.global/iac/context.hcl` — and knows everything about the project structure in 4 file reads. The taxonomy IS the compressed context that survives session boundaries.
+
+### The break-even curve
+
+The taxonomy tax is real but it's a **fixed cost** that amortizes to near-zero:
+
+```
+                    Cumulative cognitive overhead
+                    
+   Naive ──────────/
+   approach       /
+                 /
+                /                        The gap only grows
+               /
+              /─────────────────────────────────────── Taxonomy
+             /                                         approach
+            /
+   ────────┼─────────────────────────────────────────────→
+           1    2    3    5    10   15   20   Projects
+           
+   ↑ Taxonomy setup cost (one-time)
+```
+
+| Projects | Naive cumulative overhead | Taxonomy cumulative overhead |
+|----------|-------------------------|----------------------------|
+| 1 | Low | High (setup cost dominates) |
+| 2 | Medium | Medium (break-even zone) |
+| 3 | High | Low (amortization kicks in) |
+| 5 | Very high | Very low |
+| 10 | Unsustainable without documentation | Near-zero marginal cost |
+
+**The break-even point is around 2-3 projects.** After that, every new project with a taxonomy is nearly free from a cognitive load perspective, while every new project without one adds another unique snowflake to your mental model.
+
+### The team dimension
+
+Cognitive load compounds not just across projects but across **people**:
+
+```
+Cognitive load = (projects) × (people) × (convention sets to learn)
+
+Without taxonomy: 5 projects × 4 engineers × 5 unique conventions = 100 learning units
+With taxonomy:    5 projects × 4 engineers × 1 shared convention = 20 learning units
+```
+
+New team member onboarding:
+- **Without taxonomy:** "Here's Project A, it works like this. And Project B, it's different. And Project C, that one's weird because..." (~2 weeks to internalize)
+- **With taxonomy:** "Everything follows the Kata taxonomy. System → Subsystem → Stack → Layer. Terraform is always in `composite/terraform/`. Environments are in `.global/iac/`. Run `just plan`." (~2 days to internalize)
+
+### What this means for the Kata investment
+
+The taxonomy setup cost for prima-delivery was painful:
+- Hours of work across multiple sessions
+- 18 findings documented in katafix.md
+- 15 workarounds applied
+- ~200K tokens consumed
+
+But that cost was **paid once**. Now:
+- Every future stack in this repo inherits the structure for free
+- Every new repo in the prima system can `kata tax init` and get the same conventions
+- Every engineer (or AI agent) who touches any prima project navigates the same way
+- Every incident responder finds things in the same place
+- Every audit query (`kata tax tree`, `kata tax deps`) works across all projects
+
+The naive approach saved hours on this one project. The taxonomy approach saves **years** across an organization.
+
+---
+
 ## The Hidden Cost: What the Naive Agent Got for Free
 
 The comparison above has a critical blind spot: **the naive agent's prompt was itself a compressed knowledge artifact.** That prompt didn't come from nowhere — it was written by a human who had just spent hours doing the Kata-guided implementation and knew exactly what to ask for.
