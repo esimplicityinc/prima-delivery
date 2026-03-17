@@ -21,17 +21,16 @@ concurrency:
 
 env:
   AWS_REGION: us-east-1
-  # These values come from Terraform outputs — update after first `terragrunt apply`
   S3_BUCKET: prima-delivery-docs-site-dev
-  CLOUDFRONT_DISTRIBUTION_ID: PLACEHOLDER
-  AWS_ROLE_ARN: PLACEHOLDER
+  CLOUDFRONT_DISTRIBUTION_ID: EXE2QYNRPB2ID
+  AWS_ROLE_ARN: arn:aws:iam::591639515130:role/prima-docs-site-dev-gh-deploy
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment:
       name: dev
-      url: https://dev.alvisprima.com
+      url: https://delivery.dev.alvisprima.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,7 +53,7 @@ jobs:
       - name: Build website
         working-directory: docs-site
         env:
-          DOCUSAURUS_URL: https://dev.alvisprima.com
+          DOCUSAURUS_URL: https://delivery.dev.alvisprima.com
           DOCUSAURUS_BASE_URL: /
           DEPLOY_ENV: dev
           COMMIT_SHA: ${{ github.sha }}
@@ -69,18 +68,20 @@ jobs:
 
       - name: Deploy to S3
         run: |
+          # Immutable assets (JS, CSS, images) get long cache
           aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
-            --exclude "index.html" \
-            --exclude "*.json" \
-            --exclude "sitemap.xml"
-          # HTML and data files get short cache
+            --exclude "*.html" \
+            --exclude "sitemap.xml" \
+            --exclude "robots.txt"
+          # HTML and metadata files get no-cache for instant updates
           aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
-            --cache-control "public, max-age=60" \
-            --include "index.html" \
-            --include "*.json" \
-            --include "sitemap.xml"
+            --cache-control "public, max-age=0, must-revalidate" \
+            --include "*.html" \
+            --include "sitemap.xml" \
+            --include "robots.txt" \
+            --size-only
 
       - name: Invalidate CloudFront cache
         run: |

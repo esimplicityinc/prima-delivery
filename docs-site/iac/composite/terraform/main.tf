@@ -1,8 +1,10 @@
 ###############################################################################
 # Prima Delivery — Docs Site Infrastructure
 #
-# Creates S3 + CloudFront + ACM + Route53 for static Docusaurus hosting,
-# plus a GitHub OIDC provider and deploy role for CI/CD.
+# Creates S3 + CloudFront + Route53 for static Docusaurus hosting,
+# plus a GitHub OIDC deploy role for CI/CD.
+#
+# Uses existing wildcard ACM certificate (referenced via SSM in env config).
 ###############################################################################
 
 # ---------------------------------------------------------------------------
@@ -10,11 +12,6 @@
 # ---------------------------------------------------------------------------
 
 data "aws_caller_identity" "current" {}
-
-data "aws_route53_zone" "main" {
-  name         = var.domain_name
-  private_zone = false
-}
 
 # ---------------------------------------------------------------------------
 # S3 — static site bucket
@@ -71,45 +68,6 @@ resource "aws_s3_bucket_policy" "site" {
       }
     ]
   })
-}
-
-# ---------------------------------------------------------------------------
-# ACM Certificate (must be us-east-1 for CloudFront)
-# ---------------------------------------------------------------------------
-
-resource "aws_acm_certificate" "site" {
-  domain_name       = var.domain_name
-  validation_method = "DNS"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-  tags = {
-    Name = "${var.context.stack_name}-${var.context.environment}-cert"
-  }
-}
-
-resource "aws_route53_record" "cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.site.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      record = dvo.resource_record_value
-      type   = dvo.resource_record_type
-    }
-  }
-
-  allow_overwrite = true
-  name            = each.value.name
-  records         = [each.value.record]
-  ttl             = 60
-  type            = each.value.type
-  zone_id         = data.aws_route53_zone.main.zone_id
-}
-
-resource "aws_acm_certificate_validation" "site" {
-  certificate_arn         = aws_acm_certificate.site.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
 
 # ---------------------------------------------------------------------------
@@ -173,7 +131,7 @@ resource "aws_cloudfront_distribution" "site" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.site.certificate_arn
+    acm_certificate_arn      = var.context.acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -194,7 +152,7 @@ resource "aws_cloudfront_distribution" "site" {
 # ---------------------------------------------------------------------------
 
 resource "aws_route53_record" "site" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = var.context.hosted_zone_id
   name    = var.domain_name
   type    = "A"
 

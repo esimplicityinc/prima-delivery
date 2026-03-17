@@ -17,11 +17,12 @@ variable "context" {
     permissions_boundary = string
     domain_name          = string
     hosted_zone_id       = string
+    acm_certificate_arn  = string
   })
 }
 
 variable "domain_name" {
-  description = "The fully-qualified domain name for the site (e.g. dev.alvisprima.com or alvisprima.com)"
+  description = "The fully-qualified domain name for the site (e.g. delivery.dev.alvisprima.com or delivery.alvisprima.com)"
   type        = string
 }
 

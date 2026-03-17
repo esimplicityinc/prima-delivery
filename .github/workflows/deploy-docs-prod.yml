@@ -15,17 +15,33 @@ concurrency:
 
 env:
   AWS_REGION: us-east-1
-  # These values come from Terraform outputs — update after first `terragrunt apply`
   S3_BUCKET: prima-delivery-docs-site-prod
+  # Update these after running: ENV=prod just iac-terragrunt-apply
   CLOUDFRONT_DISTRIBUTION_ID: PLACEHOLDER
   AWS_ROLE_ARN: PLACEHOLDER
 
 jobs:
-  build-and-deploy:
+  deploy-infra:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://alvisprima.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
+
+      # TODO: Add terragrunt apply step for prod infra here
+      # For now, prod infra is deployed manually before first release
+      - name: Placeholder for infra deployment
+        run: echo "Prod infrastructure should be deployed before first release"
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: deploy-infra
+    environment:
+      name: production
+      url: https://delivery.alvisprima.com
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,7 +66,7 @@ jobs:
       - name: Build website
         working-directory: docs-site
         env:
-          DOCUSAURUS_URL: https://alvisprima.com
+          DOCUSAURUS_URL: https://delivery.alvisprima.com
           DOCUSAURUS_BASE_URL: /
           DEPLOY_ENV: prod
         run: npm run build
@@ -63,18 +79,20 @@ jobs:
 
       - name: Deploy to S3
         run: |
+          # Immutable assets (JS, CSS, images) get long cache
           aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
-            --exclude "index.html" \
-            --exclude "*.json" \
-            --exclude "sitemap.xml"
-          # HTML and data files get short cache
+            --exclude "*.html" \
+            --exclude "sitemap.xml" \
+            --exclude "robots.txt"
+          # HTML and metadata files get moderate cache for prod
           aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
-            --cache-control "public, max-age=300" \
-            --include "index.html" \
-            --include "*.json" \
-            --include "sitemap.xml"
+            --cache-control "public, max-age=0, must-revalidate" \
+            --include "*.html" \
+            --include "sitemap.xml" \
+            --include "robots.txt" \
+            --size-only
 
       - name: Invalidate CloudFront cache
         run: |

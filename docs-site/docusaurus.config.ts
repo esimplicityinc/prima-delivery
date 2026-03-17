@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // Environment-aware configuration
 const deployEnv = process.env.DEPLOY_ENV || 'local';
-const siteUrl = process.env.DOCUSAURUS_URL || 'https://alvisprima.com';
+const siteUrl = process.env.DOCUSAURUS_URL || 'https://delivery.alvisprima.com';
 const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/';
 const commitSha = process.env.COMMIT_SHA || '';
 const commitUrl = process.env.COMMIT_URL || '';

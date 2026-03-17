@@ -45,8 +45,9 @@ locals {
   permissions_boundary = local.env_details.permissions_boundary
 
   # Environment-specific values
-  domain_name    = local.env_details.domain_name
-  hosted_zone_id = local.env_details.hosted_zone_id
+  domain_name         = local.env_details.domain_name
+  hosted_zone_id      = local.env_details.hosted_zone_id
+  acm_certificate_arn = local.env_details.acm_certificate_arn
 }
 
 generate "context" {
@@ -65,6 +66,7 @@ generate "context" {
     permissions_boundary: ${local.permissions_boundary}
     domain_name:          ${local.domain_name}
     hosted_zone_id:       ${local.hosted_zone_id}
+    acm_certificate_arn:  ${local.acm_certificate_arn}
 EOF
 }
 

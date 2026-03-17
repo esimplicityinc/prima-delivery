@@ -41,13 +41,6 @@ Prima Delivery includes **108 specialized AI agents** organized by domain expert
 
 ## Quick Start
 
-### Copilot
-
-```
-@workspace Use python-pro to help me optimize this function
-@workspace Have backend-architect design a REST API for user management
-```
-
 ### OpenCode
 
 ```bash
