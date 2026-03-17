@@ -1,0 +1,41 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: docker-build
+spec:
+  description: Build a container image from a Dockerfile.
+  type: shell
+  when: pre
+  run: just docker-build-image
+  tags:
+    - build
+    - container
+    - docker
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: docker-push
+spec:
+  description: Push a container image to the configured registry.
+  type: shell
+  when: main
+  run: just docker-push-image
+  tags:
+    - push
+    - container
+    - registry
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: docker-run
+spec:
+  description: Run a container image locally for testing.
+  type: shell
+  when: main
+  run: docker run --rm "$IMAGE_REF"
+  tags:
+    - run
+    - container
+    - local

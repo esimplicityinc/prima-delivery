@@ -1,0 +1,329 @@
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-docker-layer-ci
+spec:
+  description: CI stage job for App Docker layers in GitHub Actions.
+  stage: ci
+  layerType: app-docker
+  template:
+    path: templates/jobs/app-docker-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_docker_layer_ci
+      job_name: "🐳 App Docker Layer :: CI"
+      workflow_path: "./.github/workflows/.template-app-docker-ci.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-docker-layer-cd
+spec:
+  description: CD stage job for App Docker layers in GitHub Actions.
+  stage: cd
+  layerType: app-docker
+  template:
+    path: templates/jobs/app-docker-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_docker_layer_cd
+      job_name: "🐳 App Docker Layer :: CD"
+      workflow_path: "./.github/workflows/.template-app-docker-cd.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-app-docker-layer-post
+spec:
+  description: Post-deployment job for App Docker layers in GitHub Actions.
+  stage: post
+  layerType: app-docker
+  template:
+    path: templates/jobs/app-docker-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: app_docker_layer_post
+      job_name: "🐳 App Docker Layer :: POST"
+      workflow_path: "./.github/workflows/.template-app-docker-post.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-iac-terragrunt-layer-ci
+spec:
+  description: CI stage job for IaC Terragrunt layers in GitHub Actions.
+  stage: ci
+  layerType: iac-terragrunt
+  template:
+    path: templates/jobs/iac-terragrunt-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: iac_terragrunt_layer_ci
+      job_name: "🪨 IaC Terragrunt Layer :: CI"
+      workflow_path: "./.github/workflows/.template-iac-terragrunt-ci.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-iac-terragrunt-layer-cd
+spec:
+  description: CD stage job for IaC Terragrunt layers in GitHub Actions.
+  stage: cd
+  layerType: iac-terragrunt
+  template:
+    path: templates/jobs/iac-terragrunt-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: iac_terragrunt_layer_cd
+      job_name: "🪨 IaC Terragrunt Layer :: CD"
+      workflow_path: "./.github/workflows/.template-iac-terragrunt-cd.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-iac-terragrunt-layer-post
+spec:
+  description: Post-deployment job for IaC Terragrunt layers in GitHub Actions.
+  stage: post
+  layerType: iac-terragrunt
+  template:
+    path: templates/jobs/iac-terragrunt-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: iac_terragrunt_layer_post
+      job_name: "🪨 IaC Terragrunt Layer :: POST"
+      workflow_path: "./.github/workflows/.template-iac-terragrunt-post.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-kustomize-layer-ci
+spec:
+  description: CI stage job for K8s Kustomize layers in GitHub Actions.
+  stage: ci
+  layerType: k8s-kustomize
+  template:
+    path: templates/jobs/k8s-kustomize-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+      - cluster_name
+      - cluster_region
+    defaults:
+      job_id: k8s_kustomize_layer_ci
+      job_name: "🧱 K8s Kustomize Layer :: CI"
+      workflow_path: "./.github/workflows/.template-k8s-kustomize-ci.yaml"
+  environmentContract:
+    layerTemplates:
+      - cluster_name
+      - cluster_region
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-kustomize-layer-cd
+spec:
+  description: CD stage job for K8s Kustomize layers in GitHub Actions.
+  stage: cd
+  layerType: k8s-kustomize
+  template:
+    path: templates/jobs/k8s-kustomize-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+      - cluster_name
+      - cluster_region
+    defaults:
+      job_id: k8s_kustomize_layer_cd
+      job_name: "🧱 K8s Kustomize Layer :: CD"
+      workflow_path: "./.github/workflows/.template-k8s-kustomize-cd.yaml"
+  environmentContract:
+    layerTemplates:
+      - cluster_name
+      - cluster_region
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-kustomize-layer-post
+spec:
+  description: Post-deployment job for K8s Kustomize layers in GitHub Actions.
+  stage: post
+  layerType: k8s-kustomize
+  template:
+    path: templates/jobs/k8s-kustomize-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+      - cluster_name
+      - cluster_region
+    defaults:
+      job_id: k8s_kustomize_layer_post
+      job_name: "🧱 K8s Kustomize Layer :: POST"
+      workflow_path: "./.github/workflows/.template-k8s-kustomize-post.yaml"
+  environmentContract:
+    layerTemplates:
+      - cluster_name
+      - cluster_region
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-argocd-layer-ci
+spec:
+  description: CI stage job for K8s ArgoCD layers in GitHub Actions.
+  stage: ci
+  layerType: k8s-argocd
+  template:
+    path: templates/jobs/k8s-argocd-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: k8s_argocd_layer_ci
+      job_name: "🧱 K8s ArgoCD Layer :: CI"
+      workflow_path: "./.github/workflows/.template-k8s-argocd-ci.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-argocd-layer-cd
+spec:
+  description: CD stage job for K8s ArgoCD layers in GitHub Actions.
+  stage: cd
+  layerType: k8s-argocd
+  template:
+    path: templates/jobs/k8s-argocd-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: k8s_argocd_layer_cd
+      job_name: "🧱 K8s ArgoCD Layer :: CD"
+      workflow_path: "./.github/workflows/.template-k8s-argocd-cd.yaml"
+---
+apiVersion: katalyst.taxonomy.plugins.cicd/v1alpha
+kind: JobTemplate
+metadata:
+  name: gha-k8s-argocd-layer-post
+spec:
+  description: Post-deployment job for K8s ArgoCD layers in GitHub Actions.
+  stage: post
+  layerType: k8s-argocd
+  template:
+    path: templates/jobs/k8s-argocd-layer.yml.j2
+    renderer:
+      type: jinja
+      strictUndefined: true
+  inputs:
+    required:
+      - system
+      - sub_system
+      - stack
+      - environment
+      - aws_role_arn
+      - aws_region
+    defaults:
+      job_id: k8s_argocd_layer_post
+      job_name: "🧱 K8s ArgoCD Layer :: POST"
+      workflow_path: "./.github/workflows/.template-k8s-argocd-post.yaml"

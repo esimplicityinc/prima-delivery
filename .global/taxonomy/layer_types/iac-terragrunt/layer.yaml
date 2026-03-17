@@ -1,0 +1,15 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: {{ layer_name }}
+taxonomyNodeType: layer
+spec:
+  description: {{ description }}
+  environments:
+    - {{ primary_environment }}
+  type: infrastructure
+  layerType: iac-terragrunt
+  parents:
+    node: {{ parent_stack }}
+  owners:
+    - {{ owner_email }}

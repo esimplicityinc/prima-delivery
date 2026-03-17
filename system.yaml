@@ -1,0 +1,16 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "prima"
+taxonomyNodeType: system
+spec:
+  description: "Prima AI Development Toolkit"
+  owners:
+    - "aaron.west@esimplicity.com"
+  annotations:
+    layout: root
+  environments:
+    - "dev"
+    - "prod"
+  dependsOn:
+    nodes: []

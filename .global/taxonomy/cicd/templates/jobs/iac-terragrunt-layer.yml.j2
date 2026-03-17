@@ -1,0 +1,16 @@
+{{ job_id | default('iac_terragrunt_layer') }}:
+  name: "{{ job_name | default('🪨 IaC Terragrunt Layer') }}"
+  uses: "{{ workflow_path }}"
+  {% if needs %}
+  needs:
+  {% for need in needs %}
+    - {{ need }}
+  {% endfor %}
+  {% endif %}
+  with:
+    system: "{{ system }}"
+    sub_system: "{{ sub_system }}"
+    stack: "{{ stack }}"
+    environment: "{{ environment }}"
+    aws_role_arn: "{{ aws_role_arn }}"
+    aws_region: "{{ aws_region }}"

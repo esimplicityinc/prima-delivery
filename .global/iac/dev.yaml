@@ -1,0 +1,7 @@
+region: us-east-1
+assume_role: prima-cicd-bootstrap-dev
+admin_role: eks-cluster-admin
+permissions_boundary: prima-permissions-boundary-policy
+domain_name: delivery.dev.alvisprima.com
+hosted_zone_id: Z06110671CLUDE71X3VMT
+acm_certificate_arn: arn:aws:acm:us-east-1:591639515130:certificate/0e9e1f1f-e08e-49a0-8751-57e8d7cc78e8

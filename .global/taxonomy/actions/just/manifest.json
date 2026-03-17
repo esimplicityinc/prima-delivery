@@ -1,0 +1,24 @@
+{
+  "name": "just",
+  "version": "0.1.0",
+  "description": "Just command runner recipes for layer types and tools",
+  "templates": [
+    "common.just",
+    "stack.just",
+    "subsystem.just",
+    "ci.just",
+    "documentation.just"
+  ],
+  "canonical": [
+    "app-docker",
+    "app-bun",
+    "iac-terragrunt",
+    "k8s-kustomize",
+    "k8s-argocd",
+    "docs",
+    "docs-docusaurus",
+    "docs-stack",
+    "docs-subsystem",
+    "tests-bdd"
+  ]
+}

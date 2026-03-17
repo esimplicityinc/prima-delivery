@@ -1,0 +1,16 @@
+{
+  "name": "cicd",
+  "version": "0.1.0",
+  "description": "CICD workflow and job templates for GitHub Actions",
+  "templates": [
+    "stages.yaml",
+    "workflows.yaml",
+    "jobs.yaml"
+  ],
+  "layerTypes": [
+    "app-docker",
+    "iac-terragrunt",
+    "k8s-argocd",
+    "k8s-kustomize"
+  ]
+}

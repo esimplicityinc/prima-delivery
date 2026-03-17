@@ -1,0 +1,178 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-build
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Render Kustomize manifests for the target environment.
+  type: shell
+  when: pre
+  run: just k8s-kustomize-build
+  tags:
+    - build
+    - render
+    - kustomize
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-apply
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Apply rendered Kustomize manifests to the cluster.
+  type: shell
+  when: main
+  run: just k8s-kustomize-apply
+  timeoutSeconds: 300
+  tags:
+    - apply
+    - deploy
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-delete
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Delete Kustomize-managed resources from the cluster.
+  type: shell
+  when: main
+  run: just k8s-kustomize-delete
+  timeoutSeconds: 300
+  tags:
+    - delete
+    - teardown
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-diff
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Show diff between rendered manifests and live cluster state.
+  type: shell
+  when: pre
+  run: just k8s-kustomize-diff
+  tags:
+    - diff
+    - review
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-fmt
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Validate rendered manifests with kubeconform schema checks.
+  type: shell
+  when: pre
+  run: just k8s-kustomize-fmt
+  tags:
+    - validate
+    - schema
+    - kubeconform
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-lint
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Lint rendered manifests with kube-linter.
+  type: shell
+  when: pre
+  run: just k8s-kustomize-lint
+  tags:
+    - lint
+    - policy
+    - kube-linter
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-security
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Run kubesec security scan against rendered manifests.
+  type: shell
+  when: post
+  run: just k8s-kustomize-security
+  tags:
+    - security
+    - scan
+    - kubesec
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-polaris
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Audit rendered manifests with Polaris best-practice checks.
+  type: shell
+  when: post
+  run: just k8s-kustomize-polaris
+  tags:
+    - audit
+    - policy
+    - polaris
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-check
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Run all validation checks (fmt, lint, security).
+  type: shell
+  when: pre
+  run: just k8s-kustomize-check
+  tags:
+    - check
+    - validate
+    - all
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-restart
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Rolling restart of deployments in the namespace.
+  type: shell
+  when: main
+  run: just k8s-kustomize-restart
+  timeoutSeconds: 300
+  tags:
+    - restart
+    - rollout
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: k8s-kustomize-clean-jobs
+  labels:
+    layerType: k8s-kustomize
+spec:
+  description: Delete completed Kubernetes jobs in the namespace.
+  type: shell
+  when: post
+  run: just k8s-kustomize-clean-jobs
+  tags:
+    - clean
+    - jobs
+    - maintenance

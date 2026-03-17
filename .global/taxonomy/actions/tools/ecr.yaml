@@ -1,0 +1,27 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: ecr-login-check
+spec:
+  description: Verify Docker credentials exist for the target ECR registry.
+  type: shell
+  when: pre
+  run: just ecr-login-check
+  tags:
+    - auth
+    - check
+    - ecr
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: ecr-login
+spec:
+  description: Authenticate Docker to an ECR registry.
+  type: shell
+  when: pre
+  run: just ecr-login
+  tags:
+    - registry
+    - login
+    - ecr

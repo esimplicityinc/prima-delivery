@@ -1,0 +1,57 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: terraform-fmt
+spec:
+  description: Format Terraform configuration to the canonical style.
+  type: shell
+  when: pre
+  run: terraform fmt -check -recursive
+  tags:
+    - format
+    - lint
+    - terraform
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: terraform-validate
+spec:
+  description: Validate Terraform configuration prior to planning.
+  type: shell
+  when: pre
+  run: terraform validate
+  tags:
+    - validate
+    - safety
+    - terraform
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: terraform-plan
+spec:
+  description: Generate an execution plan against the target workspace.
+  type: shell
+  when: pre
+  run: terraform plan
+  timeoutSeconds: 600
+  tags:
+    - plan
+    - preview
+    - terraform
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: terraform-apply
+spec:
+  description: Apply the planned infrastructure changes.
+  type: shell
+  when: main
+  run: terraform apply -auto-approve
+  timeoutSeconds: 1800
+  tags:
+    - apply
+    - deploy
+    - terraform

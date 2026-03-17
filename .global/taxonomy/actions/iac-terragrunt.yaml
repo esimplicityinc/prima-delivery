@@ -1,0 +1,182 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-plan
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Run terragrunt plan for the infrastructure layer.
+  type: shell
+  when: pre
+  run: just iac-terragrunt-plan
+  timeoutSeconds: 600
+  tags:
+    - plan
+    - preview
+    - terragrunt
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-apply
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Apply terragrunt-managed infrastructure changes.
+  type: shell
+  when: main
+  run: just iac-terragrunt-apply
+  timeoutSeconds: 1800
+  tags:
+    - apply
+    - deploy
+    - terragrunt
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-destroy
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Destroy terragrunt-managed infrastructure resources.
+  type: shell
+  when: main
+  run: just iac-terragrunt-destroy
+  timeoutSeconds: 1800
+  tags:
+    - destroy
+    - teardown
+    - terragrunt
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-fmt
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Format Terraform files in the infrastructure layer.
+  type: shell
+  when: pre
+  run: just iac-terragrunt-fmt
+  tags:
+    - format
+    - lint
+    - terraform
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-hclfmt
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Format HCL files with terragrunt hcl format.
+  type: shell
+  when: pre
+  run: just iac-terragrunt-hclfmt
+  tags:
+    - format
+    - lint
+    - hcl
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-security
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Run Trivy security scan against the Terraform plan.
+  type: shell
+  when: post
+  run: just iac-terragrunt-security
+  timeoutSeconds: 600
+  tags:
+    - security
+    - scan
+    - trivy
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-docs
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Generate documentation with Terramaid diagrams.
+  type: shell
+  when: post
+  run: just iac-terragrunt-docs
+  timeoutSeconds: 600
+  tags:
+    - docs
+    - documentation
+    - terramaid
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-clean
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Remove .terragrunt-cache directories.
+  type: shell
+  when: post
+  run: just iac-terragrunt-clean
+  tags:
+    - clean
+    - cache
+    - maintenance
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-run-all-plan
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Run plan across all child modules in dependency order.
+  type: shell
+  when: pre
+  run: just iac-terragrunt-run-all-plan
+  timeoutSeconds: 900
+  tags:
+    - orchestration
+    - plan
+    - terragrunt
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-run-all-apply
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Apply infrastructure changes across all child modules.
+  type: shell
+  when: main
+  run: just iac-terragrunt-run-all-apply
+  timeoutSeconds: 3600
+  tags:
+    - orchestration
+    - apply
+    - terragrunt
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: iac-terragrunt-unlock
+  labels:
+    layerType: iac-terragrunt
+spec:
+  description: Clear a Terraform state lock.
+  type: shell
+  when: main
+  run: just iac-terragrunt-unlock
+  tags:
+    - unlock
+    - state
+    - recovery

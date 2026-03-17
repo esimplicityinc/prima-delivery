@@ -1,0 +1,21 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: Environment
+metadata:
+  name: dev
+spec:
+  description: Development environment
+  templateReplacements:
+    ENV: dev
+    ENVIRONMENT: development
+    environment: dev
+---
+apiVersion: katalyst.taxonomy/v1alpha
+kind: Environment
+metadata:
+  name: prod
+spec:
+  description: Production environment
+  templateReplacements:
+    ENV: prod
+    ENVIRONMENT: production
+    environment: prod

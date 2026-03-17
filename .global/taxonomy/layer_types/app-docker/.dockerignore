@@ -1,0 +1,51 @@
+# Git
+.git
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Tests
+tests/
+test/
+__tests__/
+*.test.js
+*.spec.js
+coverage/
+
+# Development files
+.env.local
+.env.development
+.env*.local
+*.log
+
+# IDE and editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Build artifacts (if building outside Docker)
+dist/
+build/
+*.tsbuildinfo
+
+# Taxonomy files (not needed in container)
+layer.yaml
+*.yaml
+!docker-compose.yaml
+
+# Docker files (avoid recursion)
+Dockerfile*
+docker-compose*.yaml
+.dockerignore

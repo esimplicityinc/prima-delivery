@@ -1,0 +1,14 @@
+name: "{{ system }}-{{ sub_system }}-{{ stack }}-{{ environment }}"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - taxonomy
+    paths:
+      - "{{ sub_system }}/{{ stack }}/**"
+      - ".global/taxonomy/environments/{{ environment }}.yaml"
+      - ".github/workflows/{{ workflow_file }}"
+
+jobs:
+<<JOBS_PLACEHOLDER>>

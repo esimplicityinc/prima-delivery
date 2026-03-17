@@ -1,0 +1,18 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "{{ name }}"
+taxonomyNodeType: stack
+spec:
+  description: "{{ description }}"
+  owners:
+    - "{{ primary_owner }}"
+  annotations:
+    layout: root
+  parents:
+    node: "{{ parent_subsystem }}"
+  environments:
+    - "{{ primary_environment }}"
+  dependsOn:
+    nodes:
+      - "{{ parent_subsystem }}"

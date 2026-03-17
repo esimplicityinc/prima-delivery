@@ -1,0 +1,67 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-docker-build
+  labels:
+    layerType: app-docker
+spec:
+  description: Build base and runtime Docker images for the application.
+  type: shell
+  when: pre
+  run: just app-docker-build
+  timeoutSeconds: 1200
+  tags:
+    - build
+    - container
+    - docker
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-docker-push
+  labels:
+    layerType: app-docker
+spec:
+  description: Push Docker images to the configured container registry.
+  type: shell
+  when: main
+  run: just app-docker-push
+  timeoutSeconds: 600
+  tags:
+    - push
+    - container
+    - registry
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-docker-load
+  labels:
+    layerType: app-docker
+spec:
+  description: Load Docker images into a local kind cluster.
+  type: shell
+  when: main
+  run: just app-docker-load
+  timeoutSeconds: 300
+  tags:
+    - load
+    - kind
+    - local
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: app-docker-security
+  labels:
+    layerType: app-docker
+spec:
+  description: Scan Docker images with Trivy for security vulnerabilities.
+  type: shell
+  when: post
+  run: just app-docker-security
+  timeoutSeconds: 300
+  tags:
+    - security
+    - scan
+    - trivy

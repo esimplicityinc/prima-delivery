@@ -1,0 +1,43 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: kubectl-apply
+spec:
+  description: Apply Kubernetes manifests to a target cluster.
+  type: shell
+  when: main
+  run: just kubectl-apply
+  timeoutSeconds: 300
+  tags:
+    - deploy
+    - manifests
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: kubectl-rollout-status
+spec:
+  description: Monitor rollout status for a deployment.
+  type: shell
+  when: post
+  run: just kubectl-rollout-status
+  timeoutSeconds: 300
+  tags:
+    - rollout
+    - status
+    - kubernetes
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: kubectl-port-forward
+spec:
+  description: Port-forward to a service or pod for local debugging.
+  type: shell
+  when: main
+  run: just kubectl-port-forward
+  tags:
+    - debug
+    - access
+    - kubernetes

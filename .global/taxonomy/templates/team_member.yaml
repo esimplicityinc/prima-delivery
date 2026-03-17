@@ -1,0 +1,16 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "{{ name }}"
+taxonomyNodeType: team_member
+spec:
+  description: "{{ description }}"
+  owners:
+    - "{{ primary_owner }}"
+  parents:
+    node: "{{ parent }}"
+  environments:
+    - "{{ primary_environment }}"
+  teamMember:
+    role: engineer
+    email: "{{ primary_owner }}"

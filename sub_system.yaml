@@ -1,0 +1,19 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "delivery"
+taxonomyNodeType: subsystem
+spec:
+  description: "Prima Delivery - Multi-platform agent framework documentation and distribution"
+  owners:
+    - "aaron.west@esimplicity.com"
+  annotations:
+    layout: root
+  parents:
+    node: "prima"
+  environments:
+    - "dev"
+    - "prod"
+  dependsOn:
+    nodes:
+      - "prima"

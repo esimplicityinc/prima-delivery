@@ -1,0 +1,11 @@
+apiVersion: katalyst.taxonomy/v1alpha
+kind: TaxonomyNode
+metadata:
+  name: "{{ name }}"
+taxonomyNodeType: organization
+spec:
+  description: "{{ description }}"
+  owners:
+    - "{{ primary_owner }}"
+  environments:
+    - "{{ primary_environment }}"

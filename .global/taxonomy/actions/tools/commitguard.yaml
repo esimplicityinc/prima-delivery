@@ -1,0 +1,70 @@
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: hooks-install
+spec:
+  description: >-
+    Install and configure the active Git hook tool (pre-commit, Husky, or
+    Lefthook) in the repository.  Detects the tool from .katalyst-hooks.yaml
+    and runs the appropriate setup command.
+  type: shell
+  when: pre
+  run: just hooks-install
+  timeoutSeconds: 120
+  tags:
+    - hooks
+    - install
+    - setup
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: hooks-generate
+spec:
+  description: >-
+    Generate native hook tool configuration from .katalyst-hooks.yaml.
+    Produces .pre-commit-config.yaml, .husky/pre-commit, or lefthook.yml
+    depending on the configured tool.
+  type: shell
+  when: main
+  run: just hooks-generate
+  timeoutSeconds: 60
+  tags:
+    - hooks
+    - generate
+    - config
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: hooks-run-all
+spec:
+  description: >-
+    Run all configured hook actions against the current set of staged files.
+    Resolves files to layers and dispatches kata actions for each affected
+    layer.
+  type: shell
+  when: main
+  run: just hooks-run-all
+  timeoutSeconds: 600
+  tags:
+    - hooks
+    - run
+    - commitguard
+---
+apiVersion: katalyst.taxonomy.plugins.actions/v1alpha
+kind: Action
+metadata:
+  name: hooks-update
+spec:
+  description: >-
+    Regenerate native hook configs and update hook tool to latest version.
+    Useful after modifying .katalyst-hooks.yaml or upgrading the hook tool.
+  type: shell
+  when: post
+  run: just hooks-update
+  timeoutSeconds: 120
+  tags:
+    - hooks
+    - update
+    - maintenance
