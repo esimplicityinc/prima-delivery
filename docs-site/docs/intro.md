@@ -7,7 +7,7 @@ description: Prima Delivery - Internal AI Development Toolkit with 108 Agents, 1
 # Prima Delivery
 
 <div className="hero">
-  <img src="/prima-delivery/img/logo.png" alt="Prima Delivery" className="hero__logo" />
+  <img src="/img/logo.png" alt="Prima Delivery" className="hero__logo" />
 </div>
 
 **Prima Delivery** is an internal AI development toolkit featuring **108 specialized agents**, **140 skills**, and **72 plugins** for accelerated software development.

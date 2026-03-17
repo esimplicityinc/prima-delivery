@@ -22,7 +22,7 @@ version: 1.3.7
 description: Production-ready workflow orchestration with 71 plugins
 author: Prima Team <team@esimplicity.com>
 license: UNLICENSED
-homepage: https://esimplicityinc.github.io/prima-delivery/
+homepage: https://delivery.alvisprima.com
 repository: https://github.com/esimplicityinc/prima-delivery
 
 keywords:
