@@ -2,6 +2,7 @@ import type {ReactNode} from 'react';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import { 
@@ -21,7 +22,7 @@ function HomepageHeader() {
     <header className={clsx('hero', styles.heroBanner)}>
       <div className="container">
         <img 
-          src="/prima-delivery/img/logo.png" 
+          src={useBaseUrl('/img/logo.png')} 
           alt="Prima Delivery" 
           className={styles.heroLogo}
         />
