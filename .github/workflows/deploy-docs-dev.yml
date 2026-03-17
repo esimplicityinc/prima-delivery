@@ -6,6 +6,7 @@ on:
     paths:
       - 'docs-site/**'
       - '.opencode/**'
+      - '.global/iac/**'
       - 'docs/**'
       - 'plugins/**'
       - 'scripts/**'
@@ -21,16 +22,57 @@ concurrency:
 
 env:
   AWS_REGION: us-east-1
-  S3_BUCKET: prima-delivery-docs-site-dev
-  CLOUDFRONT_DISTRIBUTION_ID: EXE2QYNRPB2ID
-  AWS_ROLE_ARN: arn:aws:iam::591639515130:role/prima-docs-site-dev-gh-deploy
+  AWS_ROLE_ARN: arn:aws:iam::591639515130:role/katalyst-cicd-bootstrap-prod
 
 jobs:
-  build-and-deploy:
+  provision-infra:
     runs-on: ubuntu-latest
     environment:
       name: dev
-      url: https://delivery.dev.alvisprima.com
+    outputs:
+      s3_bucket: ${{ steps.outputs.outputs.s3_bucket }}
+      cloudfront_id: ${{ steps.outputs.outputs.cloudfront_id }}
+      site_url: ${{ steps.outputs.outputs.site_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.13.4"
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        run: |
+          curl -sL https://github.com/gruntwork-io/terragrunt/releases/download/v0.83.2/terragrunt_linux_amd64 -o /usr/local/bin/terragrunt
+          chmod +x /usr/local/bin/terragrunt
+          terragrunt --version
+
+      - name: Terragrunt Apply
+        working-directory: docs-site/iac/dev
+        run: terragrunt apply -auto-approve --terragrunt-non-interactive
+
+      - name: Capture Terraform outputs
+        id: outputs
+        working-directory: docs-site/iac/dev
+        run: |
+          echo "s3_bucket=$(terragrunt output -raw s3_bucket_name)" >> "$GITHUB_OUTPUT"
+          echo "cloudfront_id=$(terragrunt output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+          echo "site_url=$(terragrunt output -raw site_url)" >> "$GITHUB_OUTPUT"
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: provision-infra
+    environment:
+      name: dev
+      url: ${{ needs.provision-infra.outputs.site_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,16 +109,18 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Deploy to S3
+        env:
+          S3_BUCKET: ${{ needs.provision-infra.outputs.s3_bucket }}
         run: |
           # Immutable assets (JS, CSS, images) get long cache
-          aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
+          aws s3 sync docs-site/build/ s3://${S3_BUCKET}/ \
             --delete \
             --cache-control "public, max-age=31536000, immutable" \
             --exclude "*.html" \
             --exclude "sitemap.xml" \
             --exclude "robots.txt"
           # HTML and metadata files get no-cache for instant updates
-          aws s3 sync docs-site/build/ s3://${{ env.S3_BUCKET }}/ \
+          aws s3 sync docs-site/build/ s3://${S3_BUCKET}/ \
             --cache-control "public, max-age=0, must-revalidate" \
             --include "*.html" \
             --include "sitemap.xml" \
@@ -84,7 +128,9 @@ jobs:
             --size-only
 
       - name: Invalidate CloudFront cache
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ needs.provision-infra.outputs.cloudfront_id }}
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} \
             --paths "/*"
