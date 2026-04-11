@@ -6,7 +6,7 @@
     "url": ""
   },
   "metadata": {
-    "description": "Production-ready workflow orchestration with 72 focused plugins, 108 specialized agents, and 140 skills - optimized for granular installation and minimal token usage",
+    "description": "Production-ready workflow orchestration with 73 focused plugins, 117 specialized agents, and 140 skills - optimized for granular installation and minimal token usage",
     "version": "1.3.7"
   },
   "plugins": [
@@ -371,6 +371,26 @@
         "./commands/improve-agent.md"
       ],
       "agents": ["./agents/context-manager.md"]
+    },
+    {
+      "name": "agent-development",
+      "source": "./plugins/agent-development",
+      "description": "Agent and skill creation, diagnosis, and maintenance. Build new agents through guided workflows and fix misbehaving agents with evidence-based analysis.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Prima Team",
+        "url": ""
+      },
+      "homepage": "",
+      "repository": "",
+      "license": "UNLICENSED",
+      "keywords": ["agent-development", "agent-creation", "agent-debugging", "skills", "ai-agents"],
+      "category": "ai-ml",
+      "strict": false,
+      "agents": [
+        "./agents/agent-maker-lite.md",
+        "./agents/agent-modifier-lite.md"
+      ]
     },
     {
       "name": "context-management",

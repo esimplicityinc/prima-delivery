@@ -4,7 +4,7 @@
 
 # Agent Reference
 
-Complete reference for all **117 specialized AI agents** organized by category with model assignments.
+Complete reference for all **119 specialized AI agents** organized by category with model assignments.
 
 ## Agent Categories
 
@@ -236,6 +236,7 @@ Complete reference for all **117 specialized AI agents** organized by category w
 | [agent-maker-analyzer](../.opencode/agents/agent-maker-analyzer.md) | 0.2 | Analyzes existing agents and skills to find patterns that inform new designs |
 | [agent-maker-critic](../.opencode/agents/agent-maker-critic.md) | 0.4 | Critically evaluates agent designs before implementation, stress-tests triggers and prompts |
 | [agent-maker-scribe](../.opencode/agents/agent-maker-scribe.md) | 0.2 | Generates complete agent and skill files with proper formatting and validation |
+| [agent-maker-lite](../plugins/agent-development/agents/agent-maker-lite.md) | high | Simplified single-agent version for Claude Code, Copilot, and other platforms |
 
 #### Agent Modifier
 
@@ -245,6 +246,9 @@ Complete reference for all **117 specialized AI agents** organized by category w
 | [agent-modifier-analyzer](../.opencode/agents/agent-modifier-analyzer.md) | 0.2 | Parses session logs to extract structured facts — timeline, tool calls, anomalies |
 | [agent-modifier-diagnoser](../.opencode/agents/agent-modifier-diagnoser.md) | 0.3 | Compares expected vs actual behavior and identifies root causes with fix targets |
 | [agent-modifier-fixer](../.opencode/agents/agent-modifier-fixer.md) | 0.2 | Generates and applies targeted fixes to agent definitions based on diagnosis |
+| [agent-modifier-lite](../plugins/agent-development/agents/agent-modifier-lite.md) | high | Simplified single-agent version for Claude Code, Copilot, and other platforms |
+
+> **Platform Note:** The full multi-agent versions (`agent-maker`, `agent-modifier` + subagents) are OpenCode-exclusive — they use subagent dispatch, interactive dialogs, and per-phase tool restrictions. The `-lite` versions provide the same expertise as a single agent and work on all platforms via the `agent-development` plugin.
 
 ## Model Configuration
 

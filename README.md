@@ -4,7 +4,7 @@
 
 # Prima Delivery
 
-Internal AI development toolkit with 117 specialized agents and 140 skills for accelerated software development.
+Internal AI development toolkit with 119 specialized agents and 140 skills for accelerated software development.
 
 ## Overview
 
@@ -12,9 +12,9 @@ Prima Delivery provides a comprehensive collection of AI-powered development too
 
 | Component | Count | Description |
 |-----------|-------|-------------|
-| **Agents** | 117 | Specialized AI assistants for specific domains |
+| **Agents** | 119 | Specialized AI assistants for specific domains |
 | **Skills** | 140 | Modular knowledge packages with progressive disclosure |
-| **Plugins** | 72 | Workflow bundles combining agents, skills, and commands |
+| **Plugins** | 73 | Workflow bundles combining agents, skills, and commands |
 
 ## Installation
 
@@ -82,7 +82,7 @@ cp -r .opencode/ ~/.config/opencode/
 **Structure:**
 ```
 .opencode/
-├── agents/     # 117 agent markdown files
+├── agents/     # 119 agent markdown files
 ├── skills/     # 140 skill directories
 ├── commands/   # Custom slash commands
 └── plugins/    # TypeScript plugins
@@ -189,7 +189,7 @@ Skills provide specialized knowledge that agents can load on-demand:
 
 ## Documentation
 
-- [Agent Reference](docs/agents.md) - All 117 agents by category
+- [Agent Reference](docs/agents.md) - All 119 agents by category
 - [Skills Reference](docs/agent-skills.md) - All 140 skills
 - [Plugin Catalog](docs/plugins.md) - All 72 plugins
 - [Usage Guide](docs/usage.md) - Commands and workflows

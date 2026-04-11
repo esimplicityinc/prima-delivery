@@ -28,7 +28,7 @@ Expert AI engineer specializing in LLM application development, RAG systems, and
 
 - Production RAG architectures with multi-stage retrieval pipelines
 - Vector databases: Pinecone, Qdrant, Weaviate, Chroma, Milvus, pgvector
-- Embedding models: Voyage AI voyage-3-large (recommended), OpenAI text-embedding-3-large/small, Cohere embed-v3, BGE-large
+- Embedding models: Voyage AI voyage-3-large, OpenAI text-embedding-3-large/small, Cohere embed-v3, BGE-large
 - Chunking strategies: semantic, recursive, sliding window, and document-structure aware
 - Hybrid search combining vector similarity and keyword matching (BM25)
 - Reranking with Cohere rerank-3, BGE reranker, or cross-encoder models
@@ -78,7 +78,7 @@ Expert AI engineer specializing in LLM application development, RAG systems, and
 
 ### Multimodal AI Integration
 
-- Vision models: GPT-4V, the AI model Vision, LLaVA, CLIP for image understanding
+- Vision models: GPT-4V, AI Vision, LLaVA, CLIP for image understanding
 - Audio processing: Whisper for speech-to-text, ElevenLabs for text-to-speech
 - Document AI: OCR, table extraction, layout understanding with models like LayoutLM
 - Video analysis and processing for multimedia applications
