@@ -294,6 +294,45 @@ Plugins provide pre-configured multi-agent workflows accessible via slash comman
 
 **Output:** Complete C4 documentation in `C4-Documentation/` directory with Mermaid diagrams at all levels (Context, Container, Component, Code)
 
+### Agent Creation (Agent Maker)
+
+```bash
+# Create a new agent or skill through guided wizard
+@agent-maker
+
+# Natural language alternative
+"Create a new agent for database migration review"
+```
+
+**Orchestration:** agent-maker → agent-maker-intake → agent-maker-analyzer → agent-maker (design) → agent-maker-critic → agent-maker-scribe
+
+**What happens:**
+
+1. **Intake**: Gathers requirements through structured questions — what you're building, use cases, tool needs, trigger phrases
+2. **Analysis**: Scans existing agents in your codebase for patterns to adopt
+3. **Design**: Refines the prompt, communication style, error handling, and output format
+4. **Critique**: Stress-tests trigger effectiveness, finds prompt gaps, assesses token efficiency
+5. **Generation**: Creates complete agent/skill files with proper frontmatter and structure
+
+### Agent Diagnosis & Repair (Agent Modifier)
+
+```bash
+# Diagnose and fix a broken agent
+@agent-modifier
+
+# Natural language alternative
+"My code-reviewer agent keeps ignoring security issues, help me fix it"
+```
+
+**Orchestration:** agent-modifier → agent-modifier-analyzer → agent-modifier-diagnoser → agent-modifier-fixer
+
+**What happens:**
+
+1. **Log Collection**: Requests session logs from the agent run (mandatory)
+2. **Analysis**: Parses logs to extract timeline, tool calls, decision points, and anomalies
+3. **Diagnosis**: Compares expected vs actual behavior, identifies root causes with confidence levels
+4. **Fix Application**: Generates targeted fixes — minor fixes auto-apply, major fixes require approval
+
 ## Command Arguments and Options
 
 Many slash commands support arguments for precise control:

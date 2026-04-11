@@ -4,7 +4,7 @@
 
 # Agent Reference
 
-Complete reference for all **108 specialized AI agents** organized by category with model assignments.
+Complete reference for all **119 specialized AI agents** organized by category with model assignments.
 
 ## Agent Categories
 
@@ -225,6 +225,31 @@ Complete reference for all **108 specialized AI agents** organized by category w
 | [legacy-modernizer](../plugins/framework-migration/agents/legacy-modernizer.md)         | medium | Legacy code refactoring and modernization               |
 | [context-manager](../plugins/agent-orchestration/agents/context-manager.md)             | low    | Multi-agent context management                          |
 
+### Agent Development & Maintenance
+
+#### Agent Maker
+
+| Agent | Temp | Description |
+| ----- | ---- | ----------- |
+| [agent-maker](../.opencode/agents/agent-maker.md) | 0.3 | Creates OpenCode agents and skills through a guided 5-phase wizard (primary orchestrator) |
+| [agent-maker-intake](../.opencode/agents/agent-maker-intake.md) | 0.2 | Gathers comprehensive requirements for agent/skill creation through structured questioning |
+| [agent-maker-analyzer](../.opencode/agents/agent-maker-analyzer.md) | 0.2 | Analyzes existing agents and skills to find patterns that inform new designs |
+| [agent-maker-critic](../.opencode/agents/agent-maker-critic.md) | 0.4 | Critically evaluates agent designs before implementation, stress-tests triggers and prompts |
+| [agent-maker-scribe](../.opencode/agents/agent-maker-scribe.md) | 0.2 | Generates complete agent and skill files with proper formatting and validation |
+| [agent-maker-lite](../plugins/agent-development/agents/agent-maker-lite.md) | high | Simplified single-agent version for Claude Code, Copilot, and other platforms |
+
+#### Agent Modifier
+
+| Agent | Temp | Description |
+| ----- | ---- | ----------- |
+| [agent-modifier](../.opencode/agents/agent-modifier.md) | 0.3 | Diagnoses and improves agents by analyzing session logs (primary orchestrator) |
+| [agent-modifier-analyzer](../.opencode/agents/agent-modifier-analyzer.md) | 0.2 | Parses session logs to extract structured facts — timeline, tool calls, anomalies |
+| [agent-modifier-diagnoser](../.opencode/agents/agent-modifier-diagnoser.md) | 0.3 | Compares expected vs actual behavior and identifies root causes with fix targets |
+| [agent-modifier-fixer](../.opencode/agents/agent-modifier-fixer.md) | 0.2 | Generates and applies targeted fixes to agent definitions based on diagnosis |
+| [agent-modifier-lite](../plugins/agent-development/agents/agent-modifier-lite.md) | high | Simplified single-agent version for Claude Code, Copilot, and other platforms |
+
+> **Platform Note:** The full multi-agent versions (`agent-maker`, `agent-modifier` + subagents) are OpenCode-exclusive — they use subagent dispatch, interactive dialogs, and per-phase tool restrictions. The `-lite` versions provide the same expertise as a single agent and work on all platforms via the `agent-development` plugin.
+
 ## Model Configuration
 
 Agents are assigned to model tiers based on task complexity and computational requirements.
@@ -236,6 +261,7 @@ Agents are assigned to model tiers based on task complexity and computational re
 | High   | 42          | Critical architecture, security, code review, production coding |
 | Medium | 39          | Complex tasks, support with intelligence                        |
 | Low    | 18          | Fast operational tasks                                          |
+| Custom | 9           | Agent development & maintenance (explicit temperature control)  |
 
 ### Model Selection Criteria
 
@@ -320,6 +346,36 @@ Medium: security-auditor (security review)
 Low: deployment-engineer (CI/CD setup)
   ↓
 Low: Setup observability stack
+```
+
+#### Pattern 5: Agent Creation (Agent Maker)
+
+```
+agent-maker (orchestrator, temp 0.3)
+  ↓
+agent-maker-intake (gather requirements)
+  ↓
+agent-maker-analyzer (scan existing patterns)
+  ↓
+agent-maker (design refinement with user)
+  ↓
+agent-maker-critic (stress-test the design)
+  ↓
+agent-maker-scribe (generate files)
+```
+
+#### Pattern 6: Agent Diagnosis & Repair (Agent Modifier)
+
+```
+agent-modifier (orchestrator, temp 0.3)
+  ↓
+Collect session logs + artifacts from user
+  ↓
+agent-modifier-analyzer (parse logs, extract facts)
+  ↓
+agent-modifier-diagnoser (root cause analysis)
+  ↓
+agent-modifier-fixer (apply targeted fixes)
 ```
 
 ## Agent Invocation

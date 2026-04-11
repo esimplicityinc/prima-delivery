@@ -12,7 +12,7 @@ opkg install gh@esimplicityinc/prima-delivery
 opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 ```
 
-## Available Plugins (71)
+## Available Plugins (72)
 
 ### Accessibility (1)
 
@@ -20,10 +20,11 @@ opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 |--------|-------------|--------|
 | `accessibility-compliance` | WCAG accessibility auditing, compliance validation, UI testing for screen reader... | 1.2.1 |
 
-### Ai-ml (4)
+### Ai-ml (5)
 
 | Plugin | Description | Version |
 |--------|-------------|--------|
+| `agent-development` | Agent and skill creation, diagnosis, and maintenance. Build new agents through g... | 1.0.0 |
 | `agent-orchestration` | Multi-agent system optimization, agent improvement workflows, and context manage... | 1.2.0 |
 | `context-management` | Context persistence, restoration, and long-running conversation management | 1.2.0 |
 | `llm-application-dev` | LLM application development with LangGraph, RAG systems, vector search, and AI a... | 2.0.2 |
