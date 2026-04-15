@@ -4,7 +4,7 @@
 
 # Agent Reference
 
-Complete reference for all **108 specialized AI agents** organized by category with model assignments.
+Complete reference for all **109 specialized AI agents** organized by category with model assignments.
 
 ## Agent Categories
 
@@ -16,6 +16,7 @@ Complete reference for all **108 specialized AI agents** organized by category w
 | --------------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------- |
 | [backend-architect](../plugins/backend-development/agents/backend-architect.md)               | high   | RESTful API design, microservice boundaries, database schemas          |
 | [frontend-developer](../plugins/multi-platform-apps/agents/frontend-developer.md)             | medium | React components, responsive layouts, client-side state management     |
+| [astro-content-architect](../.opencode/agents/astro-content-architect.md)                     | high   | Astro island architecture, Payload CMS integration, multi-tenant content portals |
 | [graphql-architect](../plugins/backend-development/agents/graphql-architect.md)               | high   | GraphQL schemas, resolvers, federation architecture                    |
 | [architect-reviewer](../plugins/comprehensive-review/agents/architect-review.md)              | high   | Architectural consistency analysis and pattern validation              |
 | [cloud-architect](../plugins/cloud-infrastructure/agents/cloud-architect.md)                  | high   | AWS/Azure/GCP infrastructure design and cost optimization              |
