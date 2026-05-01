@@ -9,11 +9,13 @@ import { applyPatches } from "../patch/apply.js"
 import { generateThemes } from "./theme-gen.js"
 import { writeComparisonBoard } from "./comparison.js"
 import { writeFigmaTokens } from "./figma-tokens.js"
+import { createPullRequest } from "../pr/create-pr.js"
 import { writeReport } from "../reports/write-report.js"
 import type { RouteScreenshot } from "../browser/crawl.js"
 import type { EvalResult } from "../audit/score.js"
 import type { PatchPlan } from "../patch/plan.js"
 import type { ThemeProposal } from "./theme-gen.js"
+import type { PrResult } from "../pr/create-pr.js"
 import type { Config } from "../config.js"
 import type { Rubric } from "../audit/rubric.js"
 
@@ -22,6 +24,7 @@ import type { Rubric } from "../audit/rubric.js"
 const OrchestratorState = Annotation.Root({
   iteration: Annotation<number>({ default: () => 0, reducer: (_, b) => b }),
   screenshots: Annotation<RouteScreenshot[]>({ default: () => [], reducer: (_, b) => b }),
+  beforeScreenshots: Annotation<RouteScreenshot[]>({ default: () => [], reducer: (_, b) => b }),
   evalResults: Annotation<EvalResult[]>({ default: () => [], reducer: (_, b) => b }),
   score: Annotation<number>({ default: () => 0, reducer: (_, b) => b }),
   patchPlan: Annotation<PatchPlan | null>({ default: () => null, reducer: (_, b) => b }),
@@ -34,6 +37,8 @@ const OrchestratorState = Annotation.Root({
   comparisonPath: Annotation<string>({ default: () => "", reducer: (_, b) => b }),
   tokensPath: Annotation<string>({ default: () => "", reducer: (_, b) => b }),
   figmaWritten: Annotation<boolean>({ default: () => false, reducer: (_, b) => b }),
+  figmaFileUrl: Annotation<string>({ default: () => "", reducer: (_, b) => b }),
+  prResult: Annotation<PrResult | null>({ default: () => null, reducer: (_, b) => b }),
 })
 
 type State = typeof OrchestratorState.State
@@ -50,6 +55,8 @@ export interface OrchestratorResult {
   comparisonPath: string
   tokensPath: string
   figmaWritten: boolean
+  figmaFileUrl: string
+  prResult: PrResult | null
   outputDir: string
 }
 
@@ -68,7 +75,7 @@ export async function runOrchestrator(
     mkdirSync(iterDir, { recursive: true })
 
     console.log(
-      `\n[ux-engineer] Iteration ${state.iteration + 1} — capturing ${config.routes.length} route(s) in parallel...`
+      `\n[ux-engineer] Iteration ${state.iteration + 1} — capturing ${config.routes.length} route(s)...`
     )
 
     const screenshots = await crawl({
@@ -77,7 +84,13 @@ export async function runOrchestrator(
       outputDir: iterDir,
     })
 
-    return { screenshots, iteration: state.iteration + 1 }
+    // Save the very first capture as the "before" baseline
+    const isFirst = state.iteration === 0
+    return {
+      screenshots,
+      iteration: state.iteration + 1,
+      ...(isFirst ? { beforeScreenshots: screenshots } : {}),
+    }
   }
 
   async function evalNode(state: State): Promise<Partial<State>> {
@@ -132,18 +145,13 @@ export async function runOrchestrator(
   async function themeGen(state: State): Promise<Partial<State>> {
     console.log(`\n[ux-engineer] Generating theme proposals...`)
 
-    const proposal = await generateThemes(state.evalResults, config.appBaseUrl)
+    const proposal = await generateThemes(state.evalResults, config.appBaseUrl, config.themeCount)
 
     console.log(`[ux-engineer] ${proposal.themes.length} themes generated`)
     proposal.themes.forEach((t) => {
       const rec = t.id === proposal.recommendedId ? " (recommended)" : ""
       console.log(`  - ${t.name}${rec}: ${t.personality}`)
     })
-
-    const recommended = proposal.themes.find((t) => t.id === proposal.recommendedId)
-    if (recommended) {
-      console.log(`[ux-engineer] Recommendation: ${proposal.selectionReason}`)
-    }
 
     return { themeProposal: proposal }
   }
@@ -179,20 +187,67 @@ export async function runOrchestrator(
       theme: recommended,
       outputDir,
       figmaFileKey: process.env.FIGMA_FILE_KEY,
+      figmaAccessToken: process.env.FIGMA_ACCESS_TOKEN,
     })
 
     if (result.figmaWritten) {
-      console.log(`[ux-engineer] Figma variables written successfully`)
+      const dest = result.figmaFileUrl ? `— ${result.figmaFileUrl}` : ""
+      console.log(`[ux-engineer] Figma variables written ${dest}`)
     } else if (result.figmaError) {
       console.log(`[ux-engineer] Figma write skipped: ${result.figmaError}`)
     } else {
-      console.log(`[ux-engineer] Tokens written to ${result.tokensPath} (set FIGMA_FILE_KEY to push to Figma)`)
+      console.log(`[ux-engineer] Tokens written to ${result.tokensPath} (set FIGMA_ACCESS_TOKEN to push)`)
     }
 
     return {
       tokensPath: result.tokensPath,
       figmaWritten: result.figmaWritten,
+      figmaFileUrl: result.figmaFileUrl ?? "",
     }
+  }
+
+  async function prCreate(state: State): Promise<Partial<State>> {
+    if (!config.raisePr || !config.targetRepoPath) {
+      console.log(`[ux-engineer] PR creation skipped (set UX_AGENT_RAISE_PR=true and TARGET_REPO_PATH)`)
+      return {}
+    }
+
+    console.log(`[ux-engineer] Creating pull request...`)
+
+    const intermediateResult: OrchestratorResult = {
+      status: state.score >= config.minScore ? "passed" : "maxed",
+      finalScore: state.score,
+      iterations: state.iteration,
+      history: state.history,
+      evalResults: state.evalResults,
+      screenshots: state.screenshots,
+      patchPlan: state.patchPlan,
+      themeProposal: state.themeProposal,
+      comparisonPath: state.comparisonPath,
+      tokensPath: state.tokensPath,
+      figmaWritten: state.figmaWritten,
+      figmaFileUrl: state.figmaFileUrl,
+      prResult: null,
+      outputDir,
+    }
+
+    const prResult = await createPullRequest({
+      result: intermediateResult,
+      beforeScreenshots: state.beforeScreenshots,
+      repoPath: config.targetRepoPath,
+      branchName: process.env.UX_AGENT_PR_BRANCH,
+      dryRun: config.dryRun,
+    })
+
+    if (prResult.skipped) {
+      console.log(`[ux-engineer] PR skipped: ${prResult.skipReason}`)
+    } else if (prResult.prUrl === "DRY_RUN") {
+      console.log(`[ux-engineer] DRY RUN — PR would be created on branch ${prResult.branch}`)
+    } else {
+      console.log(`[ux-engineer] PR created: ${prResult.prUrl}`)
+    }
+
+    return { prResult }
   }
 
   // ── routing ─────────────────────────────────────────────────────────────────
@@ -217,13 +272,15 @@ export async function runOrchestrator(
     .addNode("themeGen", themeGen)
     .addNode("comparison", comparison)
     .addNode("figmaWrite", figmaWrite)
+    .addNode("prCreate", prCreate)
     .addEdge(START, "capture")
     .addEdge("capture", "eval")
     .addConditionalEdges("eval", afterEval, { patch: "patch", themeGen: "themeGen" })
     .addConditionalEdges("patch", afterPatch, { capture: "capture", themeGen: "themeGen" })
     .addEdge("themeGen", "comparison")
     .addEdge("comparison", "figmaWrite")
-    .addEdge("figmaWrite", END)
+    .addEdge("figmaWrite", "prCreate")
+    .addEdge("prCreate", END)
     .compile()
 
   const final = await graph.invoke({})
@@ -257,6 +314,8 @@ export async function runOrchestrator(
     comparisonPath: final.comparisonPath,
     tokensPath: final.tokensPath,
     figmaWritten: final.figmaWritten,
+    figmaFileUrl: final.figmaFileUrl,
+    prResult: final.prResult,
     outputDir,
   }
 }

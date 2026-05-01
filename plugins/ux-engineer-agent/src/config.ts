@@ -11,10 +11,13 @@ const ConfigSchema = z.object({
   targetRepoPath: z.string().optional(),
   writableStylePaths: z.array(z.string()),
   maxIterations: z.number().int().min(1).max(10).default(4),
-  minScore: z.number().min(1).max(10).default(8),
+  minScore: z.number().min(1).max(10).default(9),
+  themeCount: z.number().int().min(1).max(10).default(3),
   dryRun: z.boolean().default(false),
   requireCleanGit: z.boolean().default(true),
   rubricPath: z.string().optional(),
+  raisePr: z.boolean().default(false),
+  prBranch: z.string().optional(),
 })
 
 export type Config = z.infer<typeof ConfigSchema>
@@ -47,10 +50,15 @@ export function loadConfig(): Config {
       : 4,
     minScore: process.env.UX_AGENT_MIN_SCORE
       ? Number(process.env.UX_AGENT_MIN_SCORE)
-      : 8,
+      : 9,
+    themeCount: process.env.UX_AGENT_THEME_COUNT
+      ? Number(process.env.UX_AGENT_THEME_COUNT)
+      : 3,
     dryRun: process.env.UX_AGENT_DRY_RUN === "true",
     requireCleanGit: process.env.UX_AGENT_REQUIRE_CLEAN_GIT !== "false",
     rubricPath: process.env.UX_AGENT_RUBRIC_PATH,
+    raisePr: process.env.UX_AGENT_RAISE_PR === "true",
+    prBranch: process.env.UX_AGENT_PR_BRANCH,
   }
 
   const result = ConfigSchema.safeParse(raw)
