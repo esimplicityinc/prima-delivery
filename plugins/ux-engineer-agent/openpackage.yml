@@ -1,0 +1,6 @@
+name: ux-engineer-agent
+version: 0.1.0
+description: Generic UX Engineer Agent — headless audit, vision scoring, and patch-and-retry loop for any web app. Runs against any URL, applies CSS/Tailwind patches to a target repo, iterates until UX score meets threshold.
+author: Prima Team <team@esimplicity.com>
+license: UNLICENSED
+category: ui-design

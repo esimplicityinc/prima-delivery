@@ -1,0 +1,29 @@
+{
+  "name": "@prima/ux-engineer-agent",
+  "version": "0.1.0",
+  "description": "Generic UX Engineer Agent — headless audit, vision scoring, patch-and-retry loop for any web app",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "ux-engineer": "./src/cli.ts",
+    "ux-engineer-full": "./src/cli-full.ts"
+  },
+  "scripts": {
+    "start": "bun run src/cli.ts",
+    "start:full": "bun run src/cli-full.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@langchain/langgraph": "^0.2.0",
+    "playwright": "^1.52.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.0"
+  }
+}
