@@ -41,6 +41,21 @@ Arrows are labeled with the actual metadata field names that create the link: `u
 Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/katalyst-taxonomy-dependencies.spec.json`
 Renderer: `drawio` via this plugin's `build-drawio.py`.
 
+## authority-map.{png,svg}
+
+The Authority Map (RIC-401 Appendix G): who decides what, in which loop, and why authority is rarely the developer in govt contexts. Three columns mirror the three loops; each column lists the authoritative roles with their decision domains and outputs:
+
+- **Outer loop (cadence: quarters → years):** Leadership · Mission Stakeholder (govt program owner — ULTIMATE authority on "what is good") · HCD Lead (design system, brand, accessibility baseline)
+- **Inner loop (cadence: days → weeks):** PM (mission-outcome judgment per feature) · HCD Expert IRREPLACEABLE (UX impact, visual design intent — cannot be replaced by AI per Aaron's directive) · UX (visual hierarchy, typography) · Architect (coupling, cohesion, ADRs) · Engineer (feasibility, implementation reality)
+- **Hypothesis loop (cadence: always-on):** Research (user-pain validity) · Data/Analyst (telemetry interpretation) · PM (shared with Inner — synthesizes verdicts)
+
+Cross-column edges show how cross-discipline judgment flows: mission outcomes constrain feature scope; design system informs feature design; UX hypothesis emitted at ship → validated by research; engineer ships telemetry that data interprets. Pattern Extraction (orange thick) flows CONFIRMED hypothesis-outcomes back into the Outer Design System — the load-bearing connection that mirrors the 3-loop diagram. REFUTED outcomes (red dashed) bubble back to Mission Stakeholder to rethink Need.
+
+Right-side callout makes the irreplaceability claim explicit: AI cannot replace these authorities; the taxonomy ORIENTS AI + humans together; HCD in particular is irreplaceable for visual design impact on real users. Bottom callout names the toil-buffer collapse: pre-AI implementation toil was a passive filter against bad direction; post-AI explicit authority assignment is the active replacement filter.
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/authority-map.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
 ## How to regenerate
 
 ```bash
