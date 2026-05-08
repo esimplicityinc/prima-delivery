@@ -1,0 +1,13 @@
+{
+  "template_type": "sequence",
+  "rsvg_validates": true,
+  "svg_must_contain_text": [
+    "POST /auth/login",
+    "Client",
+    "DB",
+    "jwt",
+    "passwords"
+  ],
+  "min_arrow_markers": 1,
+  "min_png_bytes": 5000
+}

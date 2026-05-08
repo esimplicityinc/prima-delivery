@@ -6,8 +6,8 @@
     "url": ""
   },
   "metadata": {
-    "description": "Production-ready workflow orchestration with 72 focused plugins, 108 specialized agents, and 140 skills - optimized for granular installation and minimal token usage",
-    "version": "1.3.7"
+    "description": "Production-ready workflow orchestration with 72 focused plugins, 108 specialized agents, and 142 skills - optimized for granular installation and minimal token usage",
+    "version": "1.3.8"
   },
   "plugins": [
     {
@@ -1281,6 +1281,34 @@
         "./agents/c4-component.md",
         "./agents/c4-container.md",
         "./agents/c4-context.md"
+      ]
+    },
+    {
+      "name": "diagramming",
+      "source": "./plugins/diagramming",
+      "description": "Generate architecture, flow, sequence, ERD, state-machine, and network diagrams as SVG + PNG via the fireworks-tech-graph skill, validated by rsvg-convert. Two skills (architecture-diagrams, flow-diagrams) coordinated for consistent visual style across both system topology and code-derived flows.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Prima Team",
+        "url": ""
+      },
+      "homepage": "",
+      "repository": "",
+      "license": "UNLICENSED",
+      "keywords": [
+        "diagrams",
+        "architecture",
+        "sequence",
+        "erd",
+        "svg",
+        "fireworks-tech-graph",
+        "documentation"
+      ],
+      "category": "documentation",
+      "strict": false,
+      "skills": [
+        "./skills/architecture-diagrams/SKILL.md",
+        "./skills/flow-diagrams/SKILL.md"
       ]
     },
     {

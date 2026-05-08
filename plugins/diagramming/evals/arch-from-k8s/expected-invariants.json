@@ -1,0 +1,19 @@
+{
+  "template_type": "architecture",
+  "rsvg_validates": true,
+  "svg_must_contain_text": [
+    "shine-portal-frontend",
+    "shine-portal-api",
+    "Ingress",
+    "shine.example.com",
+    "/api"
+  ],
+  "min_arrow_markers": 1,
+  "min_png_bytes": 5000,
+  "diff_update": {
+    "translated_v2": "translated-v2.json",
+    "must_contain_after_diff": [
+      "shine-portal-cache"
+    ]
+  }
+}

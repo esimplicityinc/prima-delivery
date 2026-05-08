@@ -1,0 +1,11 @@
+{
+  "template_type": "er-diagram",
+  "rsvg_validates": true,
+  "svg_must_contain_text": [
+    "users",
+    "sessions",
+    "audit_log",
+    "user_id"
+  ],
+  "min_png_bytes": 5000
+}

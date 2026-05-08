@@ -1,0 +1,22 @@
+{
+  "title": "POST /auth/login sequence",
+  "subtitle": "Elysia route -> DB -> password verify -> JWT sign",
+  "viewBox": "0 0 960 700",
+  "nodes": [
+    { "id": "client",     "label": "Client",       "kind": "user",    "x": 80,  "y": 130, "width": 130, "height": 50 },
+    { "id": "api",        "label": "Elysia /auth", "kind": "service", "x": 280, "y": 130, "width": 160, "height": 50 },
+    { "id": "db",         "label": "DB",           "kind": "data",    "x": 510, "y": 130, "width": 110, "height": 50 },
+    { "id": "passwords",  "label": "passwords",    "kind": "service", "x": 680, "y": 130, "width": 130, "height": 50 },
+    { "id": "jwt",        "label": "jwt",          "kind": "service", "x": 850, "y": 130, "width": 90,  "height": 50 }
+  ],
+  "arrows": [
+    { "source": "client",    "target": "api",       "label": "POST /auth/login",      "kind": "control", "y_offset": 230 },
+    { "source": "api",       "target": "db",        "label": "user.findByEmail",      "kind": "data",    "y_offset": 290 },
+    { "source": "db",        "target": "api",       "label": "user | null",           "kind": "read",    "y_offset": 350 },
+    { "source": "api",       "target": "passwords", "label": "verify(pw, hash)",      "kind": "control", "y_offset": 410 },
+    { "source": "passwords", "target": "api",       "label": "true | false",          "kind": "read",    "y_offset": 470 },
+    { "source": "api",       "target": "jwt",       "label": "sign({ sub })",         "kind": "control", "y_offset": 530 },
+    { "source": "jwt",       "target": "api",       "label": "token",                 "kind": "read",    "y_offset": 590 },
+    { "source": "api",       "target": "client",    "label": "{ token } | 401",       "kind": "data",    "y_offset": 650 }
+  ]
+}
