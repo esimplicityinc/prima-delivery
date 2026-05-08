@@ -1,6 +1,6 @@
 ---
 name: flow-diagrams
-description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
+description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via PptxGenJS (Anthropic-skill-recommended) in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
 version: 1.4.0
 ---
 
@@ -169,10 +169,10 @@ Phase 5 — PowerPoint mode (when `mode == "powerpoint"`)
 Identical to `architecture-diagrams`. After all SVG + PNGs are rendered, build a `deck-spec.json` and shell out to:
 
 ```bash
-"$DIAGRAM_PPTX_PYTHON" plugins/diagramming/scripts/build-deck.py <deck-spec.json> "$OUTPUT_DIR/<deck-slug>.pptx"
+node plugins/diagramming/scripts/build-deck.js <deck-spec.json> "$OUTPUT_DIR/<deck-slug>.pptx"
 ```
 
-Default `DIAGRAM_PPTX_PYTHON` is system `python3`; recommended setup is a venv at `~/.gstack/diagramming-venv` with `python-pptx` installed.
+Uses [PptxGenJS](https://gitbrent.github.io/PptxGenJS/) — the path Anthropic's `pptx` skill recommends. Run `npm install` once in `plugins/diagramming/` before first use.
 
 In a mixed-skill request (this skill + `architecture-diagrams` for the same deck), the `diagramming-engineer` agent coordinates which skill writes the `.pptx`. See `diagramming-engineer.md` for the cross-skill protocol; both skills read/write a `$OUTPUT_DIR/.deck-manifest.json` so the final invocation builds a single deck with all slides.
 

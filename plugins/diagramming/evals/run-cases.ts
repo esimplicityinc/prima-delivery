@@ -383,32 +383,31 @@ async function powerpointSmoke(): Promise<CaseResult> {
     ),
   );
 
-  const pyCmd = process.env.DIAGRAM_PPTX_PYTHON ?? "python3";
   const buildScript = join(
     EVALS_DIR,
     "..",
     "scripts",
-    "build-deck.py",
+    "build-deck.js",
   );
-  const r = spawnSync(pyCmd, [buildScript, deckSpecPath, deckOut], {
+  const r = spawnSync("node", [buildScript, deckSpecPath, deckOut], {
     encoding: "utf8",
   });
 
-  if (r.status === 2) {
-    // python-pptx not installed: skip with a clear message.
-    return {
-      case_name: "powerpoint-smoke",
-      passed: true,
-      failures: [
-        `[SKIPPED] python-pptx not installed in ${pyCmd}. ${r.stderr.trim().split("\n")[0]}`,
-      ],
-    };
-  }
   if (r.status !== 0) {
+    // Detect missing module — build path is missing the npm dependency.
+    if ((r.stderr ?? "").includes("Cannot find module 'pptxgenjs'")) {
+      return {
+        case_name: "powerpoint-smoke",
+        passed: true,
+        failures: [
+          `[SKIPPED] pptxgenjs not installed. Run: npm install (in plugins/diagramming/)`,
+        ],
+      };
+    }
     return {
       case_name: "powerpoint-smoke",
       passed: false,
-      failures: [`build-deck.py failed: ${r.stderr.trim()}`],
+      failures: [`build-deck.js failed: ${r.stderr.trim()}`],
     };
   }
 
@@ -416,7 +415,7 @@ async function powerpointSmoke(): Promise<CaseResult> {
     return {
       case_name: "powerpoint-smoke",
       passed: false,
-      failures: ["build-deck.py exited 0 but no .pptx produced"],
+      failures: ["build-deck.js exited 0 but no .pptx produced"],
     };
   }
   const s = await stat(deckOut);
