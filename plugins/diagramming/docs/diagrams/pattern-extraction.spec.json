@@ -1,0 +1,45 @@
+{
+  "title": "RIC-401 Appendix E — Pattern Extraction Pipeline",
+  "subtitle": "How inner-loop wins flow back into outer-loop design system. The load-bearing mechanism that keeps the design system LIVING.",
+  "viewBox": "0 0 1800 1100",
+  "nodes": [
+    {"id": "top_callout", "label": "PATTERN EXTRACTION — the most valuable artifact update.\nWhen a pattern works in inner loop, it gets PULLED BACK into the outer-loop design system.\nWithout this, the design system is dead the moment it's authored. WITH this, it grows from every shipped feature.", "kind": "data", "x": 60, "y": 40, "width": 1680, "height": 80, "style_overrides": "fillColor=#fff3e0;strokeColor=#e65100;fontStyle=1;fontSize=13;"},
+
+    {"id": "src_inner",   "label": "Inner Loop\nfeature ships",                          "kind": "data", "x": 60,   "y": 200, "width": 220, "height": 80, "style_overrides": "fillColor=#e8eaf6;strokeColor=#3949ab;fontStyle=1;"},
+    {"id": "src_hyp",     "label": "Hypothesis Loop\noutcome: CONFIRMED",                "kind": "data", "x": 60,   "y": 320, "width": 220, "height": 80, "style_overrides": "fillColor=#c8e6c9;strokeColor=#2e7d32;fontStyle=1;"},
+
+    {"id": "step1", "label": "1. IDENTIFY\nIs the pattern observable in ≥2 features?\n(Single instance ≠ pattern)\nOwner: HCD Expert / Architect", "kind": "process", "x": 360,  "y": 200, "width": 320, "height": 200},
+    {"id": "step2", "label": "2. DISTILL\nName the reusable shape:\n• component / token / IA pattern\n• interaction primitive\n• copy convention\nStrip feature-specific details.",       "kind": "process", "x": 720,  "y": 200, "width": 320, "height": 200},
+    {"id": "step3", "label": "3. PROPOSE\nWrite proposal: pattern + 2+ examples +\nrationale + suggested API.\nFile: PR against design system repo.\nOwner: pattern's discoverer.",       "kind": "process", "x": 1080, "y": 200, "width": 320, "height": 200},
+    {"id": "step4", "label": "4. REVIEW\nHCD Lead: visual + UX coherence\nArchitect: API + coupling\nMission Stakeholder: alignment\n→ APPROVE / REVISE / REJECT",                       "kind": "process", "x": 1440, "y": 200, "width": 320, "height": 200, "style_overrides": "fillColor=#fce4ec;strokeColor=#ad1457;"},
+
+    {"id": "step5", "label": "5. MERGE\n• add to design system / component lib\n• version-bump (e.g. DESIGN.md 2.3 → 2.4)\n• update CHANGELOG.md\n• tag the pattern with source feature(s)",  "kind": "process", "x": 1440, "y": 460, "width": 320, "height": 200, "style_overrides": "fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=3;fontStyle=1;"},
+    {"id": "step6", "label": "6. NOTIFY\n• broadcast to all tenants\n  (FOE, RIC, Prima, SHINE)\n• update onboarding docs\n• mention in next sprint review",                                "kind": "process", "x": 1080, "y": 460, "width": 320, "height": 200},
+    {"id": "step7", "label": "7. ADOPT\n• other tenants pull the pattern\n• existing features migrate over time\n  (deprecation notices on old patterns)\n• track adoption rate",          "kind": "process", "x": 720,  "y": 460, "width": 320, "height": 200},
+
+    {"id": "outcome", "label": "Outer Design System\ngrows by ONE pattern.\nNext extraction starts from\nthe new baseline.", "kind": "process", "x": 360,  "y": 460, "width": 320, "height": 200, "style_overrides": "fillColor=#e8f5e9;strokeColor=#2e7d32;strokeWidth=3;fontStyle=1;"},
+
+    {"id": "loopback_callout", "label": "Outer Design System NOW informs\nthe NEXT inner-loop feature\nthat starts from a richer baseline.\n(This is the spike's spine: pattern\nextraction is what makes loops nest.)", "kind": "data", "x": 60,   "y": 460, "width": 240, "height": 200, "style_overrides": "fillColor=#fff8e1;strokeColor=#f57f17;fontSize=12;"},
+
+    {"id": "anti_pattern", "label": "ANTI-PATTERNS (skip these and the system rots):\n• extracting one-off as if it's a pattern (need ≥2 confirmed instances)\n• extracting without HCD-lead review (taste collapses)\n• extracting without notifying other tenants (silent fragmentation)\n• extracting without adoption tracking (dead patterns clutter the system)\n• not deprecating old patterns when new ones replace them (system grows forever)", "kind": "data", "x": 60,   "y": 760, "width": 1700, "height": 160, "style_overrides": "fillColor=#ffebee;strokeColor=#b71c1c;fontSize=12;"},
+
+    {"id": "cadence_callout", "label": "CADENCE: extraction is opportunistic, not scheduled.\nTrigger is the ≥2-instance signal, not the calendar.\nQuarterly design system audit catches missed extractions.", "kind": "data", "x": 60, "y": 950, "width": 1700, "height": 70, "style_overrides": "fillColor=#ede7f6;strokeColor=#5e35b1;fontSize=12;"}
+  ],
+  "arrows": [
+    {"source": "src_inner", "target": "step1", "label": "trigger", "kind": "control", "exit_port": "R", "entry_port": "L"},
+    {"source": "src_hyp",   "target": "step1", "label": "CONFIRMED", "kind": "control", "exit_port": "R", "entry_port": "L", "style_overrides": "strokeColor=#2e7d32;strokeWidth=2;"},
+
+    {"source": "step1", "target": "step2", "label": "", "kind": "control", "exit_port": "R", "entry_port": "L"},
+    {"source": "step2", "target": "step3", "label": "", "kind": "control", "exit_port": "R", "entry_port": "L"},
+    {"source": "step3", "target": "step4", "label": "", "kind": "control", "exit_port": "R", "entry_port": "L"},
+
+    {"source": "step4", "target": "step5", "label": "APPROVED", "kind": "control", "exit_port": "B", "entry_port": "T", "style_overrides": "strokeColor=#2e7d32;fontStyle=1;"},
+    {"source": "step4", "target": "step3", "label": "REVISE", "kind": "feedback", "exit_port": "T", "entry_port": "T", "waypoints": [{"x": 1600, "y": 160}, {"x": 1240, "y": 160}], "style_overrides": "dashed=1;"},
+
+    {"source": "step5", "target": "step6", "label": "", "kind": "control", "exit_port": "L", "entry_port": "R"},
+    {"source": "step6", "target": "step7", "label": "", "kind": "control", "exit_port": "L", "entry_port": "R"},
+    {"source": "step7", "target": "outcome", "label": "", "kind": "control", "exit_port": "L", "entry_port": "R"},
+
+    {"source": "outcome", "target": "step1", "label": "next pattern starts here", "kind": "feedback", "exit_port": "T", "entry_port": "B", "waypoints": [{"x": 520, "y": 430}], "style_overrides": "dashed=1;"}
+  ]
+}

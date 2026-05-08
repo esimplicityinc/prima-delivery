@@ -56,6 +56,34 @@ Right-side callout makes the irreplaceability claim explicit: AI cannot replace 
 Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/authority-map.spec.json`
 Renderer: `drawio` via this plugin's `build-drawio.py`.
 
+## hypothesis-lifecycle.{png,svg}
+
+The Hypothesis Lifecycle (RIC-401 Appendix C): every shipped feature is a hypothesis with a finite life. State machine: `DRAFT → ACTIVE → {CONFIRMED, PARTIAL, REFUTED} → {EXTRACTED, REFINED, KILLED}`. Kill criteria + success metrics are defined PRE-ship — without them, REFUTED has no operational meaning. CONFIRMED → EXTRACTED is the load-bearing pattern-extraction trigger (orange thick). REFUTED + REFINED loop back to DRAFT (dashed) — the spike's most-traveled feedback edge. Bottom band names the artifact annotation rule: when a state transitions, the related artifact gets an append-only outcome record (status, date, evidence_refs).
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/hypothesis-lifecycle.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
+## update-protocols.{png,svg}
+
+Artifact Update Protocols (RIC-401 Appendix D): the four ways an artifact can change without losing audit trail. Decision flow: a change to a design intent artifact branches by KIND — `REFINEMENT` → UPDATE IN PLACE (version bump), `MAJOR SHIFT` → SUPERSEDE WITH LINEAGE (new artifact, old stays), `HYPOTHESIS OUTCOME` → ANNOTATE (append-only outcome record), `CONFIRMED PATTERN` → EXTRACT TO OUTER (load-bearing path, orange thick). ALWAYS rules and NEVER rules anchor the discipline. EXTRACT is the load-bearing update — it's how the Outer Design System grows from inner-loop wins.
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/update-protocols.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
+## pattern-extraction.{png,svg}
+
+Pattern Extraction Pipeline (RIC-401 Appendix E): the seven-step pipeline from inner-loop CONFIRMED hypothesis to outer-loop design system update. `IDENTIFY (≥2 instances) → DISTILL (strip feature-specifics) → PROPOSE (PR + rationale) → REVIEW (HCD lead + architect + mission stakeholder) → MERGE (version-bump design system) → NOTIFY (broadcast to all tenants) → ADOPT (track migration)`. Without ≥2 instances, you have a one-off, not a pattern. Anti-patterns band names the failure modes (single-instance extraction, skipping HCD review, silent fragmentation, no adoption tracking). Cadence band: extraction is opportunistic, triggered by the ≥2-instance signal — quarterly design system audit catches missed extractions.
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/pattern-extraction.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
+## artifact-schema.{png,svg}
+
+Artifact Schema (RIC-401 Appendix F): the entity-relationship model that underlies every appendix above. Eight entities: `Artifact` (versioned, status-tracked, lineage-preserving), `Hypothesis` (with success metrics + kill criteria), `Evidence` (telemetry / interviews / observations), `HypothesisOutcome` (append-only annotations on Hypothesis), `TaxonomyDimension` (Need / Design Intent / Implementation Reality), `Loop` (Outer / Inner / Hypothesis), `Authority` (role + decision domain + replaceable_by_AI flag — false for HCD Expert), `Pattern` (extracted from ≥2 source artifacts). Invariants band names the structural rules (lineage forms a DAG; outcome history is immutable; pattern requires ≥2 sources; HCD is irreplaceable; no orphans). Why this schema: because the taxonomy must be MACHINE-READABLE at agent speed; prose-only artifacts collapse into the human-speed slide-deck failure mode.
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/artifact-schema.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
 ## How to regenerate
 
 ```bash

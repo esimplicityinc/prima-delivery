@@ -1,0 +1,43 @@
+{
+  "title": "RIC-401 Appendix F — Artifact Schema (ERD)",
+  "subtitle": "Entity model for taxonomy artifacts. Versioning, lineage, hypothesis annotation, authority + dimension assignment. The schema underlies every appendix above.",
+  "viewBox": "0 0 1900 1200",
+  "nodes": [
+    {"id": "top_callout", "label": "ARTIFACT SCHEMA — every node in the Katalyst taxonomy carries these fields.\nLineage (supersedes), authority (owner role), dimension (Need / Design Intent / Implementation Reality), and hypothesis annotation are the four load-bearing relationships.", "kind": "data", "x": 60, "y": 40, "width": 1780, "height": 70, "style_overrides": "fillColor=#fff8e1;strokeColor=#f57f17;fontStyle=1;fontSize=13;"},
+
+    {"id": "artifact",  "label": "Artifact\n──────────────\n• id (PK)\n• type (UT | US | ADR | NFR | PRD | mockup | ...)\n• title\n• version (semver-ish: 1.0, 1.1, 2.0)\n• status (DRAFT | APPROVED | SUPERSEDED | DEPRECATED)\n• created_at\n• last_modified\n• supersedes_id (FK → Artifact.id, nullable)\n• dimension_id (FK → TaxonomyDimension.id)\n• loop_id (FK → Loop.id)\n• owner_authority_id (FK → Authority.id)\n• hypothesis_id (FK → Hypothesis.id, nullable)\n• body (markdown / yaml content)", "kind": "process", "x": 60,   "y": 160, "width": 420, "height": 380, "style_overrides": "fillColor=#e8eaf6;strokeColor=#3949ab;strokeWidth=3;fontStyle=1;fontSize=12;"},
+
+    {"id": "hypothesis","label": "Hypothesis\n──────────────\n• id (PK)\n• claim (\"we believe X\")\n• success_metrics (\"right when Y\")\n• kill_criteria (\"by date Z\")\n• status (DRAFT | ACTIVE | CONFIRMED | REFUTED | PARTIAL | EXTRACTED | KILLED | REFINED)\n• created_at\n• decided_at (nullable until terminal state)\n• evidence_refs[] (FK → Evidence.id)\n• loop_id (FK → Loop.id)\n• owner_authority_id (FK → Authority.id)\n• related_artifact_ids[] (FK → Artifact.id)", "kind": "process", "x": 540,  "y": 160, "width": 420, "height": 380, "style_overrides": "fillColor=#fff9c4;strokeColor=#f57f17;fontStyle=1;fontSize=12;"},
+
+    {"id": "evidence",  "label": "Evidence\n──────────────\n• id (PK)\n• type (interview | metric | observation | analytics | survey)\n• date\n• summary\n• ref_url (link to source: dashboard, transcript, report)\n• hypothesis_id (FK → Hypothesis.id)\n• collected_by_authority_id (FK → Authority.id)", "kind": "process", "x": 1020, "y": 160, "width": 380, "height": 280, "style_overrides": "fillColor=#c8e6c9;strokeColor=#2e7d32;fontStyle=1;fontSize=12;"},
+
+    {"id": "outcome",   "label": "HypothesisOutcome (annotation)\n──────────────\n• id (PK)\n• hypothesis_id (FK → Hypothesis.id)\n• status (CONFIRMED | REFUTED | PARTIAL)\n• date\n• evidence_refs[] (FK → Evidence.id)\n• rationale (markdown)\n• append-only (never updated, only appended)\n• triggered_extraction_id (FK → Pattern.id, nullable)", "kind": "process", "x": 1460, "y": 160, "width": 420, "height": 280, "style_overrides": "fillColor=#fff3e0;strokeColor=#e65100;fontStyle=1;fontSize=12;"},
+
+    {"id": "dimension", "label": "TaxonomyDimension\n──────────────\n• id (PK)\n• name (Need | Design Intent | Implementation Reality)\n• description\n• existing Forge node types[]", "kind": "process", "x": 60,   "y": 600, "width": 420, "height": 200, "style_overrides": "fillColor=#fce4ec;strokeColor=#ad1457;fontStyle=1;fontSize=12;"},
+
+    {"id": "loop",      "label": "Loop\n──────────────\n• id (PK)\n• name (Outer | Inner | Hypothesis)\n• cadence (quarters-years | days-weeks | always-on)\n• description", "kind": "process", "x": 540,  "y": 600, "width": 420, "height": 200, "style_overrides": "fillColor=#e8f5e9;strokeColor=#2e7d32;fontStyle=1;fontSize=12;"},
+
+    {"id": "authority", "label": "Authority\n──────────────\n• id (PK)\n• role (Leadership | Mission Stakeholder | PM | HCD Lead | HCD Expert | UX | Architect | Engineer | Research | Data Analyst)\n• decision_domain (markdown)\n• loop_id (FK → Loop.id)\n• replaceable_by_AI (bool — false for HCD)", "kind": "process", "x": 1020, "y": 600, "width": 420, "height": 220, "style_overrides": "fillColor=#fff8e1;strokeColor=#f57f17;fontStyle=1;fontSize=12;"},
+
+    {"id": "pattern",   "label": "Pattern (extracted)\n──────────────\n• id (PK)\n• name\n• shape (component | token | IA | interaction | copy)\n• source_artifact_ids[] (FK → Artifact.id, ≥2)\n• extracted_at\n• extracted_by_authority_id (FK → Authority.id)\n• design_system_version_at_merge", "kind": "process", "x": 1460, "y": 600, "width": 420, "height": 220, "style_overrides": "fillColor=#fff3e0;strokeColor=#e65100;strokeWidth=3;fontStyle=1;fontSize=12;"},
+
+    {"id": "rules_callout", "label": "INVARIANTS\n• Artifact.supersedes_id → forms a DAG (no cycles); old artifact stays as historical record\n• Artifact.status = SUPERSEDED iff another Artifact.supersedes_id = this.id\n• Hypothesis.status terminal-state (CONFIRMED/REFUTED/PARTIAL) requires ≥1 HypothesisOutcome record\n• HypothesisOutcome is append-only — outcome history is immutable\n• Pattern.source_artifact_ids requires ≥2 entries (one-off ≠ pattern)\n• Authority.replaceable_by_AI = false for HCD Expert (Aaron's directive)\n• Artifact.dimension_id and loop_id are required (no orphans)", "kind": "data", "x": 60, "y": 880, "width": 1820, "height": 180, "style_overrides": "fillColor=#e8f5e9;strokeColor=#2e7d32;fontSize=12;"},
+
+    {"id": "purpose_callout", "label": "Why this schema? Because the taxonomy must be MACHINE-READABLE at agent speed.\nProse-only artifacts collapse into the human-speed slide-deck failure mode.\nA structured schema is the precondition for any tooling (`kata-design lint`, hypothesis-status CLI, pattern-extraction proposals) recommended in §11.", "kind": "data", "x": 60, "y": 1090, "width": 1820, "height": 90, "style_overrides": "fillColor=#ede7f6;strokeColor=#5e35b1;fontStyle=1;fontSize=12;"}
+  ],
+  "arrows": [
+    {"source": "artifact",  "target": "artifact",  "label": "1..N supersedes (lineage)", "kind": "feedback", "exit_port": "T", "entry_port": "L", "waypoints": [{"x": 270, "y": 130}, {"x": 30, "y": 130}, {"x": 30, "y": 350}], "style_overrides": "dashed=1;"},
+    {"source": "artifact",  "target": "hypothesis","label": "0..1 has", "kind": "control", "exit_port": "R", "entry_port": "L"},
+    {"source": "hypothesis","target": "evidence",  "label": "1..N collects", "kind": "control", "exit_port": "R", "entry_port": "L"},
+    {"source": "hypothesis","target": "outcome",   "label": "1..N annotated by\n(append-only)", "kind": "control", "exit_port": "T", "entry_port": "L", "waypoints": [{"x": 750, "y": 130}, {"x": 1670, "y": 130}]},
+
+    {"source": "artifact",  "target": "dimension", "label": "1..1 categorized as", "kind": "control", "exit_port": "B", "entry_port": "T"},
+    {"source": "artifact",  "target": "loop",      "label": "1..1 lives in", "kind": "control", "exit_port": "B", "entry_port": "T", "waypoints": [{"x": 380, "y": 570}]},
+    {"source": "artifact",  "target": "authority", "label": "1..1 owned by", "kind": "control", "exit_port": "B", "entry_port": "T", "waypoints": [{"x": 440, "y": 570}, {"x": 1230, "y": 570}]},
+
+    {"source": "outcome",   "target": "pattern",   "label": "0..1 triggers extraction\n(CONFIRMED only)", "kind": "control", "exit_port": "B", "entry_port": "T", "style_overrides": "strokeColor=#e65100;strokeWidth=3;fontStyle=1;"},
+    {"source": "pattern",   "target": "artifact",  "label": "many sources", "kind": "feedback", "exit_port": "L", "entry_port": "B", "waypoints": [{"x": 1430, "y": 870}, {"x": 270, "y": 870}], "style_overrides": "strokeColor=#e65100;dashed=1;"},
+
+    {"source": "evidence",  "target": "authority", "label": "collected by", "kind": "control", "exit_port": "B", "entry_port": "T", "waypoints": [{"x": 1210, "y": 580}]}
+  ]
+}
