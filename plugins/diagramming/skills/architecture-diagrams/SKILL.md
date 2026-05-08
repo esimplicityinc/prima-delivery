@@ -1,7 +1,7 @@
 ---
 name: architecture-diagrams
-description: Generate SVG + PNG architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
-version: 1.1.0
+description: Generate architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense graphs needing explicit waypoint routing). Optionally assembles outputs into a PowerPoint deck via python-pptx in powerpoint mode. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
+version: 1.2.0
 ---
 
 # architecture-diagrams
@@ -29,13 +29,25 @@ The skill requires two system tools. Check at startup; fail loudly with the inst
 
 `python3` is also required (used by fireworks-tech-graph's helpers). Standard on most systems.
 
+## Renderer choice (v1.2.0)
+
+| Renderer | Output | When to use |
+|----------|--------|-------------|
+| `fireworks` (default) | SVG + PNG via fireworks-tech-graph | C4 context/container, deployment topology, simple network diagrams. Clean output, fast |
+| `drawio` | `.drawio` XML + PNG via draw.io desktop CLI | Architecture diagrams with many cross-cutting connections, hub-and-spoke topologies, anything where fireworks-tech-graph's auto-layout produces overlapping edges |
+
+**Default for this skill:** `fireworks`. Architecture diagrams usually fit fireworks's auto-layout cleanly. Switch to `drawio` only when you have explicit cross-tier connections that auto-layout can't route, or when the user asks for it. Always honor explicit `renderer` in input or `DIAGRAM_DEFAULT_RENDERER` env var.
+
+The full drawio invocation pattern is documented in `flow-diagrams/SKILL.md` (Phase 3, "When `renderer == drawio`"); this skill follows the same protocol.
+
 ## Input contract
 
 ```jsonc
 {
   "mode": "plain",                         // "plain" | "powerpoint" (since v1.1.0)
+  "renderer": "fireworks",                  // "fireworks" | "drawio" (since v1.2.0); env: DIAGRAM_DEFAULT_RENDERER
   "output_dir": "./diagrams/",             // override with env: DIAGRAM_OUTPUT_DIR
-  "style": 1,                               // 1-7 fireworks-tech-graph style; override with env: DIAGRAM_DEFAULT_STYLE
+  "style": 1,                               // 1-7 fireworks-tech-graph style (ignored when renderer == "drawio"); override with env: DIAGRAM_DEFAULT_STYLE
 
   "deck": {                                 // present only when mode == "powerpoint"
     "title": "...",                         // required in powerpoint mode; can be set via env: DIAGRAM_DECK_TITLE

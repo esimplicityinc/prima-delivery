@@ -82,7 +82,7 @@ opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 |--------|-------------|--------|
 | `c4-architecture` | Comprehensive C4 architecture documentation workflow with bottom-up code analysi... | 1.0.0 |
 | `code-documentation` | Documentation generation, code explanation, and technical writing with automated... | 1.2.0 |
-| `diagramming` | Generate architecture, flow, sequence, ERD, state-machine, and network diagrams ... | 1.1.0 |
+| `diagramming` | Generate architecture, flow, sequence, ERD, state-machine, and network diagrams ... | 1.2.0 |
 | `documentation-generation` | OpenAPI specification generation, Mermaid diagram creation, tutorial writing, AP... | 1.2.1 |
 
 ### Finance (1)

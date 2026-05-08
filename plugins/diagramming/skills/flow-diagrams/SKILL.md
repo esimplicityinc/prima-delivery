@@ -1,7 +1,7 @@
 ---
 name: flow-diagrams
-description: Generate SVG + PNG flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 1.1.0
+description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
+version: 1.2.0
 ---
 
 # flow-diagrams
@@ -30,13 +30,25 @@ Same as `architecture-diagrams`:
 
 Check at startup; fail loudly with the platform-specific install hint if missing.
 
+## Renderer choice (v1.2.0)
+
+This skill supports two renderers; the user picks via `renderer` field in the input contract or the `DIAGRAM_DEFAULT_RENDERER` env var. The skill itself can also pick a default based on diagram type.
+
+| Renderer | Output | When to use |
+|----------|--------|-------------|
+| `fireworks` (default) | SVG + PNG via fireworks-tech-graph | Sequence, ERD, simple flowchart, state machine. Clean topology, fast, validated by rsvg-convert |
+| `drawio` | `.drawio` XML + PNG via draw.io desktop CLI | Dense flowcharts with **named feedback loops** (3+ backloops), process diagrams that need explicit waypoint routing, anything where fireworks-tech-graph's auto-layout produces label collisions |
+
+**Rule of thumb for this skill:** if the user's request mentions "iterative", "feedback loops", "named loops", "backloops", or describes more than 3 cross-stage feedback paths → default to `drawio`. Otherwise default to `fireworks`. The user's explicit `renderer` field always wins.
+
 ## Input contract
 
 ```jsonc
 {
   "mode": "plain",                         // "plain" | "powerpoint" (since v1.1.0)
+  "renderer": "fireworks",                  // "fireworks" | "drawio" (since v1.2.0); default per the rule above; env: DIAGRAM_DEFAULT_RENDERER
   "output_dir": "./diagrams/",             // override with env: DIAGRAM_OUTPUT_DIR
-  "style": 1,                               // 1-7 fireworks-tech-graph style; override with env: DIAGRAM_DEFAULT_STYLE
+  "style": 1,                               // 1-7 fireworks-tech-graph style (ignored when renderer == "drawio"); override with env: DIAGRAM_DEFAULT_STYLE
 
   "deck": {                                 // present only when mode == "powerpoint"
     "title": "...",                         // required in powerpoint mode; can be set via env: DIAGRAM_DECK_TITLE
@@ -88,7 +100,9 @@ Composition by diagram type (essential reading — getting this wrong yields a t
 - **erd** → entity rects as nodes. Put the entity's attributes inside the node's `label` using newlines (`\n`). Mark PK with `(PK)`, FK with `(FK)`. Render relationships as arrows between entities; put cardinality + role in the arrow `label` (e.g., `"1..N has"`).
 - **state-machine** → states as nodes (`kind: "process"`). Initial and final states as small visual circles drawn via additional small nodes. Transitions as arrows with `event [guard] / action` in the label.
 
-Phase 3 — Generate
+Phase 3 — Generate (renderer-dependent)
+
+### When `renderer == "fireworks"` (default)
 
 ```bash
 python3 ~/.claude/skills/fireworks-tech-graph/scripts/generate-from-template.py \
@@ -101,12 +115,51 @@ Template type mapping (user-facing → fireworks-tech-graph): `sequence` → `se
 
 If a diagram requires layout beyond `nodes` + `arrows`, fall back to authoring raw SVG via fireworks-tech-graph's Python list method.
 
-Phase 4 — Validate + export
+### When `renderer == "drawio"`
+
+The `.drawio` builder takes a slightly richer JSON than fireworks-tech-graph: each node may include `kind` (`process` | `decision` | `data` | `terminator`) and optional `style_overrides`; each arrow may include `kind` (`control` | `feedback` | `data`), `exit_port` / `entry_port` (`T` | `B` | `L` | `R`), and explicit `waypoints[]` for routing. This control is what makes draw.io land cleanly on dense feedback graphs.
+
+Compose your JSON to match this shape, then:
 
 ```bash
-rsvg-convert "$OUTPUT_DIR/<slug>.svg" -o /dev/null && echo OK
+# Path to the helper that ships with this plugin. Discoverable via the plugin
+# directory; in development, find it at:
+#   <prima-delivery-root>/plugins/diagramming/scripts/build-drawio.py
+python3 <plugin-root>/plugins/diagramming/scripts/build-drawio.py \
+  <input.json> \
+  "$OUTPUT_DIR/<slug>.drawio"
+```
+
+Then export PNG via the drawio CLI (`brew install --cask drawio` provides it):
+
+```bash
+drawio --export --format png --scale 2 \
+  --output "$OUTPUT_DIR/<slug>.png" \
+  "$OUTPUT_DIR/<slug>.drawio"
+```
+
+If `drawio` CLI is not available, deliver the `.drawio` file alone and tell the user to open it in diagrams.net web (drag-drop) or any drawio editor.
+
+**Composition advice for drawio:**
+
+- Use `exit_port: "L"` + `entry_port: "L"` for feedback arrows that should curve out the LEFT side of the source and re-enter the LEFT side of the target. Stagger waypoint x-coordinates so nested arcs don't overlap (innermost loops at x ≈ source.x − 60; outermost at x ≈ source.x − 200).
+- Decision shapes (rhombus): `kind: "decision"`. Width usually +20-40px wider than process boxes to fit the same label.
+- Use `kind: "data"` for any annotation or callout box (loop labels, skip-discipline notes, artifact stores).
+- `style_overrides` lets you tweak fillColor / strokeColor / fontSize per node (full mxGraph style syntax). Use sparingly.
+
+Phase 4 — Validate + export
+
+When `renderer == "fireworks"`:
+
+```bash
+# Either path validates and exports. /dev/null may be rejected on some
+# rsvg-convert versions; the PNG export below doubles as validation.
 rsvg-convert -w 1920 "$OUTPUT_DIR/<slug>.svg" -o "$OUTPUT_DIR/<slug>.png"
 ```
+
+When `renderer == "drawio"`:
+
+The drawio CLI's PNG export step IS the validation; non-zero exit means the .drawio is malformed. If the CLI isn't installed, validate by parsing the XML with any standard XML parser (well-formedness check).
 
 Failure recovery as documented in `architecture-diagrams` (max three retries; switch generation method on second failure; report and stop on third).
 
