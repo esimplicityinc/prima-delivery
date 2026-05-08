@@ -23,9 +23,23 @@ Hand-authored SVG (not rendered by this plugin). Captured here as the canonical 
 
 ## 3-loop-process.{png,svg}
 
-Iterative design process from Fareez + Aaron's Slack thread: inner loop (per-feature design iteration), hypothesis loop (real user data validates; intent artifacts get refreshed), outer loop (design system absorbs patterns continuously). Eight stages, eleven feedback arrows, lane-based corridor stagger.
+The 3-loop design process (RIC-401): outer loop (cadence: quarters → years; authority: leadership + mission stakeholder; vision → need → design system → design intent), inner loop (cadence: days → weeks; authority: PM + HCD + UX + Eng + architect; frame → IA → wireframes → mockups → validation → build → QA), hypothesis loop (cadence: always-on; authority: PM + Research + Data; hypothesis statement → success metrics + kill criteria → telemetry → outcome). Above the loops: authority-and-developer note + toll-buffer-collapse note. Below: taxonomy dimension explainer mapping the loops to Need / Design Intent / Implementation Reality.
 
 Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/3-loop-process.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
+## katalyst-taxonomy-dependencies.{png,svg}
+
+Dependency graph of artifact types in the Katalyst taxonomy, organized by Aaron's three pillars:
+
+- **NEED (orange):** organization.yaml, user_types/, user_stories/, environments.yaml
+- **DESIGN INTENT (blue):** design/adr/, design/nfr/, design/specifications/, taxonomy.lock
+- **IMPLEMENTATION REALITY (green):** actions/just/, actions/just/layerTypes/, cicd/templates/, code + running systems
+
+Arrows are labeled with the actual metadata field names that create the link: `user_type_ref`, `related_adrs`, `related_user_types`, `stories[]`, `environments[]`. Bottom-left callout names the GAP from Aaron's v2 thesis (visual design intent has no Forge artifact yet); bottom-right explains how the dependency graph enforces value-proof traceability at runtime.
+
+Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/katalyst-taxonomy-dependencies.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
 
 ## How to regenerate
 
