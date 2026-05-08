@@ -1,0 +1,10 @@
+{"prompt": "Diagram the SHINE portal deployment from infra/k8s/", "expected_skill": "architecture-diagrams", "expected_mode": "plain"}
+{"prompt": "Show me the network topology for our VPC: public subnet, private subnet, NAT gateway, RDS in the private subnet", "expected_skill": "architecture-diagrams", "expected_mode": "plain"}
+{"prompt": "Generate an architecture diagram for the auth service from the Terraform stack in terraform/auth/", "expected_skill": "architecture-diagrams", "expected_mode": "plain"}
+{"prompt": "I need a deployment topology showing the four pods in our shine namespace and how they route", "expected_skill": "architecture-diagrams", "expected_mode": "plain"}
+{"prompt": "Draw a sequence diagram for the POST /auth/login flow in api/src/routes/auth.ts", "expected_skill": "flow-diagrams", "expected_mode": "plain"}
+{"prompt": "ERD from db/schema.ts please", "expected_skill": "flow-diagrams", "expected_mode": "plain"}
+{"prompt": "State machine for the order lifecycle in src/order-state.ts", "expected_skill": "flow-diagrams", "expected_mode": "plain"}
+{"prompt": "Flowchart of the payment processing pipeline in api/src/services/payment.ts", "expected_skill": "flow-diagrams", "expected_mode": "plain"}
+{"prompt": "Make me a deck of the SHINE portal: the architecture and the login sequence, for the exec readout tomorrow", "expected_skill": "both", "expected_mode": "powerpoint"}
+{"prompt": "Build a presentation slide deck showing the database schema and the order state machine", "expected_skill": "flow-diagrams", "expected_mode": "powerpoint"}

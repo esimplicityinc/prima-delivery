@@ -1,7 +1,7 @@
 ---
 name: flow-diagrams
-description: Generate SVG + PNG flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 1.0.0
+description: Generate SVG + PNG flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
+version: 1.1.0
 ---
 
 # flow-diagrams
@@ -34,9 +34,15 @@ Check at startup; fail loudly with the platform-specific install hint if missing
 
 ```jsonc
 {
-  "mode": "plain",                         // v1.0.0 ships plain only; "powerpoint" lands in a follow-up
+  "mode": "plain",                         // "plain" | "powerpoint" (since v1.1.0)
   "output_dir": "./diagrams/",             // override with env: DIAGRAM_OUTPUT_DIR
   "style": 1,                               // 1-7 fireworks-tech-graph style; override with env: DIAGRAM_DEFAULT_STYLE
+
+  "deck": {                                 // present only when mode == "powerpoint"
+    "title": "...",                         // required in powerpoint mode; can be set via env: DIAGRAM_DECK_TITLE
+    "theme": "default",
+    "author": "..."
+  },
 
   "diagrams": [
     {
@@ -104,7 +110,19 @@ rsvg-convert -w 1920 "$OUTPUT_DIR/<slug>.svg" -o "$OUTPUT_DIR/<slug>.png"
 
 Failure recovery as documented in `architecture-diagrams` (max three retries; switch generation method on second failure; report and stop on third).
 
-Phase 5 — Diff-update path (when `diff` is present)
+Phase 5 — PowerPoint mode (when `mode == "powerpoint"`)
+
+Identical to `architecture-diagrams`. After all SVG + PNGs are rendered, build a `deck-spec.json` and shell out to:
+
+```bash
+"$DIAGRAM_PPTX_PYTHON" plugins/diagramming/scripts/build-deck.py <deck-spec.json> "$OUTPUT_DIR/<deck-slug>.pptx"
+```
+
+Default `DIAGRAM_PPTX_PYTHON` is system `python3`; recommended setup is a venv at `~/.gstack/diagramming-venv` with `python-pptx` installed.
+
+In a mixed-skill request (this skill + `architecture-diagrams` for the same deck), the `diagramming-engineer` agent coordinates which skill writes the `.pptx`. See `diagramming-engineer.md` for the cross-skill protocol; both skills read/write a `$OUTPUT_DIR/.deck-manifest.json` so the final invocation builds a single deck with all slides.
+
+Phase 6 — Diff-update path (when `diff` is present)
 
 For sequence and flow diagrams, the diff usually maps to "added/removed messages" or "added/removed states." Re-extract from the changed source regions and merge into the prior structure. For ERDs, the diff usually adds/removes columns or relationships.
 

@@ -213,6 +213,91 @@ async function runCase(caseDir: string): Promise<CaseResult> {
   return { case_name: caseName, passed: failures.length === 0, failures };
 }
 
+async function powerpointSmoke(): Promise<CaseResult> {
+  // Smokes the deck builder: takes the arch-from-k8s PNG produced by the
+  // case run above, builds a 1-slide deck, asserts the .pptx exists and is
+  // a non-trivial OOXML file. Skipped (not failed) if python-pptx is unavailable.
+  const archPng = join(OUTPUT_DIR, "arch-from-k8s", "arch-from-k8s.png");
+  if (!existsSync(archPng)) {
+    return {
+      case_name: "powerpoint-smoke",
+      passed: false,
+      failures: ["arch-from-k8s.png missing; case must run before pptx smoke"],
+    };
+  }
+
+  const deckSpecPath = join(OUTPUT_DIR, "smoke-deck-spec.json");
+  const deckOut = join(OUTPUT_DIR, "smoke-deck.pptx");
+  await import("node:fs/promises").then((fs) =>
+    fs.writeFile(
+      deckSpecPath,
+      JSON.stringify(
+        {
+          title: "Diagramming smoke deck",
+          author: "run-cases.ts",
+          slides: [
+            {
+              title: "SHINE portal deployment topology",
+              image: archPng,
+              notes: "Two-tier deployment: ingress -> frontend + api -> pods.",
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+      "utf8",
+    ),
+  );
+
+  const pyCmd = process.env.DIAGRAM_PPTX_PYTHON ?? "python3";
+  const buildScript = join(
+    EVALS_DIR,
+    "..",
+    "scripts",
+    "build-deck.py",
+  );
+  const r = spawnSync(pyCmd, [buildScript, deckSpecPath, deckOut], {
+    encoding: "utf8",
+  });
+
+  if (r.status === 2) {
+    // python-pptx not installed: skip with a clear message.
+    return {
+      case_name: "powerpoint-smoke",
+      passed: true,
+      failures: [
+        `[SKIPPED] python-pptx not installed in ${pyCmd}. ${r.stderr.trim().split("\n")[0]}`,
+      ],
+    };
+  }
+  if (r.status !== 0) {
+    return {
+      case_name: "powerpoint-smoke",
+      passed: false,
+      failures: [`build-deck.py failed: ${r.stderr.trim()}`],
+    };
+  }
+
+  if (!existsSync(deckOut)) {
+    return {
+      case_name: "powerpoint-smoke",
+      passed: false,
+      failures: ["build-deck.py exited 0 but no .pptx produced"],
+    };
+  }
+  const s = await stat(deckOut);
+  if (s.size < 10000) {
+    return {
+      case_name: "powerpoint-smoke",
+      passed: false,
+      failures: [`.pptx too small: ${s.size} bytes (expected > 10000)`],
+    };
+  }
+
+  return { case_name: "powerpoint-smoke", passed: true, failures: [] };
+}
+
 async function main(): Promise<void> {
   await checkPrereqs();
   await mkdir(OUTPUT_DIR, { recursive: true });
@@ -235,9 +320,16 @@ async function main(): Promise<void> {
     for (const f of r.failures) console.log(`    ${f}`);
   }
 
+  // PowerPoint smoke runs after the case suite so it can use a generated PNG.
+  const pptResult = await powerpointSmoke();
+  results.push(pptResult);
+  const pptStatus = pptResult.passed ? "PASS" : "FAIL";
+  console.log(`[${pptStatus}] ${pptResult.case_name}`);
+  for (const f of pptResult.failures) console.log(`    ${f}`);
+
   const failed = results.filter((r) => !r.passed).length;
   console.log(
-    `\n${results.length - failed}/${results.length} cases passed.`,
+    `\n${results.length - failed}/${results.length} checks passed.`,
   );
   process.exit(failed > 0 ? 1 : 0);
 }

@@ -1,7 +1,7 @@
 ---
 name: architecture-diagrams
-description: Generate SVG + PNG architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
-version: 1.0.0
+description: Generate SVG + PNG architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Renders via the fireworks-tech-graph skill, validated by rsvg-convert. Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
+version: 1.1.0
 ---
 
 # architecture-diagrams
@@ -33,9 +33,15 @@ The skill requires two system tools. Check at startup; fail loudly with the inst
 
 ```jsonc
 {
-  "mode": "plain",                         // v1.0.0 ships plain only; "powerpoint" lands in a follow-up
+  "mode": "plain",                         // "plain" | "powerpoint" (since v1.1.0)
   "output_dir": "./diagrams/",             // override with env: DIAGRAM_OUTPUT_DIR
   "style": 1,                               // 1-7 fireworks-tech-graph style; override with env: DIAGRAM_DEFAULT_STYLE
+
+  "deck": {                                 // present only when mode == "powerpoint"
+    "title": "...",                         // required in powerpoint mode; can be set via env: DIAGRAM_DECK_TITLE
+    "theme": "default",
+    "author": "..."
+  },
 
   "diagrams": [
     {
@@ -105,7 +111,42 @@ rsvg-convert -w 1920 "$OUTPUT_DIR/<slug>.svg" -o "$OUTPUT_DIR/<slug>.png"
 
 If validation fails, do not retry the same generation. Apply targeted fix (or switch from raw SVG to templated path), then re-validate. After three failures on a single diagram, stop and report the SVG syntax error to the user with line context.
 
-Phase 5 — Diff-update path (when `diff` is present)
+Phase 5 — PowerPoint mode (when `mode == "powerpoint"`)
+
+After every diagram in the input has been rendered to SVG + PNG (Phases 3-4 are complete), assemble a deck:
+
+1. Build a `deck-spec.json` in memory or in a temp file:
+
+   ```jsonc
+   {
+     "title": "<deck.title>",
+     "theme": "<deck.theme>",
+     "author": "<deck.author>",
+     "slides": [
+       { "title": "<diagram.title>", "image": "<absolute path to PNG>", "notes": "<diagram.description>" }
+     ]
+   }
+   ```
+
+2. Invoke the deck builder:
+
+   ```bash
+   "$DIAGRAM_PPTX_PYTHON" plugins/diagramming/scripts/build-deck.py <deck-spec.json> "$OUTPUT_DIR/<deck-slug>.pptx"
+   ```
+
+   `DIAGRAM_PPTX_PYTHON` is the path to a Python interpreter where `python-pptx` is installed. Default: system `python3`. Recommended setup:
+
+   ```bash
+   python3 -m venv ~/.gstack/diagramming-venv
+   ~/.gstack/diagramming-venv/bin/pip install python-pptx
+   export DIAGRAM_PPTX_PYTHON=~/.gstack/diagramming-venv/bin/python3
+   ```
+
+3. If `build-deck.py` exits 2, surface the install hint to the user and stop. Do not retry.
+
+4. Mixed-skill mode: if the user's request involves both `architecture-diagrams` AND `flow-diagrams`, the agent (`diagramming-engineer`) coordinates a single deck. Each skill renders its diagrams; only the last skill in the sequence builds the deck, accumulating slides from all renders by reading the manifest at `$OUTPUT_DIR/.deck-manifest.json`. (See `diagramming-engineer.md` for the cross-skill coordination protocol.)
+
+Phase 6 — Diff-update path (when `diff` is present)
 
 When a diagram entry has a non-null `diff`:
 
