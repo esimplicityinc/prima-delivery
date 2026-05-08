@@ -112,6 +112,14 @@ PORTS: dict[str, tuple[float, float]] = {
     "BR": (1.0, 1.0),
 }
 
+# Auto-stagger config for `lane` field. The closest lane sits LANE_BASE_OFFSET
+# px outside the source/target node's edge; each additional lane adds
+# LANE_SPACING px. Empirically tuned: 60+50 keeps labels (~150px wide each)
+# from colliding while staying compact enough that 6+ nested arcs fit in a
+# reasonable margin.
+LANE_BASE_OFFSET = 60.0
+LANE_SPACING = 50.0
+
 
 def fail(msg: str, code: int = 1) -> None:
     print(f"ERROR: {msg}", file=sys.stderr)
@@ -172,6 +180,61 @@ def render_edge_waypoints(waypoints: list[dict[str, float]]) -> str:
     return f'<Array as="points">{points}</Array>'
 
 
+def lane_waypoints(
+    arrow: dict[str, Any],
+    node_map: dict[str, dict[str, Any]],
+) -> list[dict[str, float]]:
+    """Compute corridor waypoints from a `lane` integer when no explicit
+    waypoints were supplied.
+
+    Lanes apply only to L↔L and R↔R routes (the common feedback-loop case).
+    Lane 1 sits closest to the source/target nodes; lane N sits N-1 lane
+    widths farther into the margin. This is the auto-stagger fix for the
+    label-stacking problem that v1.2.0 surfaced when 5+ feedback arrows
+    shared a single corridor.
+
+    Returns an empty list when:
+      - lane is absent or 0
+      - explicit waypoints already supplied (caller wins)
+      - exit_port and entry_port aren't both L or both R
+      - source or target node is not in node_map
+    """
+    if arrow.get("waypoints"):
+        return []
+    lane = arrow.get("lane")
+    if not lane or not isinstance(lane, (int, float)) or lane <= 0:
+        return []
+
+    exit_port = arrow.get("exit_port")
+    entry_port = arrow.get("entry_port")
+    if exit_port != entry_port or exit_port not in {"L", "R"}:
+        return []
+
+    src = node_map.get(arrow["source"])
+    tgt = node_map.get(arrow["target"])
+    if not src or not tgt:
+        return []
+
+    src_y = float(src["y"]) + float(src["height"]) / 2
+    tgt_y = float(tgt["y"]) + float(tgt["height"]) / 2
+    offset = LANE_BASE_OFFSET + (lane - 1) * LANE_SPACING
+
+    if exit_port == "L":
+        # Closest lane sits left of whichever node is further-left, so the
+        # corridor stays outside both nodes' bounding boxes.
+        corridor_x = min(float(src["x"]), float(tgt["x"])) - offset
+    else:  # "R"
+        corridor_x = max(
+            float(src["x"]) + float(src["width"]),
+            float(tgt["x"]) + float(tgt["width"]),
+        ) + offset
+
+    return [
+        {"x": corridor_x, "y": src_y},
+        {"x": corridor_x, "y": tgt_y},
+    ]
+
+
 def build_drawio(spec: dict[str, Any]) -> str:
     width, height = parse_viewbox(spec)
     title = spec.get("title", "Diagram")
@@ -183,6 +246,9 @@ def build_drawio(spec: dict[str, Any]) -> str:
 
     nodes = spec.get("nodes", [])
     arrows = spec.get("arrows", [])
+
+    # node_map is needed by lane_waypoints to resolve source/target geometry.
+    node_map: dict[str, dict[str, Any]] = {n["id"]: n for n in nodes}
 
     seen_ids: set[str] = set()
     for n in nodes:
@@ -223,7 +289,10 @@ def build_drawio(spec: dict[str, Any]) -> str:
         edge_counter += 1
         eid = f"e{edge_counter}-{diagram_id}"
         label = render_node_label(a.get("label", ""))
-        wp = render_edge_waypoints(a.get("waypoints", []))
+        # Auto-stagger via lane field. Explicit waypoints take precedence;
+        # lane_waypoints returns [] when the arrow already has them.
+        waypoints = a.get("waypoints") or lane_waypoints(a, node_map)
+        wp = render_edge_waypoints(waypoints)
         cells.append(
             f'<mxCell id="{eid}" value="{label}" '
             f'style="{escape(style_for_edge(a))}" edge="1" parent="1" '

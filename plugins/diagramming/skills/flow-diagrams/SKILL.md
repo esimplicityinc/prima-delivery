@@ -1,7 +1,7 @@
 ---
 name: flow-diagrams
 description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 1.2.0
+version: 1.3.0
 ---
 
 # flow-diagrams
@@ -142,7 +142,8 @@ If `drawio` CLI is not available, deliver the `.drawio` file alone and tell the 
 
 **Composition advice for drawio:**
 
-- Use `exit_port: "L"` + `entry_port: "L"` for feedback arrows that should curve out the LEFT side of the source and re-enter the LEFT side of the target. Stagger waypoint x-coordinates so nested arcs don't overlap (innermost loops at x ≈ source.x − 60; outermost at x ≈ source.x − 200).
+- Use `exit_port: "L"` + `entry_port: "L"` for feedback arrows that curve out the LEFT side of the source and re-enter the LEFT side of the target. Same with `"R"` + `"R"` for the right corridor.
+- For nested arcs (multiple feedback arrows in the same corridor), prefer the `lane` field over hand-computed `waypoints[]`. `lane: 1` is the closest lane to the spine; lane N sits N-1 lane widths farther out. Lane 1 corridor x ≈ source.x − 60; each additional lane adds 50px. The `build-drawio.py` helper computes the exact waypoints from source/target geometry, so wider nodes automatically push the corridor further out without you doing the math. Explicit `waypoints[]` always wins when both are provided.
 - Decision shapes (rhombus): `kind: "decision"`. Width usually +20-40px wider than process boxes to fit the same label.
 - Use `kind: "data"` for any annotation or callout box (loop labels, skip-discipline notes, artifact stores).
 - `style_overrides` lets you tweak fillColor / strokeColor / fontSize per node (full mxGraph style syntax). Use sparingly.

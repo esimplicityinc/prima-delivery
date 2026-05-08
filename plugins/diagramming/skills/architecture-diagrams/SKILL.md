@@ -1,7 +1,7 @@
 ---
 name: architecture-diagrams
 description: Generate architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense graphs needing explicit waypoint routing). Optionally assembles outputs into a PowerPoint deck via python-pptx in powerpoint mode. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
-version: 1.2.0
+version: 1.3.0
 ---
 
 # architecture-diagrams

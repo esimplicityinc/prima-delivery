@@ -3,8 +3,8 @@
 # https://openpackage.dev/docs/packages
 
 name: diagramming
-version: 1.2.0
-description: Generate architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense feedback graphs). Two skills coordinated by a routing agent (diagramming-engineer) plus a PowerPoint output mode that assembles diagrams into a deck via python-pptx.
+version: 1.3.0
+description: Generate architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense feedback graphs; supports lane-based auto-stagger for nested arcs). Two skills coordinated by a routing agent (diagramming-engineer) plus a PowerPoint output mode that assembles diagrams into a deck via python-pptx.
 author: Prima Team
 license: UNLICENSED
 keywords:

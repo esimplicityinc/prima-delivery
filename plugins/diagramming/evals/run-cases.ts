@@ -47,6 +47,7 @@ interface Invariants {
 
   // drawio renderer
   drawio_must_contain_text?: string[];
+  drawio_must_have_lane_waypoints?: Record<string, number>;
 }
 
 interface CaseResult {
@@ -187,6 +188,16 @@ async function runDrawioCase(
   for (const needle of inv.drawio_must_contain_text ?? []) {
     if (!drawioContent.includes(needle)) {
       failures.push(`.drawio missing required text: "${needle}"`);
+    }
+  }
+
+  // Lane auto-stagger sanity check: every expected waypoint x-coordinate must
+  // appear in the rendered XML. Prevents silent regressions in the lane math.
+  for (const [name, expected_x] of Object.entries(
+    inv.drawio_must_have_lane_waypoints ?? {},
+  )) {
+    if (!drawioContent.includes(`<mxPoint x="${expected_x}"`)) {
+      failures.push(`lane waypoint missing: ${name} expected x=${expected_x}`);
     }
   }
 
