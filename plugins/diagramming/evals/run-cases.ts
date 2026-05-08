@@ -48,6 +48,9 @@ interface Invariants {
   // drawio renderer
   drawio_must_contain_text?: string[];
   drawio_must_have_lane_waypoints?: Record<string, number>;
+  validate_contrast?: {
+    threshold?: number; // default 4.5 (WCAG AA)
+  };
 }
 
 interface CaseResult {
@@ -198,6 +201,24 @@ async function runDrawioCase(
   )) {
     if (!drawioContent.includes(`<mxPoint x="${expected_x}"`)) {
       failures.push(`lane waypoint missing: ${name} expected x=${expected_x}`);
+    }
+  }
+
+  // WCAG contrast check: ensures every text/fill pair clears the threshold.
+  // Catches dark-on-dark or light-on-light style_overrides that would render
+  // unreadable.
+  if (inv.validate_contrast) {
+    const threshold = inv.validate_contrast.threshold ?? 4.5;
+    const validator = join(EVALS_DIR, "..", "scripts", "validate-diagram.py");
+    const v = spawnSync(
+      "python3",
+      [validator, drawioPath, "--threshold", String(threshold)],
+      { encoding: "utf8" },
+    );
+    if (v.status !== 0) {
+      failures.push(
+        `WCAG contrast check failed (threshold ${threshold}): ${v.stdout.trim()}`,
+      );
     }
   }
 

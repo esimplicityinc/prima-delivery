@@ -1,7 +1,7 @@
 ---
 name: architecture-diagrams
 description: Generate architecture diagrams (system architecture, deployment topology, network, infrastructure) from k8s manifests, Terraform stacks, ADRs, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense graphs needing explicit waypoint routing). Optionally assembles outputs into a PowerPoint deck via python-pptx in powerpoint mode. Use for visual structural diagrams; use flow-diagrams for sequence, ERD, state, and flowchart.
-version: 1.3.0
+version: 1.4.0
 ---
 
 # architecture-diagrams
@@ -158,14 +158,23 @@ After every diagram in the input has been rendered to SVG + PNG (Phases 3-4 are 
 
 4. Mixed-skill mode: if the user's request involves both `architecture-diagrams` AND `flow-diagrams`, the agent (`diagramming-engineer`) coordinates a single deck. Each skill renders its diagrams; only the last skill in the sequence builds the deck, accumulating slides from all renders by reading the manifest at `$OUTPUT_DIR/.deck-manifest.json`. (See `diagramming-engineer.md` for the cross-skill coordination protocol.)
 
-Phase 6 — Diff-update path (when `diff` is present)
+Phase 6 — Visual validation (always run for drawio; optional for fireworks)
+
+Same protocol as `flow-diagrams` Phase 6. Two layers:
+
+- **Layer A (deterministic, fast):** `python3 plugins/diagramming/scripts/validate-diagram.py "$OUTPUT_DIR/<slug>.drawio"` checks every cell's text/fill contrast against WCAG AA (4.5:1). Exit 0 = pass, 1 = fail. Use `--threshold 7.0` for AAA. Skips quietly when fireworks renderer is in use (script accepts only .drawio input in v1.4.0).
+- **Layer B (richer, optional):** Dispatch the `ui-visual-validator` agent (`plugins/accessibility-compliance/agents/ui-visual-validator.md`) against the rendered PNG for typography readability, layout density, and color-blind safety beyond contrast. Use when the diagram is going into a customer-facing deliverable.
+
+Layer A runs in <1s and catches the 80% case (bad contrast from custom `style_overrides`). Reach for layer B when audience matters.
+
+Phase 7 — Diff-update path (when `diff` is present)
 
 When a diagram entry has a non-null `diff`:
 
 1. Read the prior SVG from `output_dir/<slug>.svg` if it exists; if not, render from scratch.
 2. Parse the unified diff to identify which `source` files changed and what the changes are.
 3. Re-extract nodes/edges only for the changed regions and merge into the prior structure.
-4. Re-render. Validate as in Phase 4.
+4. Re-render. Validate as in Phase 4 and Phase 6.
 5. Report a one-paragraph diff summary alongside the updated SVG (what changed in the diagram and why).
 
 ## Output

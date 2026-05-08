@@ -1,7 +1,7 @@
 ---
 name: flow-diagrams
 description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via python-pptx in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 1.3.0
+version: 1.4.0
 ---
 
 # flow-diagrams
@@ -176,11 +176,34 @@ Default `DIAGRAM_PPTX_PYTHON` is system `python3`; recommended setup is a venv a
 
 In a mixed-skill request (this skill + `architecture-diagrams` for the same deck), the `diagramming-engineer` agent coordinates which skill writes the `.pptx`. See `diagramming-engineer.md` for the cross-skill protocol; both skills read/write a `$OUTPUT_DIR/.deck-manifest.json` so the final invocation builds a single deck with all slides.
 
-Phase 6 — Diff-update path (when `diff` is present)
+Phase 6 — Visual validation (always run for drawio; optional for fireworks)
+
+Government-agency reference architecture has accessibility constraints. Every diagram should clear WCAG AA contrast (4.5:1 for body text, 3:1 for large) so that color-only encoding doesn't lock anyone out. Two layers of validation:
+
+### Layer A — fast deterministic contrast check (always)
+
+```bash
+python3 <plugin-root>/plugins/diagramming/scripts/validate-diagram.py \
+  "$OUTPUT_DIR/<slug>.drawio"
+```
+
+Parses the .drawio XML, walks every vertex cell, computes WCAG 2.x contrast ratio between `fontColor` and `fillColor`. Exits 0 on pass, 1 on fail. Default threshold is AA (4.5); pass `--threshold 7.0` for AAA. JSON output via `--json`.
+
+For `fireworks` renderer: this script accepts only .drawio input. To check fireworks-rendered SVGs you can either skip layer A (the built-in palette already clears AA) or convert to .drawio for the audit. v1.4.0 adds layer A to the drawio path; SVG contrast checking is a follow-up.
+
+### Layer B — full visual audit via the ui-visual-validator agent (optional)
+
+For richer validation (typography readability at the chosen scale, layout overlap, focus-indicator-equivalents in static diagrams, color-blind safety beyond contrast), dispatch the `ui-visual-validator` agent (in `plugins/accessibility-compliance/agents/ui-visual-validator.md`) against the rendered PNG. The agent does pixel-level analysis grounded in WCAG 2.2 and reports specific findings.
+
+Invoke when the user asks for accessibility audit, when the diagram is going into a customer-facing artifact (deck, doc, report), or when layer A passes but the diagram still looks crowded. Skip otherwise — layer A catches the high-frequency failure mode (bad contrast) at near-zero cost.
+
+The agent expects a screenshot path. Pass it `<output_dir>/<slug>.png` and the prompt "Audit this diagram for WCAG 2.2 AA compliance — focus on color contrast, text readability at typical zoom, layout density, and color-blind safety. List specific findings with cell-level coordinates if possible."
+
+Phase 7 — Diff-update path (when `diff` is present)
 
 For sequence and flow diagrams, the diff usually maps to "added/removed messages" or "added/removed states." Re-extract from the changed source regions and merge into the prior structure. For ERDs, the diff usually adds/removes columns or relationships.
 
-Validate as in Phase 4. Report a diff summary alongside the updated SVG.
+Validate as in Phase 4 and Phase 6. Report a diff summary alongside the updated diagram.
 
 ## Output
 

@@ -12,5 +12,6 @@
     "lane_2_x": 210,
     "lane_3_x_at_wider_node": 140
   },
-  "min_png_bytes": 8000
+  "min_png_bytes": 8000,
+  "validate_contrast": { "threshold": 4.5 }
 }
