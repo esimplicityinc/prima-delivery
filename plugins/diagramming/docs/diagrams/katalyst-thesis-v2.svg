@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1850" width="1400" height="1850">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#1f2937"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#059669"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#9ca3af"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0,0 L 10,5 L 0,10 z" fill="#d97706"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+    <style>
+      text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1f2937; }
+      .h1 { font-size: 26px; font-weight: 800; }
+      .h2 { font-size: 18px; font-weight: 700; }
+      .h3 { font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+      .body { font-size: 13px; }
+      .body-sm { font-size: 12px; }
+      .muted { font-size: 12px; fill: #6b7280; }
+      .quote { font-size: 22px; font-weight: 700; font-style: italic; fill: #7f1d1d; }
+      .attribution { font-size: 13px; fill: #991b1b; }
+      .axis-label { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; fill: #6b7280; }
+      .quad-title { font-size: 13px; font-weight: 800; letter-spacing: 1px; }
+    </style>
+  </defs>
+  <rect width="1400" height="1850" fill="#ffffff"/>
+  <text x="700" y="45" text-anchor="middle" class="h1">Why Katalyst exists (v2): authority and proof at agent speed</text>
+  <text x="700" y="72" text-anchor="middle" class="muted">Aaron West thesis, expanded: cadence x direction, with authority preserved at agent speed</text>
+  <rect x="200" y="100" width="1000" height="80" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="700" y="138" text-anchor="middle" class="quote">"Fast in the wrong direction is worse than slow."</text>
+  <text x="700" y="162" text-anchor="middle" class="attribution">Aaron West, 2026-05-08</text>
+  <text x="700" y="215" text-anchor="middle" class="h2">The cadence-direction matrix</text>
+  <rect x="340" y="240" width="360" height="240" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+  <rect x="700" y="240" width="360" height="240" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <rect x="340" y="480" width="360" height="240" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+  <rect x="700" y="480" width="360" height="240" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+  <line x1="340" y1="480" x2="1060" y2="480" stroke="#1f2937" stroke-width="2"/>
+  <line x1="700" y1="240" x2="700" y2="720" stroke="#1f2937" stroke-width="2"/>
+  <rect x="340" y="240" width="720" height="480" fill="none" stroke="#1f2937" stroke-width="2"/>
+  <line x1="340" y1="240" x2="340" y2="220" stroke="#1f2937" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="1060" y1="720" x2="1080" y2="720" stroke="#1f2937" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="320" y="280" text-anchor="end" class="axis-label" transform="rotate(-90 320 280)">AGENT SPEED</text>
+  <text x="320" y="650" text-anchor="end" class="axis-label" transform="rotate(-90 320 650)">HUMAN SPEED</text>
+  <text x="520" y="755" text-anchor="middle" class="axis-label">WRONG DIRECTION</text>
+  <text x="880" y="755" text-anchor="middle" class="axis-label">RIGHT DIRECTION</text>
+  <text x="520" y="290" text-anchor="middle" class="quad-title" style="fill:#991b1b">DANGER ZONE</text>
+  <text x="520" y="320" text-anchor="middle" class="body" style="fill:#7f1d1d;font-weight:600">Fast wrong-direction shipping</text>
+  <text x="520" y="345" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">post-AI failure mode without</text>
+  <text x="520" y="362" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">authority scaffolding</text>
+  <text x="880" y="290" text-anchor="middle" class="quad-title" style="fill:#065f46">TARGET STATE</text>
+  <text x="880" y="320" text-anchor="middle" class="body" style="fill:#064e3b;font-weight:600">Fast right-direction shipping</text>
+  <text x="880" y="345" text-anchor="middle" class="body-sm" style="fill:#065f46">authority preserved</text>
+  <text x="880" y="362" text-anchor="middle" class="body-sm" style="fill:#065f46">at agent speed</text>
+  <text x="520" y="555" text-anchor="middle" class="quad-title" style="fill:#6b7280">RARE</text>
+  <text x="520" y="580" text-anchor="middle" class="body-sm" style="fill:#6b7280">slow + wrong = usually</text>
+  <text x="520" y="597" text-anchor="middle" class="body-sm" style="fill:#6b7280">cancelled before shipping</text>
+  <text x="880" y="555" text-anchor="middle" class="quad-title" style="fill:#1f2937">PRE-AI NORM</text>
+  <text x="880" y="580" text-anchor="middle" class="body-sm" style="fill:#374151;font-weight:600">Slow but filtered</text>
+  <text x="880" y="600" text-anchor="middle" class="body-sm" style="fill:#374151">cost-of-toil acted as a buffer</text>
+  <text x="880" y="617" text-anchor="middle" class="body-sm" style="fill:#374151">against wrong-direction work</text>
+  <circle cx="880" cy="665" r="9" fill="#6b7280" stroke="#374151" stroke-width="2"/>
+  <text x="900" y="670" class="body-sm" style="fill:#374151;font-weight:700">PRE-AI</text>
+  <circle cx="520" cy="415" r="9" fill="#dc2626" stroke="#7f1d1d" stroke-width="2"/>
+  <text x="540" y="420" class="body-sm" style="fill:#7f1d1d;font-weight:700">AGENTIC ALONE</text>
+  <circle cx="880" cy="415" r="9" fill="#059669" stroke="#064e3b" stroke-width="2"/>
+  <text x="900" y="420" class="body-sm" style="fill:#064e3b;font-weight:700">+ KATALYST</text>
+  <path d="M 870,656 Q 600,580 530,425" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrowRed)"/>
+  <rect x="615" y="500" width="180" height="22" rx="3" fill="#ffffff" stroke="#fca5a5" stroke-width="1"/>
+  <text x="705" y="516" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">agentic coding alone</text>
+  <path d="M 880,654 L 880,427" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <rect x="900" y="525" width="155" height="22" rx="3" fill="#ffffff" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="977" y="541" text-anchor="middle" class="body-sm" style="fill:#064e3b">+ Katalyst taxonomy</text>
+  <text x="700" y="800" text-anchor="middle" class="muted">Pre-AI, the cost of implementing a feature was itself the filter. Post-AI, that filter is gone.</text>
+  <text x="700" y="820" text-anchor="middle" class="muted">Katalyst replaces the missing filter with authority-preserving artifacts at agent cadence.</text>
+  <rect x="80" y="860" width="600" height="200" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="380" y="888" text-anchor="middle" class="h3" style="fill:#92400e">THE COST-BUFFER MECHANISM</text>
+  <text x="380" y="918" text-anchor="middle" class="body" style="font-weight:600">Pre-AI: implementation toil = forcing function</text>
+  <text x="380" y="938" text-anchor="middle" class="body-sm" style="fill:#78350f">expensive features faced scrutiny before shipping;</text>
+  <text x="380" y="954" text-anchor="middle" class="body-sm" style="fill:#78350f">friction itself filtered out wrong-direction work</text>
+  <line x1="120" y1="975" x2="640" y2="975" stroke="#fbbf24" stroke-width="1"/>
+  <text x="380" y="1000" text-anchor="middle" class="body" style="font-weight:600;fill:#7f1d1d">Post-AI: spinning things up is cheap</text>
+  <text x="380" y="1020" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">the filter is gone; teams ship faster than</text>
+  <text x="380" y="1037" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">stakeholders can validate</text>
+  <rect x="720" y="860" width="600" height="200" rx="10" fill="#f9fafb" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="1020" y="888" text-anchor="middle" class="h3">CANONICAL EXAMPLE: STATE DEPT</text>
+  <text x="1020" y="912" text-anchor="middle" class="body" style="font-weight:600">Mission: easier online passport renewal.</text>
+  <text x="1020" y="942" text-anchor="middle" class="body-sm" style="fill:#374151"><tspan style="font-weight:700">Developer impulse:</tspan> add cool widgets.</text>
+  <text x="1020" y="970" text-anchor="middle" class="body-sm" style="fill:#374151"><tspan style="font-weight:700">Pre-AI:</tspan> widgets are expensive, get scrutinized, often dropped.</text>
+  <text x="1020" y="998" text-anchor="middle" class="body-sm" style="fill:#7f1d1d"><tspan style="font-weight:700">Post-AI:</tspan> widgets are cheap, ship anyway.</text>
+  <text x="1020" y="1016" text-anchor="middle" class="body-sm" style="fill:#7f1d1d">System gets harder to use. Mission worse off.</text>
+  <text x="1020" y="1042" text-anchor="middle" class="body-sm" style="fill:#6b7280;font-style:italic">a feature that "works" is not the same as one that serves the mission</text>
+  <rect x="80" y="1090" width="1240" height="220" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="700" y="1118" text-anchor="middle" class="h2" style="fill:#1e3a8a">Authority lives outside the developer harness</text>
+  <text x="700" y="1140" text-anchor="middle" class="muted">cross-discipline judgment AI cannot replace; the buck-stops-here authority is almost never the developer</text>
+  <rect x="130" y="1160" width="240" height="130" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="250" y="1185" text-anchor="middle" class="h3" style="fill:#1e40af">PRODUCT OWNER</text>
+  <text x="250" y="1208" text-anchor="middle" class="body-sm" style="fill:#1e3a8a;font-weight:600">mission outcome</text>
+  <text x="250" y="1235" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">is this what we are</text>
+  <text x="250" y="1251" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">actually trying to do?</text>
+  <rect x="430" y="1160" width="240" height="130" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="550" y="1185" text-anchor="middle" class="h3" style="fill:#1e40af">HCD / UX</text>
+  <text x="550" y="1208" text-anchor="middle" class="body-sm" style="fill:#1e3a8a;font-weight:600">user impact</text>
+  <text x="550" y="1235" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">does this make the system</text>
+  <text x="550" y="1251" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">better or harder for users?</text>
+  <rect x="730" y="1160" width="240" height="130" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="850" y="1185" text-anchor="middle" class="h3" style="fill:#1e40af">ARCHITECT</text>
+  <text x="850" y="1208" text-anchor="middle" class="body-sm" style="fill:#1e3a8a;font-weight:600">coupling, cohesion</text>
+  <text x="850" y="1235" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">are we boxing ourselves</text>
+  <text x="850" y="1251" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">into a corner?</text>
+  <rect x="1030" y="1160" width="240" height="130" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="1150" y="1185" text-anchor="middle" class="h3" style="fill:#1e40af">MISSION OWNER</text>
+  <text x="1150" y="1208" text-anchor="middle" class="body-sm" style="fill:#1e3a8a;font-weight:600">buck-stops-here</text>
+  <text x="1150" y="1235" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">right vs wrong direction</text>
+  <text x="1150" y="1251" text-anchor="middle" class="body-sm" style="fill:#374151;font-style:italic">for the agency</text>
+  <text x="700" y="1300" text-anchor="middle" class="body-sm" style="fill:#6b7280;font-style:italic">"Single-developer AI tooling orientation is a structural liability in a distributed-judgment context."</text>
+  <text x="700" y="1355" text-anchor="middle" class="h2">The taxonomy: relational metadata map of three pillars</text>
+  <text x="700" y="1378" text-anchor="middle" class="muted">these are the artifacts that carry authority into the agentic loop at agent speed</text>
+  <rect x="525" y="1410" width="350" height="100" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="700" y="1438" text-anchor="middle" class="h3" style="fill:#1e40af">NEED</text>
+  <text x="700" y="1462" text-anchor="middle" class="body" style="font-weight:600">stakeholder needs</text>
+  <text x="700" y="1483" text-anchor="middle" class="body-sm" style="fill:#1e3a8a">organization, user, third-party system</text>
+  <rect x="280" y="1600" width="380" height="110" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+  <text x="470" y="1628" text-anchor="middle" class="h3" style="fill:#5b21b6">DESIGN INTENT</text>
+  <text x="470" y="1652" text-anchor="middle" class="body" style="font-weight:600">ADRs, executable specs (BDD),</text>
+  <text x="470" y="1672" text-anchor="middle" class="body" style="font-weight:600">design artifacts</text>
+  <text x="470" y="1693" text-anchor="middle" class="body-sm" style="fill:#5b21b6;font-style:italic">covers functional intent + sliver of visual</text>
+  <rect x="740" y="1600" width="380" height="110" rx="8" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+  <text x="930" y="1628" text-anchor="middle" class="h3" style="fill:#9d174d">IMPLEMENTATION REALITY</text>
+  <text x="930" y="1652" text-anchor="middle" class="body" style="font-weight:600">what was actually shipped</text>
+  <text x="930" y="1672" text-anchor="middle" class="body-sm" style="fill:#831843">code, infra, behavior in prod</text>
+  <path d="M 600,1510 L 510,1600" fill="none" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  <path d="M 800,1510 L 890,1600" fill="none" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  <path d="M 660,1655 L 740,1655" fill="none" stroke="#1f2937" stroke-width="1.5" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+  <rect x="50" y="1430" width="220" height="160" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="160" y="1455" text-anchor="middle" class="h3" style="fill:#92400e">GAP</text>
+  <text x="160" y="1478" text-anchor="middle" class="body-sm" style="fill:#78350f;font-weight:700">visual design intent</text>
+  <text x="160" y="1500" text-anchor="middle" class="body-sm" style="fill:#78350f">effectiveness-level visual</text>
+  <text x="160" y="1517" text-anchor="middle" class="body-sm" style="fill:#78350f">design (typography,</text>
+  <text x="160" y="1534" text-anchor="middle" class="body-sm" style="fill:#78350f">hierarchy, motion, polish)</text>
+  <text x="160" y="1556" text-anchor="middle" class="body-sm" style="fill:#78350f">has no native Forge</text>
+  <text x="160" y="1573" text-anchor="middle" class="body-sm" style="fill:#78350f;font-weight:700">artifact yet</text>
+  <path d="M 270,1610 Q 290,1620 285,1640" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrowAmber)"/>
+  <rect x="120" y="1750" width="1160" height="70" rx="6" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="700" y="1776" text-anchor="middle" class="muted" style="font-style:italic">Loops, hypothesis lifecycle, Forge, Xray = mechanisms that serve this goal.</text>
+  <text x="700" y="1796" text-anchor="middle" class="muted" style="font-style:italic">The goal is to keep cross-discipline authority in the loop while operating at agent cadence.</text>
+</svg>

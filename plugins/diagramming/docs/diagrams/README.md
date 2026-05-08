@@ -4,9 +4,22 @@ These two diagrams are referenced in PR [#5](https://github.com/esimplicityinc/p
 
 ## katalyst-thesis.{png,svg}
 
-Aaron's Katalyst thesis: software only matters if it can prove its value; SaaS proves it via usage (users have agency); enterprise/government has no agency so value must be DESCRIBED; agents work faster than teams describe → "the wall"; Katalyst surfaces value at agent speed via a three-dimension taxonomy (need, design intent, implementation reality).
+Aaron's Katalyst thesis (v1): software only matters if it can prove its value; SaaS proves it via usage (users have agency); enterprise/government has no agency so value must be DESCRIBED; agents work faster than teams describe → "the wall"; Katalyst surfaces value at agent speed via a three-dimension taxonomy (need, design intent, implementation reality).
 
 Spec: `~/.gstack/projects/esimplicityinc-content-portal/diagrams/ric-401/katalyst-thesis.spec.json`
+Renderer: `drawio` via this plugin's `build-drawio.py`.
+
+## katalyst-thesis-v2.{png,svg}
+
+Aaron's expanded thesis. Same load-bearing claim plus richer framing:
+
+- **Cadence-direction matrix** — quadrant chart with axes "agent ↔ human speed" × "wrong ↔ right direction." Names the danger zone (fast-wrong, "agentic alone"), the target state (fast-right, Katalyst), and the asymmetric pre-AI / post-AI cost structure.
+- **"Fast in the wrong direction is worse than slow."** — the operational corollary of the value-proof claim.
+- **Authority lives outside the developer harness** — Product Owner / HCD-UX / Architect / Mission Owner are sources of authoritative judgment, the harness can't synthesize them.
+- **Cost-buffer mechanism** — pre-AI featuremaking was expensive, so it filtered out wrong-direction work. Post-AI is cheap; the filter is gone; Katalyst's taxonomy replaces the missing filter.
+- **Three taxonomy pillars connected** — Need → Design Intent → Implementation Reality, with explicit acknowledgement of the "GAP" (visual design intent has no Forge artifact yet).
+
+Hand-authored SVG (not rendered by this plugin). Captured here as the canonical reference for what Katalyst is for; the v1 diagram above is a simpler, plugin-rendered take on the same argument.
 
 ## 3-loop-process.{png,svg}
 
