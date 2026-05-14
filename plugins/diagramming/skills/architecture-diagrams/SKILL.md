@@ -22,10 +22,13 @@ For sequence diagrams, ERDs, state machines, flowcharts, or process flows, use t
 
 ## Prerequisites
 
-The skill requires two system tools. Check at startup; fail loudly with the install hint if missing:
+Run `just diagramming-bootstrap` from the repo root once per machine. It installs every dep (rsvg-convert, node, fireworks-tech-graph skill, pptxgenjs) and verifies each one. Idempotent — safe to re-run.
+
+Manual fallback (if `just` isn't available):
 
 - `rsvg-convert` — install: `brew install librsvg` (macOS) or `apt-get install librsvg2-bin` (Linux/Debian)
 - `fireworks-tech-graph` skill — install: `npx skills add yizhiyanhua-ai/fireworks-tech-graph`
+- `pptxgenjs` (only for `mode: powerpoint`) — `cd plugins/diagramming && npm install`
 
 `python3` is also required (used by fireworks-tech-graph's helpers). Standard on most systems.
 

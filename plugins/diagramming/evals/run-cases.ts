@@ -77,7 +77,8 @@ async function checkPrereqs(): Promise<void> {
   if (!existsSync(generator)) {
     failHard(
       `fireworks-tech-graph not found at ${FIREWORKS_HOME}.\n` +
-        `Install: npx skills add yizhiyanhua-ai/fireworks-tech-graph\n` +
+        `Run: just diagramming-bootstrap (from repo root)\n` +
+        `Or manually: npx skills add yizhiyanhua-ai/fireworks-tech-graph\n` +
         `Or set FIREWORKS_TECH_GRAPH_HOME to the install path.`,
     );
   }
@@ -85,7 +86,8 @@ async function checkPrereqs(): Promise<void> {
   if (rsvg.status !== 0) {
     failHard(
       "rsvg-convert not found.\n" +
-        "Install: brew install librsvg (macOS) or apt-get install librsvg2-bin (Linux).",
+        "Run: just diagramming-bootstrap (from repo root)\n" +
+        "Or manually: brew install librsvg (macOS) / apt-get install librsvg2-bin (Linux).",
     );
   }
   const py = spawnSync("python3", ["--version"], { encoding: "utf8" });
@@ -98,7 +100,8 @@ async function checkPrereqs(): Promise<void> {
   const node = spawnSync("node", ["--version"], { encoding: "utf8" });
   if (node.status !== 0) {
     failHard(
-      "node not found on PATH (required for build-deck.js / PptxGenJS smoke).",
+      "node not found on PATH (required for build-deck.js / PptxGenJS smoke).\n" +
+        "Run: just diagramming-bootstrap (from repo root)",
     );
   }
   const pptxPkg = join(
@@ -111,7 +114,8 @@ async function checkPrereqs(): Promise<void> {
   if (!existsSync(pptxPkg)) {
     failHard(
       "pptxgenjs not installed.\n" +
-        "Install: cd plugins/diagramming && npm install",
+        "Run: just diagramming-bootstrap (from repo root)\n" +
+        "Or manually: cd plugins/diagramming && npm install",
     );
   }
 }

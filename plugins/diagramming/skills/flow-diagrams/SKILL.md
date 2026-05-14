@@ -22,11 +22,14 @@ For system architecture, deployment topology, network diagrams, or infrastructur
 
 ## Prerequisites
 
-Same as `architecture-diagrams`:
+Run `just diagramming-bootstrap` from the repo root once per machine. It installs every dep (rsvg-convert, node, fireworks-tech-graph skill, pptxgenjs) and verifies each one. Idempotent.
+
+Manual fallback (if `just` isn't available):
 
 - `rsvg-convert` — install: `brew install librsvg` (macOS) or `apt-get install librsvg2-bin` (Linux/Debian)
 - `fireworks-tech-graph` skill — install: `npx skills add yizhiyanhua-ai/fireworks-tech-graph`
 - `python3` (used by fireworks-tech-graph's helpers)
+- `pptxgenjs` (only for `mode: powerpoint`) — `cd plugins/diagramming && npm install`
 
 Check at startup; fail loudly with the platform-specific install hint if missing.
 

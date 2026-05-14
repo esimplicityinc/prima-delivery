@@ -1,0 +1,149 @@
+# ── plugins/diagramming/Justfile ─────────────────────────────────────────────
+# Plugin-local recipes for the diagramming plugin. Imported by the root
+# Justfile so devs can run `just diagramming-bootstrap` from anywhere in the
+# repo.
+#
+# Reference architecture posture: every install command is platform-detected
+# and idempotent. No hardcoded project paths.
+
+# Plugin install location, resolved from the file that imports this. Justfile
+# `justfile_directory()` would return the importing file's directory, not
+# this one, so we resolve relative to the repo root and walk in.
+DIAGRAMMING_PLUGIN_DIR := justfile_directory() / "plugins" / "diagramming"
+FIREWORKS_HOME := env_var_or_default("FIREWORKS_TECH_GRAPH_HOME", env_var("HOME") + "/.claude/skills/fireworks-tech-graph")
+
+# ── diagramming-bootstrap ────────────────────────────────────────────────────
+# Install every dep this plugin needs, then verify each one. Idempotent.
+diagramming-bootstrap:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    PLUGIN_DIR="{{DIAGRAMMING_PLUGIN_DIR}}"
+    FIREWORKS_HOME="{{FIREWORKS_HOME}}"
+
+    bold=$(tput bold 2>/dev/null || true)
+    dim=$(tput dim 2>/dev/null || true)
+    green=$(tput setaf 2 2>/dev/null || true)
+    yellow=$(tput setaf 3 2>/dev/null || true)
+    red=$(tput setaf 1 2>/dev/null || true)
+    reset=$(tput sgr0 2>/dev/null || true)
+
+    # Installer detection. We support macOS (brew) and Debian/Ubuntu (apt-get).
+    # On other platforms we skip auto-install and just print the manual hint.
+    OS="$(uname -s)"
+    INSTALLER=""
+    case "$OS" in
+      Darwin)
+        if command -v brew >/dev/null 2>&1; then INSTALLER="brew"; fi
+        ;;
+      Linux)
+        if command -v apt-get >/dev/null 2>&1; then INSTALLER="apt"; fi
+        ;;
+    esac
+
+    echo "${bold}diagramming-bootstrap${reset} ${dim}(plugin: $PLUGIN_DIR)${reset}"
+    echo "  installer: ${INSTALLER:-none-detected (will print manual hints)}"
+    echo
+
+    # Helper: print PASS/FAIL/SKIP line.
+    report() {
+      local status="$1" name="$2" detail="$3"
+      case "$status" in
+        OK)   printf "  ${green}OK${reset}     %-30s %s\n" "$name" "$detail" ;;
+        MISS) printf "  ${red}MISSING${reset} %-30s %s\n" "$name" "$detail" ;;
+        SKIP) printf "  ${yellow}SKIP${reset}    %-30s %s\n" "$name" "$detail" ;;
+      esac
+    }
+
+    # ── 1. python3 (system) ─────────────────────────────────────────────────
+    if command -v python3 >/dev/null 2>&1; then
+      report OK "python3" "$(python3 --version 2>&1)"
+    else
+      report MISS "python3" "install via your platform package manager"
+    fi
+
+    # ── 2. node 18+ (system) ────────────────────────────────────────────────
+    if command -v node >/dev/null 2>&1; then
+      NODE_V=$(node --version | sed 's/v//' | cut -d. -f1)
+      if [ "$NODE_V" -ge 18 ]; then
+        report OK "node" "$(node --version) (>= 18 required)"
+      else
+        report MISS "node" "have $(node --version), need >= 18 for PptxGenJS"
+      fi
+    else
+      case "$INSTALLER" in
+        brew) echo "    installing node via brew..."; brew install node && report OK "node" "$(node --version)" ;;
+        apt)  echo "    installing nodejs via apt..."; sudo apt-get install -y nodejs && report OK "node" "$(node --version)" ;;
+        *)    report MISS "node" "install Node.js >= 18 from https://nodejs.org" ;;
+      esac
+    fi
+
+    # ── 3. rsvg-convert (system binary) ─────────────────────────────────────
+    if command -v rsvg-convert >/dev/null 2>&1; then
+      report OK "rsvg-convert" "$(rsvg-convert --version 2>&1 | head -1)"
+    else
+      case "$INSTALLER" in
+        brew) echo "    installing librsvg via brew..."; brew install librsvg && report OK "rsvg-convert" "$(rsvg-convert --version | head -1)" ;;
+        apt)  echo "    installing librsvg2-bin via apt..."; sudo apt-get install -y librsvg2-bin && report OK "rsvg-convert" "$(rsvg-convert --version | head -1)" ;;
+        *)    report MISS "rsvg-convert" "install librsvg for your platform" ;;
+      esac
+    fi
+
+    # ── 4. drawio CLI (optional, heavy) ─────────────────────────────────────
+    if command -v drawio >/dev/null 2>&1; then
+      report OK "drawio CLI" "PNG export from .drawio files"
+    elif [ -x "/Applications/draw.io.app/Contents/MacOS/draw.io" ]; then
+      report OK "drawio CLI" "found in /Applications (not on PATH; .drawio XML works without it)"
+    else
+      case "$INSTALLER" in
+        brew) echo "    installing drawio via brew cask (large download, ~200MB)..."; brew install --cask drawio && report OK "drawio CLI" "" ;;
+        *)    report SKIP "drawio CLI" "optional; install for PNG export from .drawio files" ;;
+      esac
+    fi
+
+    # ── 5. fireworks-tech-graph skill ───────────────────────────────────────
+    if [ -f "$FIREWORKS_HOME/scripts/generate-from-template.py" ]; then
+      report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
+    else
+      if command -v npx >/dev/null 2>&1; then
+        echo "    installing fireworks-tech-graph skill via npx..."
+        npx --yes skills add yizhiyanhua-ai/fireworks-tech-graph || true
+        if [ -f "$FIREWORKS_HOME/scripts/generate-from-template.py" ]; then
+          report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
+        else
+          report MISS "fireworks-tech-graph" "auto-install failed; run: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
+        fi
+      else
+        report MISS "fireworks-tech-graph" "needs npx; install Node.js then: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
+      fi
+    fi
+
+    # ── 6. pptxgenjs (npm dep, packaged) ────────────────────────────────────
+    if [ -f "$PLUGIN_DIR/node_modules/pptxgenjs/package.json" ]; then
+      PPTX_V=$(node -p "require('$PLUGIN_DIR/node_modules/pptxgenjs/package.json').version" 2>/dev/null || echo "?")
+      report OK "pptxgenjs (npm)" "v$PPTX_V"
+    else
+      if command -v npm >/dev/null 2>&1; then
+        echo "    installing pptxgenjs via npm..."
+        (cd "$PLUGIN_DIR" && npm install --silent)
+        if [ -f "$PLUGIN_DIR/node_modules/pptxgenjs/package.json" ]; then
+          PPTX_V=$(node -p "require('$PLUGIN_DIR/node_modules/pptxgenjs/package.json').version")
+          report OK "pptxgenjs (npm)" "v$PPTX_V"
+        else
+          report MISS "pptxgenjs (npm)" "npm install failed"
+        fi
+      else
+        report MISS "pptxgenjs (npm)" "needs npm; install Node.js then: cd $PLUGIN_DIR && npm install"
+      fi
+    fi
+
+    echo
+    echo "${bold}done.${reset} run ${dim}bun run plugins/diagramming/evals/run-cases.ts${reset} to verify."
+
+# ── diagramming-verify ───────────────────────────────────────────────────────
+# Run the diagramming plugin eval suite without installing anything.
+diagramming-verify:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    bun run plugins/diagramming/evals/run-cases.ts
+    bun run plugins/diagramming/evals/run-routing-eval.ts
