@@ -246,12 +246,18 @@ for (let i = 0; i < slides.length; i++) {
   }
 }
 
-// PptxGenJS writeFile is async; wrap in IIFE to await.
+// PptxGenJS writeFile is async; wrap in IIFE to await. Catch + exit non-zero
+// on failure so eval runners and CI see a real failure signal instead of an
+// UnhandledPromiseRejection warning that leaves exit code at 0.
 (async () => {
-  await pres.writeFile({ fileName: outPath });
-  const numSlides = slides.length;
-  const titleNote = includeTitleSlide ? `, + title card` : "";
-  process.stdout.write(
-    `wrote ${outPath} (${numSlides} content slide${numSlides !== 1 ? "s" : ""}${titleNote})\n`,
-  );
+  try {
+    await pres.writeFile({ fileName: outPath });
+    const numSlides = slides.length;
+    const titleNote = includeTitleSlide ? `, + title card` : "";
+    process.stdout.write(
+      `wrote ${outPath} (${numSlides} content slide${numSlides !== 1 ? "s" : ""}${titleNote})\n`,
+    );
+  } catch (err) {
+    fail(`writeFile failed: ${err && err.message ? err.message : err}`);
+  }
 })();

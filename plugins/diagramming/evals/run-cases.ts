@@ -92,6 +92,28 @@ async function checkPrereqs(): Promise<void> {
   if (py.status !== 0) {
     failHard("python3 not found on PATH.");
   }
+  // node + pptxgenjs are required for the powerpoint smoke. Fail loud here so
+  // a missing `npm install` in CI surfaces at the prereq gate instead of
+  // silently turning the smoke into a no-op SKIPPED PASS.
+  const node = spawnSync("node", ["--version"], { encoding: "utf8" });
+  if (node.status !== 0) {
+    failHard(
+      "node not found on PATH (required for build-deck.js / PptxGenJS smoke).",
+    );
+  }
+  const pptxPkg = join(
+    import.meta.dir,
+    "..",
+    "node_modules",
+    "pptxgenjs",
+    "package.json",
+  );
+  if (!existsSync(pptxPkg)) {
+    failHard(
+      "pptxgenjs not installed.\n" +
+        "Install: cd plugins/diagramming && npm install",
+    );
+  }
 }
 
 function generateSvg(
@@ -394,16 +416,8 @@ async function powerpointSmoke(): Promise<CaseResult> {
   });
 
   if (r.status !== 0) {
-    // Detect missing module — build path is missing the npm dependency.
-    if ((r.stderr ?? "").includes("Cannot find module 'pptxgenjs'")) {
-      return {
-        case_name: "powerpoint-smoke",
-        passed: true,
-        failures: [
-          `[SKIPPED] pptxgenjs not installed. Run: npm install (in plugins/diagramming/)`,
-        ],
-      };
-    }
+    // pptxgenjs is required by checkPrereqs(); reaching here means a real
+    // failure (not a missing dep), so surface it instead of swallowing.
     return {
       case_name: "powerpoint-smoke",
       passed: false,

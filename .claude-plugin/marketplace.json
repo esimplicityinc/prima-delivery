@@ -1286,7 +1286,7 @@
     {
       "name": "diagramming",
       "source": "./plugins/diagramming",
-      "description": "Generate architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense feedback graphs; supports lane-based auto-stagger for nested arcs). Two skills coordinated by a routing agent (diagramming-engineer), a PowerPoint output mode via python-pptx, and built-in WCAG AA contrast validation (with optional ui-visual-validator agent dispatch for full visual audit).",
+      "description": "Generate architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense feedback graphs; supports lane-based auto-stagger for nested arcs). Two skills coordinated by a routing agent (diagramming-engineer), a PowerPoint output mode via PptxGenJS, and built-in WCAG AA contrast validation (with optional ui-visual-validator agent dispatch for full visual audit).",
       "version": "1.5.0",
       "author": {
         "name": "Prima Team",
