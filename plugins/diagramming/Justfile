@@ -28,6 +28,13 @@ diagramming-bootstrap:
     red=$(tput setaf 1 2>/dev/null || true)
     reset=$(tput sgr0 2>/dev/null || true)
 
+    # Track failures so we can exit non-zero at the end. A zero-exit recipe
+    # that prints MISSING for a required dep is a footgun: the user moves on,
+    # the agent silently falls back, and we end up with bug reports that
+    # look like rendering failures when they're actually setup failures.
+    # See PR #5 / Tommy Mason.
+    REQUIRED_FAILURES=0
+
     # Installer detection. We support macOS (brew) and Debian/Ubuntu (apt-get).
     # On other platforms we skip auto-install and just print the manual hint.
     OS="$(uname -s)"
@@ -45,12 +52,13 @@ diagramming-bootstrap:
     echo "  installer: ${INSTALLER:-none-detected (will print manual hints)}"
     echo
 
-    # Helper: print PASS/FAIL/SKIP line.
+    # Helper: print PASS/FAIL/SKIP line. FAIL bumps REQUIRED_FAILURES so the
+    # recipe exits non-zero at the end.
     report() {
       local status="$1" name="$2" detail="$3"
       case "$status" in
         OK)   printf "  ${green}OK${reset}     %-30s %s\n" "$name" "$detail" ;;
-        MISS) printf "  ${red}MISSING${reset} %-30s %s\n" "$name" "$detail" ;;
+        FAIL) printf "  ${red}FAIL${reset}   %-30s %s\n" "$name" "$detail"; REQUIRED_FAILURES=$((REQUIRED_FAILURES + 1)) ;;
         SKIP) printf "  ${yellow}SKIP${reset}    %-30s %s\n" "$name" "$detail" ;;
       esac
     }
@@ -59,7 +67,7 @@ diagramming-bootstrap:
     if command -v python3 >/dev/null 2>&1; then
       report OK "python3" "$(python3 --version 2>&1)"
     else
-      report MISS "python3" "install via your platform package manager"
+      report FAIL "python3" "install via your platform package manager"
     fi
 
     # ── 2. node 18+ (system) ────────────────────────────────────────────────
@@ -68,13 +76,13 @@ diagramming-bootstrap:
       if [ "$NODE_V" -ge 18 ]; then
         report OK "node" "$(node --version) (>= 18 required)"
       else
-        report MISS "node" "have $(node --version), need >= 18 for PptxGenJS"
+        report FAIL "node" "have $(node --version), need >= 18 for PptxGenJS"
       fi
     else
       case "$INSTALLER" in
         brew) echo "    installing node via brew..."; brew install node && report OK "node" "$(node --version)" ;;
         apt)  echo "    installing nodejs via apt..."; sudo apt-get install -y nodejs && report OK "node" "$(node --version)" ;;
-        *)    report MISS "node" "install Node.js >= 18 from https://nodejs.org" ;;
+        *)    report FAIL "node" "install Node.js >= 18 from https://nodejs.org" ;;
       esac
     fi
 
@@ -85,7 +93,7 @@ diagramming-bootstrap:
       case "$INSTALLER" in
         brew) echo "    installing librsvg via brew..."; brew install librsvg && report OK "rsvg-convert" "$(rsvg-convert --version | head -1)" ;;
         apt)  echo "    installing librsvg2-bin via apt..."; sudo apt-get install -y librsvg2-bin && report OK "rsvg-convert" "$(rsvg-convert --version | head -1)" ;;
-        *)    report MISS "rsvg-convert" "install librsvg for your platform" ;;
+        *)    report FAIL "rsvg-convert" "install librsvg for your platform" ;;
       esac
     fi
 
@@ -102,19 +110,27 @@ diagramming-bootstrap:
     fi
 
     # ── 5. fireworks-tech-graph skill ───────────────────────────────────────
-    if [ -f "$FIREWORKS_HOME/scripts/generate-from-template.py" ]; then
+    # Detection has to actually verify the script is callable, not just check
+    # that a directory exists somewhere. The MISSING-but-recipe-keeps-going
+    # pattern (Tommy hit this on PR #5) is replaced with a hard FAIL so the
+    # user fixes it before invoking the skill. Liveness probe is python3 -m
+    # py_compile, which exercises the file as a real Python module without
+    # invoking any of its CLI surface (the upstream script exits 1 on
+    # --help, so we can't use that as a probe).
+    GENERATOR="$FIREWORKS_HOME/scripts/generate-from-template.py"
+    if [ -f "$GENERATOR" ] && python3 -m py_compile "$GENERATOR" >/dev/null 2>&1; then
       report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
     else
       if command -v npx >/dev/null 2>&1; then
         echo "    installing fireworks-tech-graph skill via npx..."
         npx --yes skills add yizhiyanhua-ai/fireworks-tech-graph || true
-        if [ -f "$FIREWORKS_HOME/scripts/generate-from-template.py" ]; then
+        if [ -f "$GENERATOR" ] && python3 -m py_compile "$GENERATOR" >/dev/null 2>&1; then
           report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
         else
-          report MISS "fireworks-tech-graph" "auto-install failed; run: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
+          report FAIL "fireworks-tech-graph" "auto-install failed; run: npx skills add yizhiyanhua-ai/fireworks-tech-graph (note: skills add may install into a worktree-local .agents/skills/ instead of \$FIREWORKS_TECH_GRAPH_HOME; verify the install path)"
         fi
       else
-        report MISS "fireworks-tech-graph" "needs npx; install Node.js then: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
+        report FAIL "fireworks-tech-graph" "needs npx; install Node.js then: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
       fi
     fi
 
@@ -130,14 +146,18 @@ diagramming-bootstrap:
           PPTX_V=$(node -p "require('$PLUGIN_DIR/node_modules/pptxgenjs/package.json').version")
           report OK "pptxgenjs (npm)" "v$PPTX_V"
         else
-          report MISS "pptxgenjs (npm)" "npm install failed"
+          report FAIL "pptxgenjs (npm)" "npm install failed"
         fi
       else
-        report MISS "pptxgenjs (npm)" "needs npm; install Node.js then: cd $PLUGIN_DIR && npm install"
+        report FAIL "pptxgenjs (npm)" "needs npm; install Node.js then: cd $PLUGIN_DIR && npm install"
       fi
     fi
 
     echo
+    if [ "$REQUIRED_FAILURES" -gt 0 ]; then
+      echo "${red}${bold}$REQUIRED_FAILURES required dep(s) failed.${reset} fix the FAIL lines above and re-run."
+      exit 1
+    fi
     echo "${bold}done.${reset} run ${dim}bun run plugins/diagramming/evals/run-cases.ts${reset} to verify."
 
 # ── diagramming-verify ───────────────────────────────────────────────────────
