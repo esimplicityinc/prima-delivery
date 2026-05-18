@@ -177,5 +177,5 @@
   <line x1="900" y1="1156" x2="930" y2="1156" stroke="#374151" stroke-width="2.5"/>
   <polygon points="930 1153, 938 1156, 930 1159" fill="#374151"/>
   <text x="944" y="1160" class="legend-text">User / HTTPS</text>
-  <text x="1240" y="1160" text-anchor="end" class="source-attr">Source: api/databricks.yml, api/app.yaml, .github/workflows/deploy*.yml</text>
+  <text x="1240" y="1160" text-anchor="end" class="source-attr">Source: api/databricks.yml, .github/workflows/deploy*.yml</text>
 </svg>
