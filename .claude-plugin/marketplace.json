@@ -7,7 +7,7 @@
   },
   "metadata": {
     "description": "Production-ready workflow orchestration with 72 focused plugins, 109 specialized agents, and 142 skills - optimized for granular installation and minimal token usage",
-    "version": "1.3.13"
+    "version": "1.3.14"
   },
   "plugins": [
     {
@@ -1286,8 +1286,8 @@
     {
       "name": "diagramming",
       "source": "./plugins/diagramming",
-      "description": "Generate architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense feedback graphs; supports lane-based auto-stagger for nested arcs). Two skills coordinated by a routing agent (diagramming-engineer), a PowerPoint output mode via PptxGenJS, and built-in WCAG AA contrast validation (with optional ui-visual-validator agent dispatch for full visual audit).",
-      "version": "1.5.0",
+      "description": "Coordinate the rendering of architecture, flow, sequence, ERD, state-machine, and network diagrams via two interchangeable renderers — fireworks-tech-graph (SVG + PNG, default; composition delegated to its own SKILL.md vocabulary so the LLM gets the renderer's full visual range) and draw.io (.drawio XML + PNG, best for dense feedback graphs; supports lane-based auto-stagger for nested arcs). Two skills coordinated by a routing agent (diagramming-engineer), a PowerPoint output mode via PptxGenJS, and built-in WCAG AA contrast validation (with optional ui-visual-validator agent dispatch for full visual audit).",
+      "version": "1.6.0",
       "author": {
         "name": "Prima Team",
         "url": ""

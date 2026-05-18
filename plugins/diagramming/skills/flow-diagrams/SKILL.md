@@ -1,12 +1,12 @@
 ---
 name: flow-diagrams
-description: Generate flow diagrams (sequence diagrams, flowcharts, ERDs, state machines) from API route definitions, database schemas, code paths, or prose descriptions. Two renderers — fireworks-tech-graph (SVG + PNG, default, clean topology) and draw.io (.drawio XML + PNG, best for dense flowcharts with named feedback loops). Optionally assembles diagrams into a PowerPoint deck via PptxGenJS (Anthropic-skill-recommended) in powerpoint mode. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 1.4.0
+description: Coordinate the rendering of sequence diagrams, flowcharts, ERDs, and state machines. Reads source material (API routes, database schemas, code, prose), routes each diagram to the chosen renderer (fireworks-tech-graph for SVG, drawio for .drawio XML + PNG), and assembles results into a deck when mode is powerpoint. Composition is delegated — fireworks composes via its own SKILL.md vocabulary; drawio via this plugin's build-drawio.py contract. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
+version: 2.0.0
 ---
 
 # flow-diagrams
 
-Generate sequence diagrams, flowcharts, ERDs, and state machines as SVG (with PNG export) by translating source material (API routes, database schemas, code, prose) into structured input for the `fireworks-tech-graph` skill, then validating the output with `rsvg-convert`.
+Coordinate the rendering of sequence diagrams, flowcharts, ERDs, and state machines. This skill reads source material (API routes, database schemas, code, prose), routes each diagram to the chosen renderer (`fireworks-tech-graph` for SVG, drawio for `.drawio` XML + PNG), and assembles the results into a deck when `mode: powerpoint`. Composition itself is delegated — fireworks composes via its own SKILL.md vocabulary; drawio composes via this plugin's `build-drawio.py` contract.
 
 ## When to use this skill
 
@@ -81,6 +81,8 @@ Environment variables override input fields when set.
 
 ## Workflow
 
+This skill is a **coordinator**, not a translator. Its job is to read source material, dispatch each diagram to the right renderer, and (when `mode: powerpoint`) accumulate renders into one deck. The actual diagram composition is delegated to the renderer's own skill — we deliberately do not constrain the LLM to a structured JSON shape, because that produced narrower output than the renderer can natively support.
+
 Phase 1 — Analyze input
 
 For each diagram, read the source files and extract:
@@ -92,35 +94,21 @@ For each diagram, read the source files and extract:
 
 Do not infer. Read the actual source.
 
-Phase 2 — Translate to fireworks-tech-graph input
+Phase 2 — Compose + render
 
-fireworks-tech-graph's renderer is **input-shape-uniform**: every template type consumes the same `{ title, subtitle, viewBox, nodes[], arrows[], containers[]?, legend[]? }` shape. The template-type argument only sets the default viewBox size; it does not unlock template-specific fields like `participants` or `entities`. The diagram type lives in how you compose `nodes` and `arrows`.
-
-Composition by diagram type (essential reading — getting this wrong yields a title-only blank canvas):
-
-- **sequence** → render lifelines as nodes laid out horizontally at a single small `y` (e.g., `y: 130`), one per participant. Render messages as arrows between those nodes. fireworks-tech-graph routes the arrows; the visual lifelines form naturally from the participants' x positions. Approximate viewBox: `"0 0 960 700"` for ≤ 8 messages, taller for more.
-- **flowchart** → nodes at process steps, snapped to a 120px×80px grid (top-to-bottom flow). Use `kind: "process"` for actions and `kind: "decision"` for diamonds. Arrows carry the branch labels (`yes`, `no`, condition strings).
-- **erd** → entity rects as nodes. Put the entity's attributes inside the node's `label` using newlines (`\n`). Mark PK with `(PK)`, FK with `(FK)`. Render relationships as arrows between entities; put cardinality + role in the arrow `label` (e.g., `"1..N has"`).
-- **state-machine** → states as nodes (`kind: "process"`). Initial and final states as small visual circles drawn via additional small nodes. Transitions as arrows with `event [guard] / action` in the label.
-
-Phase 3 — Generate (renderer-dependent)
+The composition pattern depends on the renderer.
 
 ### When `renderer == "fireworks"` (default)
 
-```bash
-python3 ~/.claude/skills/fireworks-tech-graph/scripts/generate-from-template.py \
-  <template-type> \
-  "$OUTPUT_DIR/<slug>.svg" \
-  '<json>'
-```
+**Delegate to `fireworks-tech-graph`'s SKILL.md** for composition. Load it from `~/.claude/skills/fireworks-tech-graph/SKILL.md` (or the path set by `FIREWORKS_TECH_GRAPH_HOME`) and follow its workflow verbatim — Diagram Types & Layout Rules (which include sequence, flowchart, ERD, state machine, and timeline), Shape Vocabulary, Arrow Semantics, Layout Rules & Validation, Styles 1-7, and the SVG generation strategy. fireworks teaches its own complete vocabulary; this skill does not duplicate or constrain it.
 
-Template type mapping (user-facing → fireworks-tech-graph): `sequence` → `sequence`, `flowchart` → `flowchart`, `erd` → `er-diagram`, `state-machine` → `state-machine`. Honor `FIREWORKS_TECH_GRAPH_HOME` env var for the install path.
+The render produces an SVG at a path of your choosing; honor `DIAGRAM_OUTPUT_DIR` if set, otherwise default to the current working directory. fireworks's workflow includes its own validation step (`rsvg-convert ... -o /dev/null`) and PNG export (`rsvg-convert -w 1920 ...`). Do not skip these — they are part of the renderer's contract, not optional.
 
-If a diagram requires layout beyond `nodes` + `arrows`, fall back to authoring raw SVG via fireworks-tech-graph's Python list method.
+If you find yourself wanting to invoke `generate-from-template.py` with a structured `{ nodes[], arrows[], containers[] }` JSON, stop. That is a legacy path that produces narrower output than fireworks's free-form SVG composition. Use the SVG-authoring path fireworks's SKILL.md describes ("MANDATORY: Python List Method" or direct SVG composition).
 
 ### When `renderer == "drawio"`
 
-The `.drawio` builder takes a slightly richer JSON than fireworks-tech-graph: each node may include `kind` (`process` | `decision` | `data` | `terminator`) and optional `style_overrides`; each arrow may include `kind` (`control` | `feedback` | `data`), `exit_port` / `entry_port` (`T` | `B` | `L` | `R`), and explicit `waypoints[]` for routing. This control is what makes draw.io land cleanly on dense feedback graphs.
+The `.drawio` builder takes JSON of shape `{ title, subtitle?, nodes[], arrows[], containers[]?, legend[]? }`: each node may include `kind` (`process` | `decision` | `data` | `terminator`) and optional `style_overrides`; each arrow may include `kind` (`control` | `feedback` | `data`), `exit_port` / `entry_port` (`T` | `B` | `L` | `R`), and explicit `waypoints[]` for routing. This control is what makes draw.io land cleanly on dense feedback graphs.
 
 Compose your JSON to match this shape, then:
 
@@ -151,25 +139,15 @@ If `drawio` CLI is not available, deliver the `.drawio` file alone and tell the 
 - Use `kind: "data"` for any annotation or callout box (loop labels, skip-discipline notes, artifact stores).
 - `style_overrides` lets you tweak fillColor / strokeColor / fontSize per node (full mxGraph style syntax). Use sparingly.
 
-Phase 4 — Validate + export
+Phase 3 — Validate
 
-When `renderer == "fireworks"`:
+For both renderers, validation is part of Phase 2's render step (fireworks: `rsvg-convert`; drawio: `drawio --export` exits non-zero on malformed XML). After Phase 2 completes, the file on disk is already validated. This phase exists for failure recovery semantics.
 
-```bash
-# Either path validates and exports. /dev/null may be rejected on some
-# rsvg-convert versions; the PNG export below doubles as validation.
-rsvg-convert -w 1920 "$OUTPUT_DIR/<slug>.svg" -o "$OUTPUT_DIR/<slug>.png"
-```
+If the render fails, do not retry the same composition. Apply a targeted fix (or switch composition strategies — for fireworks, that's switching from templated to direct SVG authoring; for drawio, fixing the JSON shape). After three failures on a single diagram, stop and report the error to the user with file/line context.
 
-When `renderer == "drawio"`:
+Phase 4 — PowerPoint mode (when `mode == "powerpoint"`)
 
-The drawio CLI's PNG export step IS the validation; non-zero exit means the .drawio is malformed. If the CLI isn't installed, validate by parsing the XML with any standard XML parser (well-formedness check).
-
-Failure recovery as documented in `architecture-diagrams` (max three retries; switch generation method on second failure; report and stop on third).
-
-Phase 5 — PowerPoint mode (when `mode == "powerpoint"`)
-
-Identical to `architecture-diagrams`. After all SVG + PNGs are rendered, build a `deck-spec.json` and shell out to:
+Identical to `architecture-diagrams`. After all diagrams have been rendered (Phases 1-3 complete for each), build a `deck-spec.json` and shell out to:
 
 ```bash
 node plugins/diagramming/scripts/build-deck.js <deck-spec.json> "$OUTPUT_DIR/<deck-slug>.pptx"
@@ -179,7 +157,7 @@ Uses [PptxGenJS](https://gitbrent.github.io/PptxGenJS/) — the path Anthropic's
 
 In a mixed-skill request (this skill + `architecture-diagrams` for the same deck), the `diagramming-engineer` agent coordinates which skill writes the `.pptx`. See `diagramming-engineer.md` for the cross-skill protocol; both skills read/write a `$OUTPUT_DIR/.deck-manifest.json` so the final invocation builds a single deck with all slides.
 
-Phase 6 — Visual validation (always run for drawio; optional for fireworks)
+Phase 5 — Visual validation (always run for drawio; optional for fireworks)
 
 Government-agency reference architecture has accessibility constraints. Every diagram should clear WCAG AA contrast (4.5:1 for body text, 3:1 for large) so that color-only encoding doesn't lock anyone out. Two layers of validation:
 
@@ -192,7 +170,7 @@ python3 <plugin-root>/plugins/diagramming/scripts/validate-diagram.py \
 
 Parses the .drawio XML, walks every vertex cell, computes WCAG 2.x contrast ratio between `fontColor` and `fillColor`. Exits 0 on pass, 1 on fail. Default threshold is AA (4.5); pass `--threshold 7.0` for AAA. JSON output via `--json`.
 
-For `fireworks` renderer: this script accepts only .drawio input. To check fireworks-rendered SVGs you can either skip layer A (the built-in palette already clears AA) or convert to .drawio for the audit. v1.4.0 adds layer A to the drawio path; SVG contrast checking is a follow-up.
+For `fireworks` renderer: this script currently accepts only .drawio input. To check fireworks-rendered SVGs you can either skip layer A (fireworks's documented styles 1-7 already clear AA) or convert to .drawio for the audit.
 
 ### Layer B — full visual audit via the ui-visual-validator agent (optional)
 
@@ -202,11 +180,11 @@ Invoke when the user asks for accessibility audit, when the diagram is going int
 
 The agent expects a screenshot path. Pass it `<output_dir>/<slug>.png` and the prompt "Audit this diagram for WCAG 2.2 AA compliance — focus on color contrast, text readability at typical zoom, layout density, and color-blind safety. List specific findings with cell-level coordinates if possible."
 
-Phase 7 — Diff-update path (when `diff` is present)
+Phase 6 — Diff-update path (when `diff` is present)
 
 For sequence and flow diagrams, the diff usually maps to "added/removed messages" or "added/removed states." Re-extract from the changed source regions and merge into the prior structure. For ERDs, the diff usually adds/removes columns or relationships.
 
-Validate as in Phase 4 and Phase 6. Report a diff summary alongside the updated diagram.
+Validate as in Phase 3 and Phase 5. Report a diff summary alongside the updated diagram.
 
 ## Output
 
@@ -221,8 +199,9 @@ For each diagram:
 ## Constraints
 
 - Never invent participants, messages, columns, states, or transitions. Each must trace to a specific line in the source files or an explicit user statement.
-- Never deliver an SVG without `rsvg-convert` validation passing.
-- Default to fireworks-tech-graph style 1 (Flat Icon). Override via input or `DIAGRAM_DEFAULT_STYLE`.
+- Never deliver an SVG without `rsvg-convert` validation passing (fireworks renderer); never deliver a `.drawio` without the drawio CLI export passing or, if CLI absent, well-formed XML (drawio renderer).
+- For fireworks: follow `fireworks-tech-graph`'s SKILL.md verbatim — its Diagram Types, Shape Vocabulary, Arrow Semantics, Layout Rules, and Styles 1-7. Do not constrain its composition to a structured `{ nodes[], arrows[] }` JSON shape; that produces narrower output than the renderer can natively support.
+- Do not hardcode project names, paths, or credentials in any output. Read from input or env (`DIAGRAM_OUTPUT_DIR`, `FIREWORKS_TECH_GRAPH_HOME`, `DIAGRAM_DEFAULT_RENDERER`, `DIAGRAM_DEFAULT_STYLE`, `DIAGRAM_DECK_TITLE`).
 - For sequence diagrams with more than ~12 messages, split into multiple diagrams (one per logical phase) instead of a single tall canvas.
 - For ERDs with more than ~8 entities, split into related-entity clusters.
 

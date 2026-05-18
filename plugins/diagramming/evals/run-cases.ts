@@ -32,10 +32,10 @@ import { homedir } from "node:os";
 
 interface Invariants {
   // Common
-  renderer?: "fireworks" | "drawio"; // default "fireworks"
+  renderer?: "fireworks" | "drawio" | "fireworks-prerendered"; // default "fireworks"
   min_png_bytes?: number;
 
-  // fireworks renderer
+  // fireworks renderer (legacy structured-input path)
   template_type?: string;
   rsvg_validates?: boolean;
   svg_must_contain_text?: string[];
@@ -44,6 +44,15 @@ interface Invariants {
     translated_v2: string;
     must_contain_after_diff: string[];
   };
+
+  // fireworks-prerendered renderer (free-form SVG composition path; the case
+  // ships a hand-authored SVG fixture that mimics LLM output following
+  // fireworks-tech-graph's SKILL.md vocabulary verbatim — multi-line tspans,
+  // sublabels, lane fills, semantic arrow styles. Runner copies the fixture
+  // into the output dir and runs the rest of the pipeline. Tests the
+  // coordinator's contract that free-form SVG can be ingested + validated +
+  // exported without the skill needing to constrain composition).
+  fixture_svg?: string;
 
   // drawio renderer
   drawio_must_contain_text?: string[];
@@ -287,22 +296,65 @@ async function runDrawioCase(
   return { case_name: caseName, passed: failures.length === 0, failures };
 }
 
+async function runPrerenderedCase(
+  caseDir: string,
+  caseName: string,
+  caseOut: string,
+  inv: Invariants,
+): Promise<CaseResult> {
+  const failures: string[] = [];
+
+  if (!inv.fixture_svg) {
+    return {
+      case_name: caseName,
+      passed: false,
+      failures: ["fireworks-prerendered renderer requires fixture_svg in invariants"],
+    };
+  }
+  const fixturePath = join(caseDir, inv.fixture_svg);
+  if (!existsSync(fixturePath)) {
+    return {
+      case_name: caseName,
+      passed: false,
+      failures: [`fixture_svg not found: ${fixturePath}`],
+    };
+  }
+
+  // Copy the fixture into the case output dir under the standard name; the
+  // rest of the pipeline (rsvg-convert validation, PNG export, structural
+  // checks) runs identically to a freshly-generated fireworks SVG.
+  const svgPath = join(caseOut, `${caseName}.svg`);
+  const pngPath = join(caseOut, `${caseName}.png`);
+  await readFile(fixturePath).then((buf) =>
+    import("node:fs/promises").then((fs) => fs.writeFile(svgPath, buf)),
+  );
+
+  const val = rsvgPng(svgPath, pngPath);
+  if (!val.ok) {
+    failures.push(`rsvg-convert failed (SVG invalid): ${val.stderr.trim()}`);
+  }
+
+  if (val.ok && existsSync(pngPath)) {
+    failures.push(...(await checkInvariants(svgPath, pngPath, inv)));
+  }
+
+  return { case_name: caseName, passed: failures.length === 0, failures };
+}
+
 async function runCase(caseDir: string): Promise<CaseResult> {
   const caseName = basename(caseDir);
   const failures: string[] = [];
 
-  const translatedPath = join(caseDir, "translated.json");
   const invariantsPath = join(caseDir, "expected-invariants.json");
 
-  if (!existsSync(translatedPath) || !existsSync(invariantsPath)) {
+  if (!existsSync(invariantsPath)) {
     return {
       case_name: caseName,
       passed: false,
-      failures: ["missing translated.json or expected-invariants.json"],
+      failures: ["missing expected-invariants.json"],
     };
   }
 
-  const translated = await readFile(translatedPath, "utf8");
   const inv: Invariants = JSON.parse(
     await readFile(invariantsPath, "utf8"),
   );
@@ -313,10 +365,32 @@ async function runCase(caseDir: string): Promise<CaseResult> {
   const renderer = inv.renderer ?? "fireworks";
 
   if (renderer === "drawio") {
+    const translatedPath = join(caseDir, "translated.json");
+    if (!existsSync(translatedPath)) {
+      return {
+        case_name: caseName,
+        passed: false,
+        failures: ["drawio renderer requires translated.json"],
+      };
+    }
     return await runDrawioCase(caseDir, caseName, caseOut, translatedPath, inv);
   }
 
-  // fireworks path (default).
+  if (renderer === "fireworks-prerendered") {
+    return await runPrerenderedCase(caseDir, caseName, caseOut, inv);
+  }
+
+  // fireworks path (legacy structured-input default).
+  const translatedPath = join(caseDir, "translated.json");
+  if (!existsSync(translatedPath)) {
+    return {
+      case_name: caseName,
+      passed: false,
+      failures: ["fireworks renderer requires translated.json"],
+    };
+  }
+  const translated = await readFile(translatedPath, "utf8");
+
   if (!inv.template_type) {
     return {
       case_name: caseName,
