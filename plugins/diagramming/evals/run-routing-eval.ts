@@ -32,11 +32,13 @@ const VALID_SKILLS = new Set([
   "both",
 ]);
 const VALID_MODES = new Set(["plain", "powerpoint"]);
+const VALID_RENDERERS = new Set(["fireworks", "drawio"]);
 
 interface Fixture {
   prompt: string;
   expected_skill: string;
   expected_mode: string;
+  expected_renderer?: string;
 }
 
 const ROOT = join(import.meta.dir, "..");
@@ -73,6 +75,14 @@ async function main() {
           `line ${i + 1}: expected_mode="${fx.expected_mode}" not in ${[...VALID_MODES].join("|")}`,
         );
       }
+      if (
+        fx.expected_renderer &&
+        !VALID_RENDERERS.has(fx.expected_renderer)
+      ) {
+        failures.push(
+          `line ${i + 1}: expected_renderer="${fx.expected_renderer}" not in ${[...VALID_RENDERERS].join("|")}`,
+        );
+      }
       fixtures.push(fx);
     } catch (err) {
       failures.push(`line ${i + 1}: not valid JSON: ${(err as Error).message}`);
@@ -99,6 +109,9 @@ async function main() {
   }
   if (!agent.includes("flow-diagrams")) {
     failures.push("agent file does not reference flow-diagrams");
+  }
+  if (!agent.includes("drawio") || !agent.includes("fireworks")) {
+    failures.push("agent file does not document both renderer choices");
   }
 
   if (failures.length === 0) {

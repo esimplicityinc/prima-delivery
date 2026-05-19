@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Build a multi-slide PowerPoint deck via PptxGenJS — the path Anthropic's
+ * Build a multi-slide PowerPoint deck via PptxGenJS - the path Anthropic's
  * pptx skill recommends for from-scratch deck creation
  * (anthropics/skills/skills/pptx/pptxgenjs.md).
  *
@@ -12,7 +12,7 @@
  *
  * This script is invoked as a subprocess by the architecture-diagrams and
  * flow-diagrams skills when their input contract has `mode: "powerpoint"`.
- * It is NOT a Node library — standalone CLI.
+ * It is NOT a Node library - standalone CLI.
  *
  * Usage:
  *   node build-deck.js <deck-spec.json> <output.pptx>
@@ -25,14 +25,15 @@
  *       {
  *         "title":    "Slide title",
  *         "subtitle": "Optional subtitle in the title bar",
- *         "image":    "/absolute/path/to/diagram.png",
+ *         "image":    "../diagrams/my-diagram.png",
  *         "notes":    "Speaker notes."
  *       }
  *     ]
  *   }
  *
- * Reference architecture posture: no hardcoded paths. Reads paths from
- * argv and the input JSON only.
+ * Reference architecture posture: no hardcoded paths. Reads paths from argv
+ * and the input JSON only. Relative slide image paths resolve from the deck
+ * spec directory so committed sample specs are portable across machines.
  */
 
 "use strict";
@@ -51,6 +52,7 @@ if (process.argv.length !== 4) {
 }
 
 const [, , specPath, outPath] = process.argv;
+const specDir = path.dirname(path.resolve(specPath));
 
 if (!fs.existsSync(specPath) || !fs.statSync(specPath).isFile()) {
   fail(`spec not found: ${specPath}`);
@@ -65,7 +67,16 @@ if (slides.length === 0) {
   fail("deck spec has no slides");
 }
 
-// Visual language — defined once, applied to every slide.
+function resolveSlideImage(rawImage, slideTitle) {
+  if (typeof rawImage !== "string" || rawImage.trim() === "") {
+    fail(`image missing for slide '${slideTitle}'`);
+  }
+  return path.isAbsolute(rawImage)
+    ? rawImage
+    : path.resolve(specDir, rawImage);
+}
+
+// Visual language - defined once, applied to every slide.
 const FONT = "Helvetica Neue";
 const TITLE_FONT_SIZE = 24;
 const SUBTITLE_FONT_SIZE = 12;
@@ -89,13 +100,13 @@ pres.author = author || "prima-delivery diagramming plugin";
 pres.title = deckTitle;
 pres.subject = deckTitle;
 
-// Title slide — only when the deck is meaningfully multi-slide.
+// Title slide - only when the deck is meaningfully multi-slide.
 // Single-slide decks have no use for a title card; it's just dead weight.
 const includeTitleSlide = slides.length >= 3;
 
 if (includeTitleSlide) {
   const titleSlide = pres.addSlide();
-  // Background — soft cream, lets the navy title pop without being austere.
+  // Background - soft cream, lets the navy title pop without being austere.
   titleSlide.background = { color: "FAFAFA" };
   titleSlide.addText(deckTitle, {
     x: SIDE_MARGIN,
@@ -143,14 +154,14 @@ for (let i = 0; i < slides.length; i++) {
   const slide = pres.addSlide();
   const sTitle = s.title || `Slide ${i + 1}`;
   const sSubtitle = s.subtitle || "";
-  const sImage = s.image;
+  const sImage = resolveSlideImage(s.image, sTitle);
   const sNotes = s.notes || "";
 
   if (!sImage || !fs.existsSync(sImage)) {
     fail(`image not found for slide '${sTitle}': ${sImage}`);
   }
 
-  // Title bar — solid blue rectangle full-width.
+  // Title bar - solid blue rectangle full-width.
   slide.addShape(pres.ShapeType.rect, {
     x: 0,
     y: 0,
@@ -189,7 +200,7 @@ for (let i = 0; i < slides.length; i++) {
     });
   }
 
-  // Image — preserve aspect, fit within the body region with margin.
+  // Image - preserve aspect, fit within the body region with margin.
   const bodyTop = TITLE_BAR_H + IMAGE_TOP_MARGIN;
   const bodyW = SLIDE_W - 2 * SIDE_MARGIN;
   const bodyH = SLIDE_H - TITLE_BAR_H - FOOTER_H - 2 * IMAGE_TOP_MARGIN;
@@ -216,7 +227,7 @@ for (let i = 0; i < slides.length; i++) {
     h: dispH,
   });
 
-  // Footer — deck title left, slide number right.
+  // Footer - deck title left, slide number right.
   slide.addText(deckTitle + (author ? `   ·   ${author}` : ""), {
     x: SIDE_MARGIN,
     y: SLIDE_H - FOOTER_H,

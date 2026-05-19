@@ -2,10 +2,9 @@
 /**
  * Eval runner for the diagramming plugin.
  *
- * Walks each case directory under plugins/diagramming/evals/ that contains a
- * translated.json + expected-invariants.json, drives fireworks-tech-graph's
- * scripts/generate-from-template.py with the translated input, validates the
- * resulting SVG via rsvg-convert, generates a PNG, and runs invariant checks.
+ * Walks each case directory under plugins/diagramming/evals/ that contains an
+ * expected-invariants.json file, renders through the declared renderer, exports
+ * a PNG, and runs invariant checks.
  *
  * What this runner DOES test: the rendering pipeline (translated input ->
  * fireworks-tech-graph -> SVG -> rsvg-convert -> PNG) for the JSON shape this
@@ -34,6 +33,11 @@ interface Invariants {
   // Common
   renderer?: "fireworks" | "drawio" | "fireworks-prerendered"; // default "fireworks"
   min_png_bytes?: number;
+  prompt_file?: string;
+  prompt_must_equal?: string;
+  skill_input_file?: string;
+  expected_skill?: string;
+  expected_renderer?: string;
 
   // fireworks renderer (legacy structured-input path)
   template_type?: string;
@@ -47,7 +51,7 @@ interface Invariants {
 
   // fireworks-prerendered renderer (free-form SVG composition path; the case
   // ships a hand-authored SVG fixture that mimics LLM output following
-  // fireworks-tech-graph's SKILL.md vocabulary verbatim — multi-line tspans,
+  // fireworks-tech-graph's SKILL.md vocabulary verbatim - multi-line tspans,
   // sublabels, lane fills, semantic arrow styles. Runner copies the fixture
   // into the output dir and runs the rest of the pipeline. Tests the
   // coordinator's contract that free-form SVG can be ingested + validated +
@@ -59,6 +63,18 @@ interface Invariants {
   drawio_must_have_lane_waypoints?: Record<string, number>;
   validate_contrast?: {
     threshold?: number; // default 4.5 (WCAG AA)
+  };
+}
+
+function mergeFailures(
+  result: CaseResult,
+  failures: string[],
+): CaseResult {
+  const allFailures = [...failures, ...result.failures];
+  return {
+    case_name: result.case_name,
+    passed: result.passed && allFailures.length === 0,
+    failures: allFailures,
   };
 }
 
@@ -183,6 +199,64 @@ async function checkInvariants(
       failures.push(
         `PNG too small: ${s.size} bytes < ${inv.min_png_bytes} required`,
       );
+    }
+  }
+
+  return failures;
+}
+
+async function checkCaseMetadata(
+  caseDir: string,
+  inv: Invariants,
+): Promise<string[]> {
+  const failures: string[] = [];
+
+  if (inv.prompt_file) {
+    const promptPath = join(caseDir, inv.prompt_file);
+    if (!existsSync(promptPath)) {
+      failures.push(`prompt_file not found: ${inv.prompt_file}`);
+    } else if (inv.prompt_must_equal) {
+      const prompt = (await readFile(promptPath, "utf8")).trim();
+      if (prompt !== inv.prompt_must_equal) {
+        failures.push(`prompt_file does not match expected prompt: ${inv.prompt_file}`);
+      }
+    }
+  }
+
+  if (inv.skill_input_file) {
+    const skillInputPath = join(caseDir, inv.skill_input_file);
+    if (!existsSync(skillInputPath)) {
+      failures.push(`skill_input_file not found: ${inv.skill_input_file}`);
+      return failures;
+    }
+
+    const skillInput = JSON.parse(await readFile(skillInputPath, "utf8"));
+    if (
+      inv.expected_renderer &&
+      skillInput.renderer !== inv.expected_renderer
+    ) {
+      failures.push(
+        `skill_input_file renderer="${skillInput.renderer}" expected "${inv.expected_renderer}"`,
+      );
+    }
+
+    if (inv.expected_skill) {
+      const declaredSkill = skillInput.skill ?? skillInput.expected_skill;
+      if (declaredSkill !== inv.expected_skill) {
+        failures.push(
+          `skill_input_file skill="${declaredSkill}" expected "${inv.expected_skill}"`,
+        );
+      }
+    }
+
+    if (inv.prompt_must_equal) {
+      const declaredPrompt =
+        skillInput.user_prompt ??
+        skillInput.prompt ??
+        skillInput.diagrams?.[0]?.source?.prompt;
+      if (declaredPrompt !== inv.prompt_must_equal) {
+        failures.push("skill_input_file does not preserve the Tommy prompt");
+      }
     }
   }
 
@@ -343,8 +417,6 @@ async function runPrerenderedCase(
 
 async function runCase(caseDir: string): Promise<CaseResult> {
   const caseName = basename(caseDir);
-  const failures: string[] = [];
-
   const invariantsPath = join(caseDir, "expected-invariants.json");
 
   if (!existsSync(invariantsPath)) {
@@ -358,6 +430,7 @@ async function runCase(caseDir: string): Promise<CaseResult> {
   const inv: Invariants = JSON.parse(
     await readFile(invariantsPath, "utf8"),
   );
+  const metadataFailures = await checkCaseMetadata(caseDir, inv);
 
   const caseOut = join(OUTPUT_DIR, caseName);
   await mkdir(caseOut, { recursive: true });
@@ -373,11 +446,17 @@ async function runCase(caseDir: string): Promise<CaseResult> {
         failures: ["drawio renderer requires translated.json"],
       };
     }
-    return await runDrawioCase(caseDir, caseName, caseOut, translatedPath, inv);
+    return mergeFailures(
+      await runDrawioCase(caseDir, caseName, caseOut, translatedPath, inv),
+      metadataFailures,
+    );
   }
 
   if (renderer === "fireworks-prerendered") {
-    return await runPrerenderedCase(caseDir, caseName, caseOut, inv);
+    return mergeFailures(
+      await runPrerenderedCase(caseDir, caseName, caseOut, inv),
+      metadataFailures,
+    );
   }
 
   // fireworks path (legacy structured-input default).
@@ -410,6 +489,7 @@ async function runCase(caseDir: string): Promise<CaseResult> {
     };
   }
 
+  const failures = [...metadataFailures];
   const val = rsvgPng(svgPath, pngPath);
   if (!val.ok) {
     failures.push(`rsvg-convert failed (SVG invalid): ${val.stderr.trim()}`);

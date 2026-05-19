@@ -8,7 +8,7 @@ Why a second renderer
 ---------------------
 fireworks-tech-graph produces clean topology diagrams but its layout engine
 struggles with dense feedback graphs (many backloop arrows on a single
-spine — labels collide, lines overlap). draw.io has a mature routing engine
+spine - labels collide, lines overlap). draw.io has a mature routing engine
 that handles this density well, including curved arrows, explicit waypoints,
 and entry/exit ports.
 
@@ -46,7 +46,20 @@ optional draw.io-specific extensions per node and edge):
         "waypoints": [{"x": 200, "y": 400}],  // optional explicit routing
         "style_overrides": "..."
       }
-    ]
+    ],
+    "containers": [
+      {
+        "id": "lane1",
+        "label": "Layer label",
+        "x": 40, "y": 80, "width": 1200, "height": 120,
+        "style_overrides": "fillColor=#f8fafc;strokeColor=#cbd5e1;"
+      }
+    ],
+    "legend": [
+      { "label": "Build/data flow", "kind": "control" },
+      { "label": "Auth/OIDC", "kind": "auth" }
+    ],
+    "legend_position": { "x": 40, "y": 920, "width": 1120 }
   }
 
 Reference architecture posture: no hardcoded paths or project names. The
@@ -98,6 +111,39 @@ EDGE_STYLES: dict[str, str] = {
         "endArrow=classic;html=1;rounded=1;dashed=1;"
         "strokeColor=#2e7d32;strokeWidth=1.5;fontSize=11;"
     ),
+    "auth": (
+        "endArrow=classic;html=1;rounded=1;dashed=1;"
+        "strokeColor=#7c3aed;strokeWidth=1.5;fontSize=11;fontStyle=2;"
+    ),
+    "trigger": (
+        "endArrow=classic;html=1;rounded=1;"
+        "strokeColor=#ea580c;strokeWidth=2;fontSize=11;"
+    ),
+    "verify": (
+        "endArrow=classic;html=1;rounded=1;"
+        "strokeColor=#059669;strokeWidth=2;fontSize=11;"
+    ),
+    "user": (
+        "endArrow=classic;html=1;rounded=1;"
+        "strokeColor=#374151;strokeWidth=1.5;fontSize=11;"
+    ),
+}
+
+CONTAINER_STYLE = (
+    "rounded=1;whiteSpace=wrap;html=1;arcSize=6;dashed=1;dashPattern=4 4;"
+    "fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#475569;"
+    "fontSize=12;fontStyle=1;align=left;verticalAlign=top;"
+    "spacingLeft=16;spacingTop=10;"
+)
+
+LEGEND_KIND_COLORS: dict[str, str] = {
+    "control": "#1565c0",
+    "feedback": "#7b1fa2",
+    "data": "#2e7d32",
+    "auth": "#7c3aed",
+    "trigger": "#ea580c",
+    "verify": "#059669",
+    "user": "#374151",
 }
 
 # Port shorthand to drawio (exitX, exitY) / (entryX, entryY) coordinates.
@@ -163,6 +209,11 @@ def style_for_edge(arrow: dict[str, Any]) -> str:
     return ";".join(parts) + ";"
 
 
+def style_for_container(container: dict[str, Any]) -> str:
+    overrides = container.get("style_overrides")
+    return f"{CONTAINER_STYLE};{overrides}" if overrides else CONTAINER_STYLE
+
+
 def render_node_label(label: str) -> str:
     # draw.io renders newlines in cell values when the cell has html=1.
     # The value attribute is XML; `<br/>` must be entity-encoded so the XML
@@ -178,6 +229,55 @@ def render_edge_waypoints(waypoints: list[dict[str, float]]) -> str:
         f'<mxPoint x="{int(p["x"])}" y="{int(p["y"])}" />' for p in waypoints
     )
     return f'<Array as="points">{points}</Array>'
+
+
+def render_legend(
+    spec: dict[str, Any],
+    width: int,
+    height: int,
+    diagram_id: str,
+) -> list[str]:
+    items = spec.get("legend", [])
+    if not items:
+        return []
+
+    pos = spec.get("legend_position", {})
+    x = int(pos.get("x", 40))
+    y = int(pos.get("y", height - 40))
+    box_w = int(pos.get("width", width - 80))
+    item_w = int(pos.get("item_width", 180))
+    box_h = int(pos.get("height", 28))
+
+    cells: list[str] = [
+        f'<mxCell id="legend-box-{diagram_id}" value="" '
+        f'style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e2e8f0;" '
+        f'vertex="1" parent="1">'
+        f'<mxGeometry x="{x}" y="{y}" width="{box_w}" height="{box_h}" as="geometry" />'
+        "</mxCell>"
+    ]
+
+    for idx, item in enumerate(items):
+        item_x = x + 14 + idx * item_w
+        swatch_y = y + 12
+        label = escape(str(item.get("label", "")))
+        kind = str(item.get("kind", "control"))
+        color = item.get("color") or LEGEND_KIND_COLORS.get(kind, "#64748b")
+        cells.append(
+            f'<mxCell id="legend-swatch-{idx}-{diagram_id}" value="" '
+            f'style="rounded=0;whiteSpace=wrap;html=1;fillColor={escape(color)};strokeColor={escape(color)};fontColor=#ffffff;" '
+            f'vertex="1" parent="1">'
+            f'<mxGeometry x="{item_x}" y="{swatch_y}" width="28" height="4" as="geometry" />'
+            "</mxCell>"
+        )
+        cells.append(
+            f'<mxCell id="legend-label-{idx}-{diagram_id}" value="{label}" '
+            f'style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#0f172a;" '
+            f'vertex="1" parent="1">'
+            f'<mxGeometry x="{item_x + 36}" y="{y + 4}" width="{item_w - 42}" height="20" as="geometry" />'
+            "</mxCell>"
+        )
+
+    return cells
 
 
 def lane_waypoints(
@@ -244,6 +344,7 @@ def build_drawio(spec: dict[str, Any]) -> str:
     cells.append('<mxCell id="0" />')
     cells.append('<mxCell id="1" parent="0" />')
 
+    containers = spec.get("containers", [])
     nodes = spec.get("nodes", [])
     arrows = spec.get("arrows", [])
 
@@ -251,6 +352,19 @@ def build_drawio(spec: dict[str, Any]) -> str:
     node_map: dict[str, dict[str, Any]] = {n["id"]: n for n in nodes}
 
     seen_ids: set[str] = set()
+    for idx, c in enumerate(containers):
+        cid = c.get("id") or f"container-{idx}-{diagram_id}"
+        if cid in seen_ids:
+            fail(f"duplicate node id: {cid}")
+        seen_ids.add(cid)
+        cells.append(
+            f'<mxCell id="{escape(cid)}" value="{render_node_label(c.get("label", ""))}" '
+            f'style="{escape(style_for_container(c))}" vertex="1" parent="1">'
+            f'<mxGeometry x="{int(c["x"])}" y="{int(c["y"])}" '
+            f'width="{int(c["width"])}" height="{int(c["height"])}" as="geometry" />'
+            "</mxCell>"
+        )
+
     for n in nodes:
         nid = n["id"]
         if nid in seen_ids:
@@ -301,6 +415,8 @@ def build_drawio(spec: dict[str, Any]) -> str:
             "</mxCell>"
         )
 
+    cells.extend(render_legend(spec, width, height, diagram_id))
+
     cells_xml = "\n        ".join(cells)
     # Page width/height matches viewBox so there's no excess whitespace.
     return f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -327,7 +443,12 @@ def main() -> None:
         spec = json.load(f)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(build_drawio(spec), encoding="utf-8")
-    print(f"wrote {out_path} ({len(spec.get('nodes', []))} nodes, {len(spec.get('arrows', []))} edges)")
+    print(
+        f"wrote {out_path} "
+        f"({len(spec.get('nodes', []))} nodes, "
+        f"{len(spec.get('arrows', []))} edges, "
+        f"{len(spec.get('containers', []))} containers)"
+    )
 
 
 if __name__ == "__main__":

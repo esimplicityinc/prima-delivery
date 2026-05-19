@@ -21,7 +21,7 @@ bun run plugins/diagramming/evals/run-cases.ts
 bun run plugins/diagramming/evals/run-routing-eval.ts
 ```
 
-You should see `6/6 checks passed.` and `[PASS] routing fixtures: 10 valid entries`.
+You should see `8/8 checks passed.` and `[PASS] routing fixtures: 11 valid entries`.
 
 ## Dependencies
 
@@ -40,7 +40,7 @@ Four deps total. Three are system / external; one (`pptxgenjs`) is packaged.
 
 ### What works without each dep
 
-The plugin degrades gracefully — you don't need all six to use most of it.
+The plugin degrades gracefully - you don't need all six to use most of it.
 
 | Without... | You lose | You keep |
 |---|---|---|
@@ -74,18 +74,19 @@ See `skills/architecture-diagrams/SKILL.md` and `skills/flow-diagrams/SKILL.md` 
 
 ### Via the helper scripts directly
 
-Useful for scripting, CI, or when you already have a `translated.json` (the structured node/edge spec):
+Useful for scripting, CI, or when you already have a drawio `translated.json` (the structured node/edge spec) or a fireworks SVG composed by the skill:
 
 ```bash
 SPEC=path/to/my-diagram.spec.json
 OUT_DIR=path/to/output
 
-# fireworks renderer (default)
-python3 ~/.claude/skills/fireworks-tech-graph/scripts/generate-from-template.py \
-  flowchart "$OUT_DIR/my-diagram.svg" "$(cat "$SPEC")"
+# fireworks renderer
+# The skill composes free-form SVG via fireworks-tech-graph's own SKILL.md.
+# Direct helper usage should only validate and export that SVG.
+rsvg-convert "$OUT_DIR/my-diagram.svg" -o /dev/null
 rsvg-convert -w 1920 "$OUT_DIR/my-diagram.svg" -o "$OUT_DIR/my-diagram.png"
 
-# drawio renderer (dense flowcharts, named feedback loops)
+# drawio renderer (dense graphs, explicit lanes, named feedback loops)
 python3 plugins/diagramming/scripts/build-drawio.py "$SPEC" "$OUT_DIR/my-diagram.drawio"
 drawio --export --format png --scale 2 \
   --output "$OUT_DIR/my-diagram.png" "$OUT_DIR/my-diagram.drawio"
@@ -101,10 +102,12 @@ node plugins/diagramming/scripts/build-deck.js deck-spec.json "$OUT_DIR/my-deck.
 
 | Renderer | Output | When |
 |---|---|---|
-| `fireworks` (default) | SVG + PNG | Architecture, sequence, ERD, simple flow. ~80% of diagrams. |
-| `drawio` | `.drawio` XML + PNG | Dense flowcharts with named feedback loops, hub-and-spoke topologies, anything where auto-layout collides labels. |
+| `fireworks` | SVG + PNG | Simple architecture, sequence, ERD, and linear flow diagrams where labels and arrows do not need explicit routing. |
+| `drawio` | `.drawio` XML + PNG | Dense deployment diagrams, CI/CD plus runtime diagrams, named feedback loops, hub-and-spoke topologies, and anything where labels or arrows collide. |
 
 Override globally via `DIAGRAM_DEFAULT_RENDERER=drawio`, or per-invocation via the `renderer` field in the skill input.
+
+When a generated diagram is ugly, do not patch the image by hand. Classify the graph, switch renderer when the class calls for it, and invoke the skill again. Tommy's PR #5 prompt is fenced by `evals/tommy-shine-deployment/`: `Diagram the SHINE portal deployment from ~/repos/content-portal` routes to `architecture-diagrams` with `renderer: drawio`.
 
 ## Visual verification
 
@@ -112,9 +115,9 @@ The plugin runs three layers of verification depending on use case.
 
 | Layer | What | When |
 |---|---|---|
-| **A** — `validate-diagram.py` | WCAG 2.x contrast ratio per cell, deterministic, ~50 ms | Always run for drawio output. Catches dark-on-dark / light-on-light style overrides. |
-| **B** — `ui-visual-validator` agent (in `plugins/accessibility-compliance/`) | Pixel-level audit: typography, layout density, color-blind safety beyond contrast | Customer-facing deliverables. |
-| **C** — `katalyst-ux-audit` (in katalyst-taxonomy-agents) | Live screenshot + DTCG token output via Playwright | When the diagram is embedded in a deployed surface. |
+| **A** - `validate-diagram.py` | WCAG 2.x contrast ratio per cell, deterministic, ~50 ms | Always run for drawio output. Catches dark-on-dark / light-on-light style overrides. |
+| **B** - `ui-visual-validator` agent (in `plugins/accessibility-compliance/`) | Pixel-level audit: typography, layout density, color-blind safety beyond contrast | Customer-facing deliverables. |
+| **C** - `katalyst-ux-audit` (in katalyst-taxonomy-agents) | Live screenshot + DTCG token output via Playwright | When the diagram is embedded in a deployed surface. |
 
 Layer A is built into the eval suite via the `validate_contrast` invariant. Layers B and C are opt-in dispatch.
 
@@ -144,15 +147,15 @@ plugins/diagramming/
 │   ├── architecture-diagrams/SKILL.md
 │   └── flow-diagrams/SKILL.md
 ├── scripts/
-│   ├── build-drawio.py       # JSON → .drawio XML
-│   ├── build-deck.js         # deck-spec.json → .pptx (PptxGenJS)
-│   └── validate-diagram.py   # .drawio → WCAG AA contrast check
+│   ├── build-drawio.py       # JSON to .drawio XML
+│   ├── build-deck.js         # deck-spec.json to .pptx (PptxGenJS)
+│   └── validate-diagram.py   # .drawio to WCAG AA contrast check
 ├── evals/
-│   ├── run-cases.ts          # 6 rendering cases
+│   ├── run-cases.ts          # 7 rendering cases + PowerPoint smoke
 │   ├── run-routing-eval.ts   # static routing fixture validator
 │   └── routing-fixtures.jsonl
 └── docs/
-    ├── diagrams/             # 9 plugin-rendered hero diagrams
+    ├── diagrams/             # 5 PR hero diagrams
     └── decks/                # 1 sample 5-slide deck
 ```
 
@@ -181,7 +184,7 @@ This plugin deliberately delegates rather than reimplements:
 
 ## Related ADRs
 
-- RIC-353 — diagramming agent (parent)
-- RIC-354 — architecture-diagrams skill
-- RIC-355 — flow-diagrams skill
-- RIC-401 — Katalyst three-loop process (8 of the 9 hero diagrams render Appendix figures from this spec)
+- RIC-353 - diagramming agent (parent)
+- RIC-354 - architecture-diagrams skill
+- RIC-355 - flow-diagrams skill
+- RIC-401 - Katalyst three-loop process (appendix diagrams live outside this RIC-353 PR)

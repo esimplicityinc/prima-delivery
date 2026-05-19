@@ -1,0 +1,23 @@
+{
+  "_purpose": "Regression coverage for Tommy's exact PR #5 prompt. The skill-input fixture preserves the prompt and the renderer decision. The drawio spec is the deterministic artifact shape produced by the architecture-diagrams skill after routing this dense deployment graph away from fireworks.",
+  "renderer": "drawio",
+  "prompt_file": "prompt.txt",
+  "prompt_must_equal": "Diagram the SHINE portal deployment from ~/repos/content-portal",
+  "skill_input_file": "skill-input.json",
+  "expected_skill": "architecture-diagrams",
+  "expected_renderer": "drawio",
+  "drawio_must_contain_text": [
+    "SHINE Portal Deployment",
+    "CD - Dev",
+    "CD - Prod",
+    "AWS OIDC + SSM",
+    "DATABRICKS APPS RUNTIME",
+    "BDD post-deploy",
+    "Browser",
+    "Auth / OIDC"
+  ],
+  "validate_contrast": {
+    "threshold": 4.5
+  },
+  "min_png_bytes": 100000
+}

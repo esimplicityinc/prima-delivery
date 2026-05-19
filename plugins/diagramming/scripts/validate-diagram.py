@@ -8,7 +8,7 @@ text/fill pair below the threshold (AA = 4.5, AAA = 7.0). Catches the
 common failure mode where a custom `style_overrides` accidentally puts
 dark text on a dark fill or light text on a light fill.
 
-This is a deterministic local check — no rendering, no agent dispatch.
+This is a deterministic local check - no rendering, no agent dispatch.
 For full visual audit (typography readability, layout overlap, focus
 indicators), the diagramming skills can additionally dispatch the
 `ui-visual-validator` agent against the rendered PNG; that's a separate
@@ -115,6 +115,9 @@ def iter_vertex_cells(drawio_path: Path) -> Iterable[dict[str, str]]:
 
 def check_cell(cell: dict[str, str], threshold: float) -> dict | None:
     """Return a finding dict if the cell fails threshold, else None."""
+    if not cell["label"].strip():
+        return None
+
     style = parse_style(cell["style"])
     fill = style.get("fillColor", DEFAULT_FILL)
     font = style.get("fontColor", DEFAULT_FONT_COLOR)
@@ -123,7 +126,7 @@ def check_cell(cell: dict[str, str], threshold: float) -> dict | None:
     font_rgb = parse_hex(font)
     if not fill_rgb or not font_rgb:
         # Unparseable color (e.g., "none" for fill of an edge label background).
-        # Skip — not a contrast violation.
+        # Skip - not a contrast violation.
         return None
 
     ratio = contrast_ratio(font_rgb, fill_rgb)
