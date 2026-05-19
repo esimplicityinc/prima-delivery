@@ -18,7 +18,10 @@
  *
  * Env vars:
  *   FIREWORKS_TECH_GRAPH_HOME  Path to the fireworks-tech-graph skill install.
- *                              Default: $HOME/.claude/skills/fireworks-tech-graph
+ *                              Default: $HOME/.agents/skills/fireworks-tech-graph
+ *                              (matches `npx skills add -g` and where opencode
+ *                              loads sibling skills from). Override for Claude
+ *                              Code installs that live under ~/.claude/skills/.
  *   DIAGRAM_OUTPUT_DIR         Where to write SVG/PNG outputs.
  *                              Default: ./plugins/diagramming/evals/.out/
  */
@@ -86,7 +89,7 @@ interface CaseResult {
 
 const FIREWORKS_HOME =
   process.env.FIREWORKS_TECH_GRAPH_HOME ??
-  join(homedir(), ".claude", "skills", "fireworks-tech-graph");
+  join(homedir(), ".agents", "skills", "fireworks-tech-graph");
 
 const EVALS_DIR = join(import.meta.dir);
 const OUTPUT_DIR =

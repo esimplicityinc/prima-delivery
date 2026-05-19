@@ -32,7 +32,7 @@ Four deps total. Three are system / external; one (`pptxgenjs`) is packaged.
 | `rsvg-convert` | SVG validation + PNG export from fireworks renderer | `brew install librsvg` (macOS) <br> `apt-get install librsvg2-bin` (Debian/Ubuntu) | No (system binary) |
 | `python3` | fireworks-tech-graph helpers + drawio builder + WCAG validator | Standard on macOS / most Linux | No (system) |
 | `node` 18+ | PptxGenJS deck builder | `brew install node` / nvm | No (system) |
-| `fireworks-tech-graph` skill | Default renderer (SVG diagrams) | `npx skills add yizhiyanhua-ai/fireworks-tech-graph` | No (sibling skill, lives at `~/.claude/skills/fireworks-tech-graph/`) |
+| `fireworks-tech-graph` skill | Default renderer (SVG diagrams) | `npx skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y` | No (sibling skill, lives at `~/.agents/skills/fireworks-tech-graph/` for opencode users; `~/.claude/skills/fireworks-tech-graph/` for Claude Code users) |
 | `pptxgenjs` (npm) | `mode: powerpoint` deck assembly | `cd plugins/diagramming && npm install` | Yes (declared in `package.json`) |
 | `drawio` desktop CLI | PNG export from `.drawio` renderer (optional) | `brew install --cask drawio` | No (Electron app, ~200 MB) |
 
@@ -131,7 +131,7 @@ Every parameter is overridable via env var. Per CLAUDE.md, no hardcoded paths or
 | `DIAGRAM_DEFAULT_RENDERER` | `fireworks` | `fireworks` or `drawio` |
 | `DIAGRAM_DEFAULT_STYLE` | `1` | fireworks-tech-graph style (1-7) |
 | `DIAGRAM_DECK_TITLE` | (required in powerpoint mode) | Title for the assembled deck |
-| `FIREWORKS_TECH_GRAPH_HOME` | `~/.claude/skills/fireworks-tech-graph` | Override fireworks install location |
+| `FIREWORKS_TECH_GRAPH_HOME` | `~/.agents/skills/fireworks-tech-graph` | Override fireworks install location. Default matches `npx skills add -g` and where opencode loads sibling skills from; Claude Code users typically set this to `~/.claude/skills/fireworks-tech-graph` |
 
 ## Layout
 
@@ -177,7 +177,7 @@ This plugin deliberately delegates rather than reimplements:
 |---|---|
 | `ERROR: pptxgenjs not installed` | `cd plugins/diagramming && npm install` (or `just diagramming-bootstrap`) |
 | `ERROR: rsvg-convert not found` | `brew install librsvg` / `apt-get install librsvg2-bin` |
-| `ERROR: fireworks-tech-graph not found at ~/.claude/skills/...` | `npx skills add yizhiyanhua-ai/fireworks-tech-graph` or set `FIREWORKS_TECH_GRAPH_HOME` |
+| `ERROR: fireworks-tech-graph not found at ~/.agents/skills/...` | `npx skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y` (the `-g` flag is required) or set `FIREWORKS_TECH_GRAPH_HOME` if your install lives elsewhere (e.g. `~/.claude/skills/fireworks-tech-graph`) |
 | `WCAG contrast check failed` on your own `.drawio` | A `style_overrides` put dark text on dark fill or vice versa. Run `python3 plugins/diagramming/scripts/validate-diagram.py your.drawio` to see which cell, then fix the colors. |
 | drawio CLI emits a Windows / Wine error on macOS | The Electron CLI sometimes ships a stale entrypoint. `brew reinstall --cask drawio` usually fixes it. |
 | `.pptx` opens with blank slides in Keynote | Open in PowerPoint or LibreOffice once first; Keynote occasionally reflows on import. |

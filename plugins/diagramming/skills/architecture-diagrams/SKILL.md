@@ -103,7 +103,7 @@ The composition pattern depends on the renderer.
 
 ### When `renderer == "fireworks"` (default)
 
-**Delegate to `fireworks-tech-graph`'s SKILL.md** for composition. Load it from `~/.claude/skills/fireworks-tech-graph/SKILL.md` (or the path set by `FIREWORKS_TECH_GRAPH_HOME`) and follow its workflow verbatim - Diagram Types & Layout Rules, Shape Vocabulary, Arrow Semantics, Layout Rules & Validation, Styles 1-7, and the SVG generation strategy. fireworks teaches its own complete vocabulary; this skill does not duplicate or constrain it.
+**Delegate to `fireworks-tech-graph`'s SKILL.md** for composition. Load it from `~/.agents/skills/fireworks-tech-graph/SKILL.md` (or the path set by `FIREWORKS_TECH_GRAPH_HOME` - Claude Code installs typically use `~/.claude/skills/fireworks-tech-graph/SKILL.md` instead) and follow its workflow verbatim - Diagram Types & Layout Rules, Shape Vocabulary, Arrow Semantics, Layout Rules & Validation, Styles 1-7, and the SVG generation strategy. fireworks teaches its own complete vocabulary; this skill does not duplicate or constrain it.
 
 The render produces an SVG at a path of your choosing; honor `DIAGRAM_OUTPUT_DIR` if set, otherwise default to the current working directory. fireworks's workflow includes its own validation step (`rsvg-convert ... -o /dev/null`) and PNG export (`rsvg-convert -w 1920 ...`). Do not skip these - they are part of the renderer's contract, not optional.
 

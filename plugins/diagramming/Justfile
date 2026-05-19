@@ -10,7 +10,10 @@
 # `justfile_directory()` would return the importing file's directory, not
 # this one, so we resolve relative to the repo root and walk in.
 DIAGRAMMING_PLUGIN_DIR := justfile_directory() / "plugins" / "diagramming"
-FIREWORKS_HOME := env_var_or_default("FIREWORKS_TECH_GRAPH_HOME", env_var("HOME") + "/.claude/skills/fireworks-tech-graph")
+# Default install path matches `npx skills add -g` (which is what we run below)
+# and what opencode loads from. Claude Code users can override via the
+# FIREWORKS_TECH_GRAPH_HOME env var (e.g. ~/.claude/skills/fireworks-tech-graph).
+FIREWORKS_HOME := env_var_or_default("FIREWORKS_TECH_GRAPH_HOME", env_var("HOME") + "/.agents/skills/fireworks-tech-graph")
 
 # ── diagramming-bootstrap ────────────────────────────────────────────────────
 # Install every dep this plugin needs, then verify each one. Idempotent.
@@ -117,20 +120,28 @@ diagramming-bootstrap:
     # py_compile, which exercises the file as a real Python module without
     # invoking any of its CLI surface (the upstream script exits 1 on
     # --help, so we can't use that as a probe).
+    #
+    # Install flags: `-g` makes `skills add` install to ~/.agents/skills/
+    # (its "user-global" location), which is also where opencode loads
+    # sibling skills from. Without -g, skills add lands in a worktree-local
+    # .agents/skills/, which our env-driven setup can't find. `-y` skips
+    # interactive prompts (we run non-interactive); `--force` makes re-runs
+    # idempotent. This matches upstream's own documented invocation
+    # (~/.agents/skills/fireworks-tech-graph/SKILL.md > "Update command").
     GENERATOR="$FIREWORKS_HOME/scripts/generate-from-template.py"
     if [ -f "$GENERATOR" ] && python3 -m py_compile "$GENERATOR" >/dev/null 2>&1; then
       report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
     else
       if command -v npx >/dev/null 2>&1; then
-        echo "    installing fireworks-tech-graph skill via npx..."
-        npx --yes skills add yizhiyanhua-ai/fireworks-tech-graph || true
+        echo "    installing fireworks-tech-graph skill via npx (with -g for ~/.agents/skills/)..."
+        npx --yes skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y || true
         if [ -f "$GENERATOR" ] && python3 -m py_compile "$GENERATOR" >/dev/null 2>&1; then
           report OK "fireworks-tech-graph" "$FIREWORKS_HOME"
         else
-          report FAIL "fireworks-tech-graph" "auto-install failed; run: npx skills add yizhiyanhua-ai/fireworks-tech-graph (note: skills add may install into a worktree-local .agents/skills/ instead of \$FIREWORKS_TECH_GRAPH_HOME; verify the install path)"
+          report FAIL "fireworks-tech-graph" "auto-install failed. Run manually: npx skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y (the -g flag is required so it lands in ~/.agents/skills/, not a worktree-local .agents/skills/). Override the default install path via FIREWORKS_TECH_GRAPH_HOME if your skills live elsewhere (e.g. ~/.claude/skills/fireworks-tech-graph for Claude Code)."
         fi
       else
-        report FAIL "fireworks-tech-graph" "needs npx; install Node.js then: npx skills add yizhiyanhua-ai/fireworks-tech-graph"
+        report FAIL "fireworks-tech-graph" "needs npx; install Node.js then: npx skills add yizhiyanhua-ai/fireworks-tech-graph --force -g -y"
       fi
     fi
 
