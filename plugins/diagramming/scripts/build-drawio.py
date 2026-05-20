@@ -173,14 +173,34 @@ def fail(msg: str, code: int = 1) -> None:
 
 
 def parse_viewbox(spec: dict[str, Any]) -> tuple[int, int]:
-    raw = spec.get("viewBox", "0 0 1280 800")
+    # Accept both `viewBox` (camelCase, fireworks-tech-graph convention) and
+    # `viewbox` (lowercase, the shape used by every translated.json eval fixture
+    # in this repo). Authored inputs in the wild use both; reject silently and
+    # you get a 1280x800 default that overrides the author's intent (Tommy
+    # flagged this on PR #5).
+    #
+    # Accept both list/tuple form `[960, 600]` and SVG-style string form
+    # `"0 0 960 600"`. The list form is what JSON authors reach for naturally;
+    # the string form matches fireworks's convention. `str([960, 600]).split()`
+    # produces `["[960,", "600]"]` (length 2), which fails the 4-part SVG check
+    # and silently returns the default - same root cause, different surface.
+    raw = spec.get("viewBox") or spec.get("viewbox")
+    if raw is None:
+        return 1280, 800
+
+    if isinstance(raw, (list, tuple)):
+        if len(raw) >= 2:
+            return int(raw[0]), int(raw[1])
+        raise ValueError(f"viewBox array too short: {raw!r}")
+
     parts = str(raw).split()
-    if len(parts) != 4:
-        return 1280, 800
-    try:
-        return int(float(parts[2])), int(float(parts[3]))
-    except ValueError:
-        return 1280, 800
+    if len(parts) == 4:
+        try:
+            return int(float(parts[2])), int(float(parts[3]))
+        except ValueError:
+            pass
+
+    raise ValueError(f"Cannot parse viewBox: {raw!r}")
 
 
 def style_for_node(node: dict[str, Any]) -> str:
