@@ -1,0 +1,29 @@
+{
+  "title": "Auth schema ERD",
+  "subtitle": "users / sessions / audit_log relationships",
+  "viewBox": "0 0 960 680",
+  "nodes": [
+    {
+      "id": "users",
+      "label": "users\n----------\nid (PK) : uuid\nemail : text\npassword_hash : text\ncreated_at : timestamp",
+      "kind": "data",
+      "x": 80, "y": 200, "width": 240, "height": 200
+    },
+    {
+      "id": "sessions",
+      "label": "sessions\n----------\nid (PK) : uuid\nuser_id (FK) : uuid\ntoken : text\nexpires_at : timestamp",
+      "kind": "data",
+      "x": 380, "y": 200, "width": 240, "height": 200
+    },
+    {
+      "id": "audit_log",
+      "label": "audit_log\n----------\nid (PK) : uuid\nuser_id (FK) : uuid\naction : text\noccurred_at : timestamp",
+      "kind": "data",
+      "x": 680, "y": 200, "width": 240, "height": 200
+    }
+  ],
+  "arrows": [
+    { "source": "users", "target": "sessions",  "label": "1..N has",   "kind": "control" },
+    { "source": "users", "target": "audit_log", "label": "1..0..* logs","kind": "control" }
+  ]
+}

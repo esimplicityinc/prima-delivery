@@ -12,7 +12,7 @@ opkg install gh@esimplicityinc/prima-delivery
 opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 ```
 
-## Available Plugins (71)
+## Available Plugins (72)
 
 ### Accessibility (1)
 
@@ -76,12 +76,13 @@ opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 | `multi-platform-apps` | Cross-platform application development coordinating web, iOS, Android, and deskt... | 1.2.1 |
 | `ui-design` | Comprehensive UI/UX design plugin for mobile (iOS, Android, React Native) and we... | 1.0.1 |
 
-### Documentation (3)
+### Documentation (4)
 
 | Plugin | Description | Version |
 |--------|-------------|--------|
 | `c4-architecture` | Comprehensive C4 architecture documentation workflow with bottom-up code analysi... | 1.0.0 |
 | `code-documentation` | Documentation generation, code explanation, and technical writing with automated... | 1.2.0 |
+| `diagramming` | Coordinate the rendering of architecture, flow, sequence, ERD, state-machine, an... | 1.6.0 |
 | `documentation-generation` | OpenAPI specification generation, Mermaid diagram creation, tutorial writing, AP... | 1.2.1 |
 
 ### Finance (1)

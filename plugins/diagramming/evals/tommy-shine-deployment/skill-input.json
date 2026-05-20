@@ -1,0 +1,31 @@
+{
+  "skill": "architecture-diagrams",
+  "user_prompt": "Diagram the SHINE portal deployment from ~/repos/content-portal",
+  "mode": "plain",
+  "renderer": "drawio",
+  "output_dir": "plugins/diagramming/docs/diagrams",
+  "diagrams": [
+    {
+      "type": "deployment",
+      "title": "SHINE Portal Deployment",
+      "description": "Dense deployment graph with CI/CD, AWS OIDC, Databricks bundle deploy, Databricks Apps runtime, post-deploy BDD, release promotion, and browser traffic. This graph class must route to drawio instead of fireworks because the labeled cross-tier paths otherwise collide.",
+      "source": {
+        "prompt": "Diagram the SHINE portal deployment from ~/repos/content-portal",
+        "repo_env": "CONTENT_PORTAL_ROOT",
+        "repo_default": "~/repos/content-portal",
+        "source_files": [
+          ".github/workflows/deploy.yml",
+          ".github/workflows/deploy-prod.yml",
+          "api/databricks.yml",
+          "api/app.yaml",
+          "api/src/index.ts",
+          "api/src/auth/GatewayAuthAdapter.ts",
+          "content-portal/package.json",
+          "content-portal/stack-tests/playwright.config.ts",
+          "content-portal/stack-tests/auth.setup.ts"
+        ]
+      },
+      "diff": null
+    }
+  ]
+}

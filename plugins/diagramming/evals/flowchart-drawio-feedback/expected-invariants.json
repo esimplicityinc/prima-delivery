@@ -1,0 +1,12 @@
+{
+  "renderer": "drawio",
+  "drawio_must_contain_text": [
+    "Order placed",
+    "Charge card",
+    "Charge succeeded?",
+    "Ship order",
+    "retry once"
+  ],
+  "min_png_bytes": 8000,
+  "validate_contrast": { "threshold": 4.5 }
+}

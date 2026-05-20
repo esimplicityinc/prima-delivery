@@ -1,0 +1,17 @@
+{
+  "_purpose": "Regression coverage for the free-form SVG composition path that the rewritten SKILL.md prose recommends for the fireworks renderer. The fixture is a pre-authored SVG that mimics the kind of output an LLM would produce when following fireworks-tech-graph's SKILL.md verbatim (multi-line text via <tspan>, sublabels, lane background rects, semantic arrow styles). The runner copies this fixture into the case output dir and asserts the downstream pipeline (rsvg-convert validation, PNG export) handles it. This is a proxy: it tests the coordinator's assumption that a free-form SVG produced by the renderer's own composition path can be ingested + validated + exported without our skill needing to constrain the input shape.",
+  "renderer": "fireworks-prerendered",
+  "fixture_svg": "fixture.svg",
+  "rsvg_validates": true,
+  "min_png_bytes": 5000,
+  "svg_must_contain_text": [
+    "<tspan",
+    "GitHub",
+    "Repository",
+    "Build Job",
+    "(Astro frontend)",
+    "Deploy Job",
+    "(databricks bundle)",
+    "SOURCE LAYER"
+  ]
+}

@@ -1,0 +1,479 @@
+{
+  "title": "SHINE Portal Deployment",
+  "subtitle": "content-portal to Databricks Apps via GitHub Actions, AWS OIDC, and post-deploy BDD",
+  "viewBox": "0 0 1280 980",
+  "containers": [
+    {
+      "id": "lane-source",
+      "label": "SOURCE",
+      "x": 40,
+      "y": 80,
+      "width": 1200,
+      "height": 100,
+      "style_overrides": "fillColor=#f8fafc;strokeColor=#cbd5e1;fontColor=#334155;"
+    },
+    {
+      "id": "lane-workflows",
+      "label": "GITHUB ACTIONS WORKFLOWS",
+      "x": 40,
+      "y": 205,
+      "width": 1200,
+      "height": 105,
+      "style_overrides": "fillColor=#eff6ff;strokeColor=#93c5fd;fontColor=#1d4ed8;"
+    },
+    {
+      "id": "lane-build",
+      "label": "BUILD JOB",
+      "x": 40,
+      "y": 335,
+      "width": 1200,
+      "height": 110,
+      "style_overrides": "fillColor=#fef9c3;strokeColor=#fde68a;fontColor=#854d0e;"
+    },
+    {
+      "id": "lane-deploy",
+      "label": "DEPLOY JOB",
+      "x": 40,
+      "y": 470,
+      "width": 1200,
+      "height": 165,
+      "style_overrides": "fillColor=#ecfdf5;strokeColor=#a7f3d0;fontColor=#047857;"
+    },
+    {
+      "id": "lane-runtime",
+      "label": "DATABRICKS APPS RUNTIME",
+      "x": 40,
+      "y": 660,
+      "width": 1200,
+      "height": 165,
+      "style_overrides": "fillColor=#f1f5f9;strokeColor=#cbd5e1;fontColor=#334155;"
+    },
+    {
+      "id": "lane-users",
+      "label": "POST-DEPLOY + USERS",
+      "x": 40,
+      "y": 850,
+      "width": 1200,
+      "height": 90,
+      "style_overrides": "fillColor=#f8fafc;strokeColor=#e2e8f0;fontColor=#475569;"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "developer",
+      "kind": "terminator",
+      "x": 80,
+      "y": 115,
+      "width": 165,
+      "height": 48,
+      "label": "Developer\ngit push / release",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "main",
+      "kind": "process",
+      "x": 300,
+      "y": 115,
+      "width": 190,
+      "height": 48,
+      "label": "GitHub main branch\npush event",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "release_event",
+      "kind": "process",
+      "x": 550,
+      "y": 115,
+      "width": 190,
+      "height": 48,
+      "label": "GitHub Release\nrelease.published",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "aws_iam",
+      "kind": "data",
+      "x": 930,
+      "y": 115,
+      "width": 250,
+      "height": 48,
+      "label": "AWS IAM OIDC trust\nrole-to-assume",
+      "style_overrides": "fillColor=#fef3c7;strokeColor=#f59e0b;fontColor=#7c2d12;"
+    },
+    {
+      "id": "cd_dev",
+      "kind": "process",
+      "x": 120,
+      "y": 240,
+      "width": 300,
+      "height": 54,
+      "label": "CD - Dev (deploy.yml)\npush main / workflow_dispatch",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#3b82f6;fontColor=#1e3a8a;strokeWidth=2;"
+    },
+    {
+      "id": "cd_prod",
+      "kind": "process",
+      "x": 500,
+      "y": 240,
+      "width": 300,
+      "height": 54,
+      "label": "CD - Prod (deploy-prod.yml)\nrelease published",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#0ea5e9;fontColor=#0c4a6e;strokeWidth=2;"
+    },
+    {
+      "id": "jobs_note",
+      "kind": "data",
+      "x": 870,
+      "y": 240,
+      "width": 300,
+      "height": 54,
+      "label": "Each workflow has 3 jobs\nbuild -> deploy -> BDD/release",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;dashed=1;"
+    },
+    {
+      "id": "astro_build",
+      "kind": "process",
+      "x": 80,
+      "y": 370,
+      "width": 220,
+      "height": 54,
+      "label": "Astro frontend build\nNode 22 + just build",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "dist",
+      "kind": "data",
+      "x": 380,
+      "y": 370,
+      "width": 220,
+      "height": 54,
+      "label": "content-portal/dist\nstatic Astro output",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#60a5fa;fontColor=#0f172a;"
+    },
+    {
+      "id": "artifact",
+      "kind": "data",
+      "x": 680,
+      "y": 370,
+      "width": 240,
+      "height": 54,
+      "label": "Upload artifact\ndist-${{ github.sha }}",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "promotion_note",
+      "kind": "data",
+      "x": 980,
+      "y": 370,
+      "width": 210,
+      "height": 54,
+      "label": "Prod promotes\nrelease commit artifact",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#fde68a;fontColor=#854d0e;dashed=1;"
+    },
+    {
+      "id": "download",
+      "kind": "process",
+      "x": 80,
+      "y": 505,
+      "width": 235,
+      "height": 58,
+      "label": "Download dist artifact\nextract into api/public",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "ssm",
+      "kind": "data",
+      "x": 80,
+      "y": 575,
+      "width": 235,
+      "height": 42,
+      "label": "AWS OIDC + SSM\nfetch databricks_client_id",
+      "style_overrides": "fillColor=#faf5ff;strokeColor=#a78bfa;fontColor=#5b21b6;"
+    },
+    {
+      "id": "validate",
+      "kind": "process",
+      "x": 380,
+      "y": 505,
+      "width": 220,
+      "height": 58,
+      "label": "bundle validate\ndatabricks bundle validate",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "deploy",
+      "kind": "process",
+      "x": 680,
+      "y": 505,
+      "width": 220,
+      "height": 58,
+      "label": "bundle deploy\nsyncs api to workspace",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "run_app",
+      "kind": "process",
+      "x": 980,
+      "y": 505,
+      "width": 210,
+      "height": 58,
+      "label": "bundle run shine_portal\ncaptures app_url",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    },
+    {
+      "id": "dev_app",
+      "kind": "process",
+      "x": 80,
+      "y": 690,
+      "width": 500,
+      "height": 110,
+      "label": "shine-v2-dev (target: dev)\nElysia API (tsx) + static frontend\nAUTH_MODE=gateway  OPENAPI=off",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#3b82f6;fontColor=#1e3a8a;strokeWidth=2;"
+    },
+    {
+      "id": "prod_app",
+      "kind": "process",
+      "x": 680,
+      "y": 690,
+      "width": 500,
+      "height": 110,
+      "label": "shine-v2 (target: prod)\nElysia API (tsx) + static frontend\nartifact promoted from dev SHA",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#0ea5e9;fontColor=#0c4a6e;strokeWidth=2;"
+    },
+    {
+      "id": "bdd",
+      "kind": "process",
+      "x": 80,
+      "y": 875,
+      "width": 350,
+      "height": 50,
+      "label": "BDD post-deploy (dev only)\nPlaywright against app_url",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#10b981;fontColor=#065f46;strokeWidth=2;"
+    },
+    {
+      "id": "release_tag",
+      "kind": "data",
+      "x": 470,
+      "y": 875,
+      "width": 300,
+      "height": 50,
+      "label": "Release tag v0.1.${run_number}\ntriggers prod workflow",
+      "style_overrides": "fillColor=#fffbeb;strokeColor=#f59e0b;fontColor=#7c2d12;"
+    },
+    {
+      "id": "browser",
+      "kind": "terminator",
+      "x": 850,
+      "y": 875,
+      "width": 340,
+      "height": 50,
+      "label": "Browser (internal staff)\nHTTPS gateway auth",
+      "style_overrides": "fillColor=#ffffff;strokeColor=#cbd5e1;fontColor=#0f172a;"
+    }
+  ],
+  "arrows": [
+    {
+      "source": "developer",
+      "target": "main",
+      "kind": "user",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "push"
+    },
+    {
+      "source": "developer",
+      "target": "release_event",
+      "kind": "user",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "release",
+      "waypoints": [
+        { "x": 260, "y": 105 },
+        { "x": 550, "y": 105 }
+      ]
+    },
+    {
+      "source": "main",
+      "target": "cd_dev",
+      "kind": "trigger",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "push main",
+      "style_overrides": "strokeColor=#ea580c;"
+    },
+    {
+      "source": "release_event",
+      "target": "cd_prod",
+      "kind": "trigger",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "release"
+    },
+    {
+      "source": "cd_dev",
+      "target": "astro_build",
+      "kind": "control",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "build"
+    },
+    {
+      "source": "cd_prod",
+      "target": "astro_build",
+      "kind": "control",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "same build",
+      "waypoints": [
+        { "x": 650, "y": 325 },
+        { "x": 190, "y": 325 }
+      ]
+    },
+    {
+      "source": "astro_build",
+      "target": "dist",
+      "kind": "control",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "dist"
+    },
+    {
+      "source": "dist",
+      "target": "artifact",
+      "kind": "control",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "upload"
+    },
+    {
+      "source": "artifact",
+      "target": "download",
+      "kind": "control",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "api/public",
+      "waypoints": [
+        { "x": 800, "y": 455 },
+        { "x": 200, "y": 455 }
+      ]
+    },
+    {
+      "source": "aws_iam",
+      "target": "ssm",
+      "kind": "auth",
+      "exit_port": "R",
+      "entry_port": "R",
+      "label": "",
+      "style_overrides": "strokeColor=#7c3aed;dashed=1;",
+      "waypoints": [
+        { "x": 1220, "y": 139 },
+        { "x": 1220, "y": 620 },
+        { "x": 315, "y": 620 }
+      ]
+    },
+    {
+      "source": "download",
+      "target": "validate",
+      "kind": "control",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "validate"
+    },
+    {
+      "source": "validate",
+      "target": "deploy",
+      "kind": "control",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "deploy"
+    },
+    {
+      "source": "deploy",
+      "target": "run_app",
+      "kind": "control",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "run"
+    },
+    {
+      "source": "ssm",
+      "target": "validate",
+      "kind": "auth",
+      "exit_port": "R",
+      "entry_port": "B",
+      "label": "github-oidc",
+      "style_overrides": "strokeColor=#7c3aed;dashed=1;"
+    },
+    {
+      "source": "run_app",
+      "target": "dev_app",
+      "kind": "trigger",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "",
+      "waypoints": [
+        { "x": 1085, "y": 645 },
+        { "x": 330, "y": 645 }
+      ]
+    },
+    {
+      "source": "run_app",
+      "target": "prod_app",
+      "kind": "trigger",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": ""
+    },
+    {
+      "source": "dev_app",
+      "target": "bdd",
+      "kind": "verify",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "curl /shine + Playwright",
+      "style_overrides": "strokeColor=#059669;"
+    },
+    {
+      "source": "bdd",
+      "target": "release_tag",
+      "kind": "user",
+      "exit_port": "R",
+      "entry_port": "L",
+      "label": "success"
+    },
+    {
+      "source": "release_tag",
+      "target": "cd_prod",
+      "kind": "auth",
+      "exit_port": "T",
+      "entry_port": "B",
+      "label": "",
+      "style_overrides": "strokeColor=#7c3aed;dashed=1;",
+      "waypoints": [
+        { "x": 620, "y": 835 },
+        { "x": 620, "y": 330 }
+      ]
+    },
+    {
+      "source": "prod_app",
+      "target": "browser",
+      "kind": "user",
+      "exit_port": "B",
+      "entry_port": "T",
+      "label": "HTTPS / gateway"
+    }
+  ],
+  "legend": [
+    { "label": "Build/data flow", "kind": "control" },
+    { "label": "Trigger / target", "kind": "trigger" },
+    { "label": "Auth / OIDC", "kind": "auth" },
+    { "label": "Post-deploy verify", "kind": "verify" },
+    { "label": "User / HTTPS", "kind": "user" }
+  ],
+  "legend_position": {
+    "x": 40,
+    "y": 950,
+    "width": 1200,
+    "height": 24,
+    "item_width": 210
+  }
+}
