@@ -12,7 +12,7 @@ opkg install gh@esimplicityinc/prima-delivery
 opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 ```
 
-## Available Plugins (72)
+## Available Plugins (73)
 
 ### Accessibility (1)
 
