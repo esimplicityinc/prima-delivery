@@ -4,7 +4,7 @@
 
 # Complete Plugin Reference
 
-Browse all **72 focused, single-purpose plugins** organized by category.
+Browse all **73 focused, single-purpose plugins** organized by category.
 
 ## Quick Start - Essential Plugins
 
@@ -177,6 +177,7 @@ Next.js, React + Vite, and Node.js project setup with pnpm and TypeScript best p
 | ------------------------ | ----------------------------------- | -------------------------------------- |
 | **llm-application-dev**  | LLM apps and prompt engineering     | `/plugin install llm-application-dev`  |
 | **agent-orchestration**  | Multi-agent system optimization     | `/plugin install agent-orchestration`  |
+| **agent-development**    | Agent/skill creation and diagnosis  | `/plugin install agent-development`    |
 | **context-management**   | Context persistence and restoration | `/plugin install context-management`   |
 | **machine-learning-ops** | ML training pipelines and MLOps     | `/plugin install machine-learning-ops` |
 

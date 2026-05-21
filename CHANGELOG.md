@@ -6,6 +6,8 @@
 
 ### 🚀 Enhancements
 
+- Add agent-maker (5 agents) and agent-modifier (4 agents) for agent development and maintenance ([agent-maker](/.opencode/agents/agent-maker.md), [agent-modifier](/.opencode/agents/agent-modifier.md))
+- Add agent-development plugin with agent-maker-lite and agent-modifier-lite for cross-platform support (Claude Code, Copilot, Cursor, etc.)
 - Create typescript-pro.md ([9a8f332](https://github.com/esimplicityinc/prima-delivery/commit/9a8f332))
 - Minecraft-bukkit-pro agent. ([87b972b](https://github.com/esimplicityinc/prima-delivery/commit/87b972b))
 - Scala-pro. ([aff6085](https://github.com/esimplicityinc/prima-delivery/commit/aff6085))
