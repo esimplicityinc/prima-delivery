@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 640" width="1120" height="640">
+  <defs>
+    <style>text { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }</style>
+    <marker id="primary" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/></marker>
+    <marker id="success" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#15803d"/></marker>
+    <pattern id="generatedHatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="8" stroke="#0284c7" stroke-width="1.2" opacity="0.24"/></pattern>
+    <filter id="soft" x="-8%" y="-8%" width="116%" height="116%"><feDropShadow dx="0" dy="2" stdDeviation="1.8" flood-color="#0f172a" flood-opacity="0.12"/></filter>
+  </defs>
+  <rect width="1120" height="640" fill="#ffffff"/>
+  <text x="560" y="44" text-anchor="middle" font-size="22" font-weight="700" fill="#111827">After: Default Design Guidance Applied</text>
+  <text x="560" y="72" text-anchor="middle" font-size="13" fill="#475569">The same output-format flow now uses semantic color, generated-artifact treatment, grouped panels, and normalized typography.</text>
+
+  <rect x="72" y="122" width="976" height="188" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="96" y="152" font-size="13" font-weight="700" fill="#334155">Output-format selection path</text>
+
+  <g filter="url(#soft)"><rect x="108" y="178" width="186" height="92" rx="12" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.8"/></g>
+  <text x="201" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="#111827">User request</text>
+  <text x="201" y="236" text-anchor="middle" font-size="12" fill="#475569">"PNG only"</text>
+
+  <g filter="url(#soft)"><rect x="390" y="178" width="186" height="92" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.8"/></g>
+  <text x="483" y="212" text-anchor="middle" font-size="15" font-weight="700" fill="#111827">Routing agent</text>
+  <text x="483" y="236" text-anchor="middle" font-size="12" fill="#475569">maps prose to contract</text>
+
+  <g filter="url(#soft)"><rect x="672" y="178" width="186" height="92" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.8"/></g>
+  <rect x="672" y="178" width="186" height="92" rx="12" fill="url(#generatedHatch)" stroke="#0284c7" stroke-width="1.8"/>
+  <rect x="766" y="190" width="78" height="20" rx="10" fill="#0369a1"/>
+  <text x="805" y="204" text-anchor="middle" font-size="10" font-weight="700" fill="#ffffff">GENERATED</text>
+  <text x="765" y="226" text-anchor="middle" font-size="15" font-weight="700" fill="#111827">output.formats</text>
+  <text x="765" y="249" text-anchor="middle" font-size="12" fill="#475569">["png"]</text>
+
+  <g filter="url(#soft)"><rect x="932" y="178" width="86" height="92" rx="12" fill="#dcfce7" stroke="#15803d" stroke-width="1.8"/></g>
+  <text x="975" y="214" text-anchor="middle" font-size="15" font-weight="700" fill="#111827">Final</text>
+  <text x="975" y="238" text-anchor="middle" font-size="12" fill="#166534">PNG</text>
+
+  <line x1="294" y1="224" x2="388" y2="224" stroke="#2563eb" stroke-width="2.3" marker-end="url(#primary)"/>
+  <line x1="576" y1="224" x2="670" y2="224" stroke="#2563eb" stroke-width="2.3" marker-end="url(#primary)"/>
+  <line x1="858" y1="224" x2="930" y2="224" stroke="#15803d" stroke-width="2.3" marker-end="url(#success)"/>
+
+  <rect x="72" y="350" width="976" height="170" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="96" y="380" font-size="13" font-weight="700" fill="#334155">Default design template checks</text>
+
+  <rect x="118" y="414" width="170" height="54" rx="12" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="203" y="447" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">Inputs</text>
+  <rect x="342" y="414" width="170" height="54" rx="12" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.5"/>
+  <text x="427" y="447" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">Processes</text>
+  <rect x="566" y="414" width="170" height="54" rx="12" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+  <rect x="566" y="414" width="170" height="54" rx="12" fill="url(#generatedHatch)" stroke="#0284c7" stroke-width="1.5"/>
+  <text x="651" y="447" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">Generated</text>
+  <rect x="790" y="414" width="170" height="54" rx="12" fill="#dcfce7" stroke="#15803d" stroke-width="1.5"/>
+  <text x="875" y="447" text-anchor="middle" font-size="13" font-weight="700" fill="#111827">Review gates</text>
+
+  <text x="560" y="568" text-anchor="middle" font-size="12" fill="#475569">Four semantic colors, hatching for generated artifacts, grouped panels, and consistent text styles make the diagram review-ready.</text>
+</svg>
