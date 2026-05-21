@@ -191,7 +191,7 @@ Skills provide specialized knowledge that agents can load on-demand:
 
 - [Agent Reference](docs/agents.md) - All 119 agents by category
 - [Skills Reference](docs/agent-skills.md) - All 140 skills
-- [Plugin Catalog](docs/plugins.md) - All 72 plugins
+- [Plugin Catalog](docs/plugins.md) - All 73 plugins
 - [Usage Guide](docs/usage.md) - Commands and workflows
 - [Architecture](docs/architecture.md) - Design principles
 
