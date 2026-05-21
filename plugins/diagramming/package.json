@@ -1,0 +1,12 @@
+{
+  "name": "@esimplicityinc/prima-delivery-diagramming",
+  "version": "1.5.0",
+  "private": true,
+  "description": "Build helpers for the diagramming plugin. Drives the drawio renderer and the PptxGenJS-based deck assembler.",
+  "scripts": {
+    "build:deck": "node scripts/build-deck.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0"
+  }
+}

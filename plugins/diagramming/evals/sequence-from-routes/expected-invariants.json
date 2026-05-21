@@ -1,0 +1,14 @@
+{
+  "_legacy_backward_compat": "Tests the structured-input path (generate-from-template.py with { nodes[], arrows[], containers[] } JSON). The current SKILL.md prose recommends free-form SVG composition per fireworks-tech-graph's own SKILL.md; this case is kept to ensure the legacy structured-input path doesn't break for callers that still use it. See PR #5 / Tommy Mason for the architectural shift.",
+  "template_type": "sequence",
+  "rsvg_validates": true,
+  "svg_must_contain_text": [
+    "POST /auth/login",
+    "Client",
+    "DB",
+    "jwt",
+    "passwords"
+  ],
+  "min_arrow_markers": 1,
+  "min_png_bytes": 5000
+}

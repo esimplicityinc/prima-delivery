@@ -1,0 +1,22 @@
+{
+  "title": "Three nested feedback loops via lane auto-stagger",
+  "subtitle": "No explicit waypoints; build-drawio.py computes corridor x from `lane` field.",
+  "viewBox": "0 0 800 800",
+  "nodes": [
+    { "id": "step1", "kind": "process",  "x": 320, "y": 80,  "width": 200, "height": 70, "label": "Step 1" },
+    { "id": "step2", "kind": "process",  "x": 320, "y": 220, "width": 200, "height": 70, "label": "Step 2" },
+    { "id": "step3", "kind": "process",  "x": 320, "y": 360, "width": 200, "height": 70, "label": "Step 3" },
+    { "id": "gate",  "kind": "decision", "x": 300, "y": 500, "width": 240, "height": 100, "label": "Gate" },
+    { "id": "step4", "kind": "process",  "x": 320, "y": 660, "width": 200, "height": 70, "label": "Step 4" }
+  ],
+  "arrows": [
+    { "source": "step1", "target": "step2", "kind": "control", "exit_port": "B", "entry_port": "T" },
+    { "source": "step2", "target": "step3", "kind": "control", "exit_port": "B", "entry_port": "T" },
+    { "source": "step3", "target": "gate",  "kind": "control", "exit_port": "B", "entry_port": "T" },
+    { "source": "gate",  "target": "step4", "kind": "control", "exit_port": "B", "entry_port": "T", "label": "ok" },
+
+    { "source": "step2", "target": "step1", "kind": "feedback", "exit_port": "L", "entry_port": "L", "lane": 1, "label": "lane 1: 2-1" },
+    { "source": "step3", "target": "step1", "kind": "feedback", "exit_port": "L", "entry_port": "L", "lane": 2, "label": "lane 2: 3-1" },
+    { "source": "gate",  "target": "step1", "kind": "feedback", "exit_port": "L", "entry_port": "L", "lane": 3, "label": "lane 3: gate-1" }
+  ]
+}

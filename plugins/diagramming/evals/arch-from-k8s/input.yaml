@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shine-portal-frontend
+  namespace: shine
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shine-portal-frontend
+  template:
+    spec:
+      containers:
+        - name: web
+          image: shine-portal-frontend:latest
+          ports:
+            - containerPort: 4321
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shine-portal-api
+  namespace: shine
+spec:
+  selector:
+    app: shine-portal-api
+  ports:
+    - port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: shine-portal-ingress
+  namespace: shine
+spec:
+  rules:
+    - host: shine.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: shine-portal-frontend
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: shine-portal-api
+                port:
+                  number: 80

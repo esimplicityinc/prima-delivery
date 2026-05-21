@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#7c3aed"/>
+    </marker>
+    <style>
+      text { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+      .title { font-size: 24px; font-weight: 700; fill: #111827; }
+      .subtitle { font-size: 13px; font-weight: 500; fill: #6b7280; }
+      .lane-header { font-size: 12px; font-weight: 700; fill: #2563eb; letter-spacing: 1.2px; }
+      .node-title { font-size: 16px; font-weight: 700; fill: #111827; }
+      .node-sub { font-size: 11px; font-weight: 500; fill: #6b7280; }
+      .arrow-label { font-size: 11px; font-weight: 600; fill: #6b7280; }
+    </style>
+  </defs>
+  <rect width="960" height="600" fill="#ffffff"/>
+  <text x="480" y="48" text-anchor="middle" class="title">Free-form fireworks regression fixture</text>
+  <text x="480" y="70" text-anchor="middle" class="subtitle">multi-line tspans, sublabels, lane fills</text>
+
+  <rect x="30" y="100" width="900" height="160" rx="12" fill="#fef3c7" opacity="0.4" stroke="#fcd34d" stroke-width="1" stroke-dasharray="6 4"/>
+  <text x="48" y="124" class="lane-header">SOURCE LAYER</text>
+
+  <rect x="80" y="150" width="180" height="80" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+  <text x="170" y="180" text-anchor="middle" class="node-title"><tspan x="170" dy="0">GitHub</tspan><tspan x="170" dy="1.2em">Repository</tspan></text>
+  <text x="170" y="220" text-anchor="middle" class="node-sub">push event</text>
+
+  <rect x="320" y="150" width="200" height="80" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+  <text x="420" y="180" text-anchor="middle" class="node-title"><tspan x="420" dy="0">Build Job</tspan><tspan x="420" dy="1.2em">(Astro frontend)</tspan></text>
+  <text x="420" y="220" text-anchor="middle" class="node-sub">Node 22 + just</text>
+
+  <rect x="580" y="150" width="220" height="80" rx="8" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+  <text x="690" y="180" text-anchor="middle" class="node-title"><tspan x="690" dy="0">Deploy Job</tspan><tspan x="690" dy="1.2em">(databricks bundle)</tspan></text>
+  <text x="690" y="220" text-anchor="middle" class="node-sub">syncs api/ to Workspace</text>
+
+  <path d="M 260,190 L 320,190" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="290" y="184" text-anchor="middle" class="arrow-label">artifact</text>
+
+  <path d="M 520,190 L 580,190" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="550" y="184" text-anchor="middle" class="arrow-label">app_url</text>
+</svg>

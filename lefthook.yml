@@ -10,3 +10,14 @@ pre-commit:
   commands:
     validate:
       run: bun run validate
+    sync-opencode-skills:
+      # Auto-regenerate .opencode/skills/ from plugins/*/skills/ on any commit
+      # that touches a plugin skill source, then re-stage so the regenerated
+      # runtime copies travel with the source edit in the same commit.
+      # Without this, devs ship plugin SKILL.md changes without the matching
+      # .opencode/skills/ regen, and consumers (Tommy on PR #5) see stale
+      # runtime content. CI will fail the PR if .opencode/skills/ is out of
+      # sync; this hook makes that fail mode unreachable in normal use.
+      glob: "plugins/*/skills/**/*"
+      run: bun run convert:skills && git add .opencode/skills/
+      stage_fixed: true

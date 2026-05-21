@@ -1,0 +1,20 @@
+{
+  "title": "SHINE portal deployment topology",
+  "subtitle": "k8s manifest -> three-tier deployment with cache",
+  "viewbox": [960, 700],
+  "nodes": [
+    { "id": "ingress", "label": "Ingress\nshine.example.com", "kind": "gateway", "x": 460, "y": 60, "width": 200, "height": 70 },
+    { "id": "frontend", "label": "shine-portal-frontend\nDeployment (2 replicas)", "kind": "service", "x": 200, "y": 240, "width": 240, "height": 80 },
+    { "id": "api", "label": "shine-portal-api\nService :80 -> :3000", "kind": "service", "x": 560, "y": 240, "width": 240, "height": 80 },
+    { "id": "frontend-pod", "label": "web container\n:4321", "kind": "process", "x": 200, "y": 420, "width": 240, "height": 70 },
+    { "id": "api-pod", "label": "api pod\n:3000", "kind": "process", "x": 560, "y": 420, "width": 240, "height": 70 },
+    { "id": "cache", "label": "shine-portal-cache\nRedis :6379", "kind": "data", "x": 380, "y": 580, "width": 220, "height": 70 }
+  ],
+  "arrows": [
+    { "source": "ingress", "target": "frontend", "label": "/" },
+    { "source": "ingress", "target": "api", "label": "/api" },
+    { "source": "frontend", "target": "frontend-pod", "kind": "control" },
+    { "source": "api", "target": "api-pod", "kind": "control" },
+    { "source": "api-pod", "target": "cache", "kind": "data", "label": "session lookup" }
+  ]
+}

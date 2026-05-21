@@ -1,0 +1,21 @@
+{
+  "title": "Order state with retry loop",
+  "subtitle": "Tiny flowchart exercising the drawio renderer path",
+  "viewBox": "0 0 600 700",
+  "nodes": [
+    { "id": "start",   "kind": "process",  "x": 220, "y": 60,  "width": 160, "height": 60, "label": "Order placed" },
+    { "id": "charge",  "kind": "process",  "x": 220, "y": 180, "width": 160, "height": 60, "label": "Charge card" },
+    { "id": "decide",  "kind": "decision", "x": 200, "y": 300, "width": 200, "height": 90, "label": "Charge succeeded?" },
+    { "id": "ship",    "kind": "process",  "x": 220, "y": 460, "width": 160, "height": 60, "label": "Ship order" },
+    { "id": "fail",    "kind": "process",  "x": 220, "y": 580, "width": 160, "height": 60, "label": "Notify customer" }
+  ],
+  "arrows": [
+    { "source": "start",  "target": "charge", "kind": "control", "exit_port": "B", "entry_port": "T" },
+    { "source": "charge", "target": "decide", "kind": "control", "exit_port": "B", "entry_port": "T" },
+    { "source": "decide", "target": "ship",   "kind": "control", "exit_port": "B", "entry_port": "T", "label": "yes" },
+    { "source": "decide", "target": "charge", "kind": "feedback", "exit_port": "L", "entry_port": "L",
+      "label": "retry once",
+      "waypoints": [{"x": 140, "y": 345}, {"x": 140, "y": 210}] },
+    { "source": "ship",   "target": "fail",   "kind": "control", "exit_port": "B", "entry_port": "T", "label": "ship failed" }
+  ]
+}
