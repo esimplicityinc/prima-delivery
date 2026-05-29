@@ -58,6 +58,12 @@ Prima Delivery follows industry best practices with a focus on granularity, comp
 - Organized across architecture, languages, infrastructure, quality, data/AI, documentation, business, and SEO
 - Model-optimized with three-tier strategy (High, Medium, Low) for performance and cost
 
+**9 Agent Development & Maintenance Agents**
+
+- Agent Maker (5 agents): guided wizard for creating new agents and skills through intake, analysis, design critique, and generation
+- Agent Modifier (4 agents): evidence-based diagnosis and repair of agent behavior using session log analysis, root cause identification, and targeted fixes
+- Use explicit temperature control (0.2-0.4) rather than model tiers for precise orchestration behavior
+
 **15 Workflow Orchestrators**
 
 - Multi-agent coordination systems
@@ -216,6 +222,7 @@ The system uses a three-tier model strategy:
 | High   | 42 agents | Critical architecture, security, code review |
 | Medium | 39 agents | Complex tasks, support with intelligence     |
 | Low    | 18 agents | Fast operational tasks                       |
+| Custom | 9 agents  | Agent development & maintenance (temp 0.2-0.4) |
 
 ### Selection Criteria
 
@@ -347,6 +354,29 @@ Feature Development Workflow:
 5. cicd-automation:workflow-automate
 6. observability-monitoring:monitor-setup
 ```
+
+### Pattern 5: Primary + Subagent Systems
+
+Orchestrator agents dispatch specialized subagents through task permissions:
+
+```
+agent-maker (primary, orchestrator)
+├── agent-maker-intake (subagent — gather requirements)
+├── agent-maker-analyzer (subagent — scan patterns)
+├── agent-maker-critic (subagent — stress-test design)
+└── agent-maker-scribe (subagent — generate files)
+
+agent-modifier (primary, orchestrator)
+├── agent-modifier-analyzer (subagent — parse session logs)
+├── agent-modifier-diagnoser (subagent — root cause analysis)
+└── agent-modifier-fixer (subagent — apply targeted fixes)
+```
+
+**Key characteristics:**
+- Primary agents use `permission.task` to allow subagent dispatch
+- Subagents have `mode: subagent` and restricted tool access (e.g., `write: false` for analyzers)
+- Explicit temperature control (0.2-0.4) rather than model tiers
+- Read-only subagents cannot modify files; only the fixer/scribe can write
 
 ## Versioning & Updates
 

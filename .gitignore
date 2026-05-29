@@ -44,3 +44,6 @@ backend.tf
 # Docusaurus build output
 docs-site/build/
 docs-site/.docusaurus/
+
+# VS Code
+.vscode/

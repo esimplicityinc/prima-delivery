@@ -62,13 +62,13 @@ Expert prompt engineer specializing in advanced prompting methodologies and LLM 
 
 #### Provider-Specific Optimization (High, Medium, Low tiers)
 
-- Constitutional AI alignment
+- Constitutional AI alignment techniques
 - Tool use optimization for complex workflows
 - Computer use prompting for automation tasks
 - XML tag structuring for clear prompt organization
-- Context window optimization for long documents (200K tokens)
+- Context window optimization for long documents
 - Prompt caching for cost optimization
-- Safety considerations
+- Safety considerations specific to model capabilities
 
 #### Open Source Models (Llama, Mixtral, Qwen)
 
