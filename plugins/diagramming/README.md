@@ -1,6 +1,6 @@
 # diagramming
 
-Generate architecture, deployment, network, sequence, ERD, state machine, and flowchart diagrams as SVG / `.drawio` / PNG, with optional PowerPoint deck assembly. WCAG AA contrast validated.
+Generate architecture, deployment, network, sequence, ERD, state machine, and flowchart diagrams as SVG / `.drawio` / PNG, with optional PowerPoint deck assembly. Output formats are request-selectable. WCAG AA contrast validated.
 
 Two skills (`architecture-diagrams`, `flow-diagrams`) and one routing agent (`diagramming-engineer`). Two interchangeable renderers (`fireworks-tech-graph` for clean topology, `drawio` for dense feedback graphs). Optional `powerpoint` mode that assembles renders into a single deck via PptxGenJS.
 
@@ -72,6 +72,42 @@ If you want to bypass the router and call a skill directly:
 
 See `skills/architecture-diagrams/SKILL.md` and `skills/flow-diagrams/SKILL.md` for the full input contract per skill.
 
+### Output formats
+
+By default, plain-mode diagrams produce the renderer's source artifact plus a shareable preview:
+
+| Renderer | Default final formats |
+|---|---|
+| `fireworks` | `svg,png` |
+| `drawio` | `drawio,png` |
+
+You can narrow output by structured input or by natural language:
+
+```jsonc
+{
+  "mode": "plain",
+  "renderer": "fireworks",
+  "output": {
+    "formats": ["png"]
+  },
+  "diagrams": [ ... ]
+}
+```
+
+Natural-language equivalents the routing agent understands:
+
+| User request | Effective formats |
+|---|---|
+| "PNG only", "just the PNG", "shareable preview only" | `png` |
+| "SVG only", "source only", "editable SVG only" | `svg` |
+| "drawio only", "editable drawio only" | `drawio` |
+| "drawio and PNG" | `drawio,png` |
+| "both", "docs ready", "PR ready", no explicit format | renderer default |
+
+`DIAGRAM_OUTPUT_FORMATS` can also set this globally as a comma-separated list, for example `DIAGRAM_OUTPUT_FORMATS=png`.
+
+Validation intermediates may still be created. A PNG-only fireworks request still needs an SVG to validate and rasterize; a PNG-only drawio request still needs `.drawio` XML to export. The skills should preserve and report only requested final formats when feasible.
+
 ### Via the helper scripts directly
 
 Useful for scripting, CI, or when you already have a drawio `translated.json` (the structured node/edge spec) or a fireworks SVG composed by the skill:
@@ -109,6 +145,40 @@ Override globally via `DIAGRAM_DEFAULT_RENDERER=drawio`, or per-invocation via t
 
 When a generated diagram is ugly, do not patch the image by hand. Classify the graph, switch renderer when the class calls for it, and invoke the skill again. Tommy's PR #5 prompt is fenced by `evals/tommy-shine-deployment/`: `Diagram the SHINE portal deployment from ~/repos/content-portal` routes to `architecture-diagrams` with `renderer: drawio`.
 
+## Default design template
+
+The plugin defaults to a restrained, developer-documentation visual system unless the user requests a specific brand or style. This template is intended to keep diagrams readable in PRs, architecture docs, and governance reviews.
+
+### Palette
+
+Use no more than four semantic colors in one diagram:
+
+| Semantic role | Recommended treatment |
+|---|---|
+| Specs / inputs | muted teal stroke + very light teal fill |
+| Processes / actions | indigo stroke + very light indigo fill |
+| Generated artifacts | cyan stroke + hatch/stripe pattern or `GENERATED` badge |
+| Validation / success gates | green stroke + very light green fill |
+
+Use neutral gray dashed boxes for references and dependencies. Avoid introducing extra category colors unless the user explicitly asks for a richer legend.
+
+### Layout
+
+- Prefer a single dominant spine or clear swimlanes.
+- Put parallel work in a grouped panel rather than floating it off-grid.
+- Use one input bus when multiple artifacts feed the same node.
+- Avoid crossing feeder lines over process boxes.
+- Place legends below the diagram with enough margin so they never cover nodes.
+
+### Typography and borders
+
+- Use consistent title, node-title, subtitle, and label sizes across a diagram.
+- Use dark text on light fills. Do not use white text on pale fills.
+- Use rounded rectangles for normal steps.
+- Use dashed rounded rectangles for references/dependencies.
+- Use diamonds only for decision points.
+- Use hatching or a `GENERATED` badge to distinguish generated artifacts; do not rely on color alone.
+
 ## Visual verification
 
 The plugin runs three layers of verification depending on use case.
@@ -128,6 +198,7 @@ Every parameter is overridable via env var. Per CLAUDE.md, no hardcoded paths or
 | Env var | Default | What |
 |---|---|---|
 | `DIAGRAM_OUTPUT_DIR` | `./diagrams/` | Where SVG/PNG/`.drawio`/`.pptx` artifacts land |
+| `DIAGRAM_OUTPUT_FORMATS` | renderer default | Comma-separated final formats, e.g. `svg,png`, `png`, `drawio,png` |
 | `DIAGRAM_DEFAULT_RENDERER` | `fireworks` | `fireworks` or `drawio` |
 | `DIAGRAM_DEFAULT_STYLE` | `1` | fireworks-tech-graph style (1-7) |
 | `DIAGRAM_DECK_TITLE` | (required in powerpoint mode) | Title for the assembled deck |

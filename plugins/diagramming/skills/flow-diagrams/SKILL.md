@@ -1,7 +1,7 @@
 ---
 name: flow-diagrams
 description: Coordinate the rendering of sequence diagrams, flowcharts, ERDs, and state machines. Reads source material (API routes, database schemas, code, prose), routes each diagram to the chosen renderer (fireworks-tech-graph for SVG, drawio for .drawio XML + PNG), and assembles results into a deck when mode is powerpoint. Composition is delegated - fireworks composes via its own SKILL.md vocabulary; drawio via this plugin's build-drawio.py contract. Use for code-derived flow visualizations; use architecture-diagrams for system architecture, deployment, network topology.
-version: 2.1.0
+version: 2.2.0
 ---
 
 # flow-diagrams
@@ -33,7 +33,7 @@ Manual fallback (if `just` isn't available):
 
 Check at startup; fail loudly with the platform-specific install hint if missing.
 
-## Renderer choice (v2.1.0)
+## Renderer choice (v2.2.0)
 
 This skill supports two renderers; the user picks via `renderer` field in the input contract or the `DIAGRAM_DEFAULT_RENDERER` env var. The skill itself can also pick a default based on diagram type.
 
@@ -53,6 +53,9 @@ If a first render is visually ugly, do not hand-edit the SVG or PNG. Classify th
   "mode": "plain",                         // "plain" | "powerpoint" (since v1.1.0)
   "renderer": "fireworks",                  // "fireworks" | "drawio" (since v1.2.0); default per the rule above; env: DIAGRAM_DEFAULT_RENDERER
   "output_dir": "./diagrams/",             // override with env: DIAGRAM_OUTPUT_DIR
+  "output": {                                // since v2.2.0; env: DIAGRAM_OUTPUT_FORMATS
+    "formats": ["svg", "png"]               // fireworks: "svg" | "png"; drawio: "drawio" | "png" | "svg"
+  },
   "style": 1,                               // 1-7 fireworks-tech-graph style (ignored when renderer == "drawio"); override with env: DIAGRAM_DEFAULT_STYLE
 
   "deck": {                                 // present only when mode == "powerpoint"
@@ -79,7 +82,50 @@ If a first render is visually ugly, do not hand-edit the SVG or PNG. Classify th
 }
 ```
 
-Environment variables override input fields when set.
+Environment variables override input fields when set. `DIAGRAM_OUTPUT_FORMATS` is a comma-separated list such as `svg,png`, `png`, `svg`, or `drawio,png`.
+
+### Output format selection
+
+Default behavior remains `output.formats: ["svg", "png"]` for `mode: plain` because most documentation workflows need editable source plus a shareable preview. The user may narrow the delivered artifacts either with structured input or natural language:
+
+- "PNG only", "just give me the PNG", "screenshot only" -> `output.formats: ["png"]`
+- "SVG only", "source only", "editable only" -> `output.formats: ["svg"]` for fireworks or `output.formats: ["drawio"]` for drawio
+- "drawio and PNG" -> `output.formats: ["drawio", "png"]`
+- "both", "docs/PR ready", or no explicit format request -> renderer default pair (`["svg", "png"]` for fireworks, `["drawio", "png"]` for drawio)
+
+Validation is not optional. A PNG-only fireworks request may still create a temporary SVG so XML validation and raster export can run. A PNG-only drawio request may still create temporary `.drawio` XML so drawio export can run. Report and preserve only the requested final formats when feasible.
+
+## Default design template
+
+Unless the user supplies a specific visual system, apply this restrained developer-documentation template:
+
+### Palette
+
+Use no more than four semantic colors in one diagram:
+
+- Specs / inputs: muted teal stroke + very light teal fill.
+- Processes / actions: indigo stroke + very light indigo fill.
+- Generated artifacts: cyan stroke + hatch/stripe pattern or `GENERATED` badge.
+- Validation / success gates: green stroke + very light green fill.
+
+Use neutral gray dashed boxes for references and dependencies. Do not introduce extra category colors unless the diagram needs a richer legend and the user explicitly accepts that tradeoff.
+
+### Layout
+
+- Prefer a single dominant spine or clear swimlanes.
+- Put parallel work in a grouped panel rather than floating it off-grid.
+- Use one input bus when multiple artifacts feed the same node.
+- Avoid crossing feeder lines over process boxes.
+- Place legends below the diagram with enough margin so they never cover nodes.
+
+### Typography and borders
+
+- Use consistent title, node-title, subtitle, and label sizes across a diagram.
+- Use dark text on light fills. Do not use white text on pale fills.
+- Use rounded rectangles for normal steps.
+- Use dashed rounded rectangles for references/dependencies.
+- Use diamonds only for decision points.
+- Use hatching or a `GENERATED` badge to distinguish generated artifacts; do not rely on color alone.
 
 ## Workflow
 
@@ -104,7 +150,7 @@ The composition pattern depends on the renderer.
 
 **Delegate to `fireworks-tech-graph`'s SKILL.md** for composition. Load it from `~/.agents/skills/fireworks-tech-graph/SKILL.md` (or the path set by `FIREWORKS_TECH_GRAPH_HOME` - Claude Code installs typically use `~/.claude/skills/fireworks-tech-graph/SKILL.md` instead) and follow its workflow verbatim - Diagram Types & Layout Rules (which include sequence, flowchart, ERD, state machine, and timeline), Shape Vocabulary, Arrow Semantics, Layout Rules & Validation, Styles 1-7, and the SVG generation strategy. fireworks teaches its own complete vocabulary; this skill does not duplicate or constrain it.
 
-The render produces an SVG at a path of your choosing; honor `DIAGRAM_OUTPUT_DIR` if set, otherwise default to the current working directory. fireworks's workflow includes its own validation step (`rsvg-convert ... -o /dev/null`) and PNG export (`rsvg-convert -w 1920 ...`). Do not skip these - they are part of the renderer's contract, not optional.
+The render produces an SVG at a path of your choosing; honor `DIAGRAM_OUTPUT_DIR` if set, otherwise default to the current working directory. Fireworks's workflow includes its own validation step (`rsvg-convert ... -o /dev/null`). Export PNG only when `output.formats` includes `png`, or when PNG is needed for `mode: powerpoint` or visual validation. Do not skip validation.
 
 If you find yourself wanting to invoke `generate-from-template.py` with a structured `{ nodes[], arrows[], containers[] }` JSON, stop. That is a legacy path that produces narrower output than fireworks's free-form SVG composition. Use the SVG-authoring path fireworks's SKILL.md describes ("MANDATORY: Python List Method" or direct SVG composition).
 
@@ -123,7 +169,7 @@ python3 <plugin-root>/plugins/diagramming/scripts/build-drawio.py \
   "$OUTPUT_DIR/<slug>.drawio"
 ```
 
-Then export PNG via the drawio CLI (`brew install --cask drawio` provides it):
+Then export PNG via the drawio CLI when `output.formats` includes `png` (`brew install --cask drawio` provides it):
 
 ```bash
 drawio --export --format png --scale 2 \
@@ -131,7 +177,7 @@ drawio --export --format png --scale 2 \
   "$OUTPUT_DIR/<slug>.drawio"
 ```
 
-If `drawio` CLI is not available, deliver the `.drawio` file alone and tell the user to open it in diagrams.net web (drag-drop) or any drawio editor.
+If `drawio` CLI is not available and PNG was requested, deliver the `.drawio` file alone with the export failure. If PNG was not requested, the CLI is not required.
 
 **Composition advice for drawio:**
 
@@ -190,20 +236,21 @@ Validate as in Phase 3 and Phase 5. Report a diff summary alongside the updated 
 
 ## Output
 
-For each diagram:
+For each diagram, deliver only the requested final formats:
 
-- `<output_dir>/<slug>.svg`
-- `<output_dir>/<slug>.png` (1920px wide)
-- Short prose description
+- Fireworks renderer: `svg`, `png`, or both. Default: `svg,png`.
+- Drawio renderer: `drawio`, `png`, optional `svg` export when drawio CLI supports it. Default: `drawio,png`.
+- PowerPoint mode: always produces `.pptx`; per-diagram image formats still follow `output.formats` unless the deck builder needs a PNG as an intermediate.
+- Short prose description.
 
 `<slug>` derived from `diagram.title` (lowercase, hyphenate, collapse repeats).
 
 ## Constraints
 
 - Never invent participants, messages, columns, states, or transitions. Each must trace to a specific line in the source files or an explicit user statement.
-- Never deliver an SVG without `rsvg-convert` validation passing (fireworks renderer); never deliver a `.drawio` without the drawio CLI export passing or, if CLI absent, well-formed XML (drawio renderer).
+- Never deliver an SVG without `rsvg-convert` validation passing (fireworks renderer); never deliver a `.drawio` without well-formed XML validation. Never claim a PNG exists unless export succeeded.
 - For fireworks: follow `fireworks-tech-graph`'s SKILL.md verbatim - its Diagram Types, Shape Vocabulary, Arrow Semantics, Layout Rules, and Styles 1-7. Do not constrain its composition to a structured `{ nodes[], arrows[] }` JSON shape; that produces narrower output than the renderer can natively support.
-- Do not hardcode project names, paths, or credentials in any output. Read from input or env (`DIAGRAM_OUTPUT_DIR`, `FIREWORKS_TECH_GRAPH_HOME`, `DIAGRAM_DEFAULT_RENDERER`, `DIAGRAM_DEFAULT_STYLE`, `DIAGRAM_DECK_TITLE`).
+- Do not hardcode project names, paths, or credentials in any output. Read from input or env (`DIAGRAM_OUTPUT_DIR`, `DIAGRAM_OUTPUT_FORMATS`, `FIREWORKS_TECH_GRAPH_HOME`, `DIAGRAM_DEFAULT_RENDERER`, `DIAGRAM_DEFAULT_STYLE`, `DIAGRAM_DECK_TITLE`).
 - For sequence diagrams with more than ~12 messages, split into multiple diagrams (one per logical phase) instead of a single tall canvas.
 - For ERDs with more than ~8 entities, split into related-entity clusters.
 
