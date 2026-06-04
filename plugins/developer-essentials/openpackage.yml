@@ -3,8 +3,8 @@
 # https://openpackage.dev/docs/packages
 
 name: developer-essentials
-version: 1.0.1
-description: Essential developer skills including Git workflows, SQL optimization, error handling, code review, E2E testing, authentication, debugging, and monorepo management
+version: 1.1.0
+description: Essential developer skills including Git workflows, SQL optimization, error handling, code review, E2E testing, authentication, debugging, monorepo management, and interactive teaching
 author: Prima Team
 license: UNLICENSED
 keywords:
@@ -15,5 +15,7 @@ keywords:
   - "authentication"
   - "code-review"
   - "monorepo"
+  - "teaching"
+  - "mentoring"
   - "essential"
 category: development
