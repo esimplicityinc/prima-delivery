@@ -72,7 +72,7 @@ opkg install gh@esimplicityinc/prima-delivery --plugins <plugin-name>
 |--------|-------------|--------|
 | `backend-development` | Backend API design, GraphQL architecture, workflow orchestration with Temporal, ... | 1.2.4 |
 | `debugging-toolkit` | Interactive debugging, developer experience optimization, and smart debugging wo... | 1.2.0 |
-| `developer-essentials` | Essential developer skills including Git workflows, SQL optimization, error hand... | 1.0.1 |
+| `developer-essentials` | Essential developer skills including Git workflows, SQL optimization, error hand... | 1.1.0 |
 | `frontend-mobile-development` | Frontend UI development and mobile application implementation across platforms | 1.2.1 |
 | `multi-platform-apps` | Cross-platform application development coordinating web, iOS, Android, and deskt... | 1.2.1 |
 | `ui-design` | Comprehensive UI/UX design plugin for mobile (iOS, Android, React Native) and we... | 1.0.1 |
