@@ -47,3 +47,4 @@ docs-site/.docusaurus/
 
 # VS Code
 .vscode/
+.pr-lens/
