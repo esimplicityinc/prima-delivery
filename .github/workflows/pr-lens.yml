@@ -10,6 +10,11 @@ name: PR Lens
 # temperature to 0, which GPT-5.6 rejects ("Unsupported value: 'temperature'",
 # run 33753761061). Running it here lets one line be dropped before use and the
 # comment be composed with embeds that render.
+#
+# The model call needs the AWS_BEARER_TOKEN_BEDROCK repository secret. A repo
+# without it gets a skipped job and a warning annotation, not a red check: the
+# secret is the opt-in, and a review aid must not fail every pull request in a
+# repository that has not opted in yet.
 
 on:
   pull_request:
@@ -41,26 +46,39 @@ env:
   PR_LENS_DATA_BRANCH: pr-lens
 
 jobs:
-  lens:
-    # Secrets are withheld from fork pull requests, so a fork PR could only fail
-    # the key check below; skip it rather than post a red X.
+  preflight:
+    # Secrets are withheld from fork pull requests, so a fork PR could never
+    # reach the model; skip it rather than post a red X.
     if: >-
       github.event.pull_request.draft == false &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    # One model call plus a render; an unbounded LLM step must not idle a runner.
-    timeout-minutes: 15
+    timeout-minutes: 2
+    outputs:
+      has_key: ${{ steps.key.outputs.has_key }}
     steps:
-      - name: Require the Bedrock key
+      # A job-level `if` cannot read secrets, so the check runs as a step and
+      # the lens job keys off its output.
+      - name: Check for the Bedrock key
+        id: key
         env:
           AWS_BEARER_TOKEN_BEDROCK: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
         run: |
           set -euo pipefail
           if [ -z "${AWS_BEARER_TOKEN_BEDROCK:-}" ]; then
-            echo "::error::AWS_BEARER_TOKEN_BEDROCK is not configured; PR Lens cannot ask the model."
-            exit 1
+            echo "::warning::AWS_BEARER_TOKEN_BEDROCK is not configured; PR Lens is skipped until the repository secret is added (RIC-2123)."
+            echo "has_key=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "has_key=true" >> "${GITHUB_OUTPUT}"
           fi
 
+  lens:
+    needs: preflight
+    if: needs.preflight.outputs.has_key == 'true'
+    runs-on: ubuntu-latest
+    # One model call plus a render; an unbounded LLM step must not idle a runner.
+    timeout-minutes: 15
+    steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
