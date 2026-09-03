@@ -47,3 +47,6 @@ docs-site/.docusaurus/
 
 # VS Code
 .vscode/
+
+# PR Lens writes its previews here. They are rebuilt on demand.
+.pr-lens/
