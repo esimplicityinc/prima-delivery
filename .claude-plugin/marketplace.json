@@ -19,7 +19,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/debugging-toolkit",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/code-documentation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -46,7 +46,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/git-pr-workflows",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/debugging-toolkit",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -69,7 +69,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/backend-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/git-pr-workflows",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -97,7 +97,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/frontend-mobile-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/backend-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -141,7 +141,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/full-stack-orchestration",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/frontend-mobile-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["frontend", "mobile", "react", "ui", "cross-platform"],
@@ -168,7 +168,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/unit-testing",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/full-stack-orchestration",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -197,7 +197,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/tdd-workflows",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/unit-testing",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -221,7 +221,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/code-review-ai",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/tdd-workflows",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["tdd", "test-driven", "workflow", "red-green-refactor"],
@@ -244,7 +244,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/code-refactoring",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/code-review-ai",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["code-review", "architecture", "ai-analysis", "quality"],
@@ -262,7 +262,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/dependency-management",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/code-refactoring",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["refactoring", "code-quality", "technical-debt", "cleanup"],
@@ -284,7 +284,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/error-debugging",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/dependency-management",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["dependencies", "npm", "security", "auditing", "upgrades"],
@@ -302,7 +302,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/team-collaboration",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/error-debugging",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -329,7 +329,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/llm-application-dev",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/team-collaboration",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["collaboration", "team", "standup", "issue-management"],
@@ -348,7 +348,7 @@
       },
       "source": "./plugins/llm-application-dev",
       "category": "ai-ml",
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/agent-orchestration",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/llm-application-dev",
       "license": "UNLICENSED"
     },
     {
@@ -360,7 +360,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/agent-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/agent-orchestration",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["multi-agent", "orchestration", "ai-agents", "optimization"],
@@ -381,7 +381,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/context-management",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/agent-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["agent-development", "agent-creation", "agent-debugging", "skills", "ai-agents"],
@@ -401,7 +401,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/machine-learning-ops",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/context-management",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["context", "persistence", "conversation", "memory"],
@@ -422,7 +422,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/data-engineering",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/machine-learning-ops",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -452,7 +452,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/incident-response",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/data-engineering",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -485,7 +485,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/error-diagnostics",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/incident-response",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["incident-response", "production", "sre", "troubleshooting"],
@@ -514,7 +514,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/distributed-debugging",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/error-diagnostics",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["diagnostics", "error-tracing", "root-cause", "debugging"],
@@ -536,7 +536,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/observability-monitoring",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/distributed-debugging",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -562,7 +562,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/deployment-strategies",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/observability-monitoring",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -603,7 +603,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/deployment-validation",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/deployment-strategies",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["deployment", "rollout", "rollback", "canary", "blue-green"],
@@ -624,7 +624,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/kubernetes-operations",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/deployment-validation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -647,7 +647,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/cloud-infrastructure",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/kubernetes-operations",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -678,7 +678,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/cicd-automation",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/cloud-infrastructure",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -722,7 +722,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/application-performance",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/cicd-automation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -758,7 +758,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-cloud-optimization",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/application-performance",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -785,7 +785,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/comprehensive-review",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-cloud-optimization",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -813,7 +813,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/performance-testing-review",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/comprehensive-review",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -841,7 +841,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/framework-migration",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/performance-testing-review",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["performance-review", "test-coverage", "quality-analysis"],
@@ -865,7 +865,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/codebase-cleanup",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/framework-migration",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -902,7 +902,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-design",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/codebase-cleanup",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["technical-debt", "cleanup", "refactoring", "dependencies"],
@@ -924,7 +924,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-migrations",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-design",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["database-design", "schema", "sql", "data-modeling"],
@@ -943,7 +943,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/security-scanning",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/database-migrations",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -970,7 +970,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/security-compliance",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/security-scanning",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1008,7 +1008,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/backend-api-security",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/security-compliance",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1033,7 +1033,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/frontend-mobile-security",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/backend-api-security",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1060,7 +1060,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/data-validation-suite",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/frontend-mobile-security",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1088,7 +1088,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/api-scaffolding",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/data-validation-suite",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1112,7 +1112,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/api-testing-observability",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/api-scaffolding",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["api", "rest", "graphql", "fastapi", "django", "express"],
@@ -1136,7 +1136,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-content-creation",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/api-testing-observability",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1160,7 +1160,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-technical-optimization",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-content-creation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1187,7 +1187,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-analysis-monitoring",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-technical-optimization",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1216,7 +1216,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/documentation-generation",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/seo-analysis-monitoring",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1244,7 +1244,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/c4-architecture",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/documentation-generation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1280,7 +1280,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/diagramming",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/c4-architecture",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1312,7 +1312,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/multi-platform-apps",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/diagramming",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1344,7 +1344,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/business-analytics",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/multi-platform-apps",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1376,7 +1376,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/startup-business-analyst",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/business-analytics",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1403,7 +1403,7 @@
       },
       "source": "./plugins/startup-business-analyst",
       "category": "business",
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/hr-legal-compliance"
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/startup-business-analyst"
     },
     {
       "name": "hr-legal-compliance",
@@ -1414,7 +1414,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/customer-sales-automation",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/hr-legal-compliance",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1444,7 +1444,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/content-marketing",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/customer-sales-automation",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1468,7 +1468,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/blockchain-web3",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/content-marketing",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1494,7 +1494,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/quantitative-trading",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/blockchain-web3",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1526,7 +1526,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/payment-processing",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/quantitative-trading",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1554,7 +1554,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/game-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/payment-processing",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1586,7 +1586,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/accessibility-compliance",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/game-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1618,7 +1618,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/python-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/accessibility-compliance",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1646,7 +1646,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/javascript-typescript",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/python-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["python", "django", "fastapi", "async", "backend"],
@@ -1686,7 +1686,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/systems-programming",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/javascript-typescript",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["javascript", "typescript", "es6", "nodejs", "react"],
@@ -1710,7 +1710,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/jvm-languages",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/systems-programming",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1745,7 +1745,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/web-scripting",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/jvm-languages",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["java", "scala", "csharp", "jvm", "enterprise", "dotnet"],
@@ -1767,7 +1767,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/functional-programming",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/web-scripting",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["php", "ruby", "rails", "wordpress", "web-scripting"],
@@ -1785,7 +1785,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/julia-development",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/functional-programming",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": ["elixir", "functional", "phoenix", "otp", "distributed"],
@@ -1803,7 +1803,7 @@
         "name": "Community Contribution",
         "url": "https://github.com/exAClior"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/arm-cortex-microcontrollers",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/julia-development",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1829,7 +1829,7 @@
         "name": "Ryan Snodgrass",
         "url": "https://github.com/rsnodgrass"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/shell-scripting",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/arm-cortex-microcontrollers",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1855,7 +1855,7 @@
         "name": "Ryan Snodgrass",
         "url": "https://github.com/rsnodgrass"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/developer-essentials",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/shell-scripting",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1886,7 +1886,7 @@
         "name": "Prima Team",
         "url": "https://github.com/esimplicityinc/prima-delivery"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/reverse-engineering",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/developer-essentials",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1929,7 +1929,7 @@
         "name": "Dávid Balatoni",
         "url": "https://github.com/balcsida"
       },
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/conductor",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/reverse-engineering",
       "repository": "",
       "license": "UNLICENSED",
       "keywords": [
@@ -1968,7 +1968,7 @@
       },
       "source": "./plugins/conductor",
       "category": "workflows",
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/ui-design",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/conductor",
       "license": "Apache-2.0"
     },
     {
@@ -1981,7 +1981,7 @@
       },
       "source": "./plugins/ui-design",
       "category": "development",
-      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/Prima Team",
+      "homepage": "https://github.com/esimplicityinc/prima-delivery/tree/main/plugins/ui-design",
       "license": "UNLICENSED"
     }
   ]
