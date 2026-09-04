@@ -1,0 +1,169 @@
+name: PR Lens
+
+# Draws each pull request's change as an animated architecture and data-flow
+# diagram and keeps it in one sticky comment, so a reviewer sees the shape of
+# the change before reading the diff. (RIC-2103)
+#
+# The CLI is run directly rather than through coldteadotai/pr-lens's composite
+# action for two reasons. The action's comment embeds raw.githubusercontent.com
+# URLs, which 404 for every viewer of a private repo, and the CLI pins
+# temperature to 0, which GPT-5.6 rejects ("Unsupported value: 'temperature'",
+# run 33753761061). Running it here lets one line be dropped before use and the
+# comment be composed with embeds that render.
+#
+# The model call needs the AWS_BEARER_TOKEN_BEDROCK repository secret. A repo
+# without it gets a skipped job and a warning annotation, not a red check: the
+# secret is the opt-in, and a review aid must not fail every pull request in a
+# repository that has not opted in yet.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write # the rendered SVGs are committed to an orphan data branch
+  pull-requests: write # the sticky comment
+
+concurrency:
+  group: pr-lens-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  PR_LENS_CLI_VERSION: 0.2.0
+  # sha512 of the 0.2.0 tarball, from `npm pack @coldtea/pr-lens-cli@0.2.0 --json`.
+  # A version pin trusts the registry to serve the same bytes every time; the
+  # hash does not. Bump both together.
+  PR_LENS_CLI_INTEGRITY: sha512-LXAPHAEIdNvDfOVNAWavooGaSTbesDOKI/KuT+xwIc1L1SqRhQH4ZY+w0fStlZfTMus5eQaZI+pyO4+2BdV8Dw==
+  # Bedrock's OpenAI-compatible endpoint, authenticated with the
+  # AWS_BEARER_TOKEN_BEDROCK repository secret (the Bedrock API key
+  # content-portal's review workflows hold). Claude models are not served on the
+  # Chat Completions path (Bedrock API compatibility table), so this asks
+  # GPT-5.6 Sol through its US cross-region inference profile; in-Region ids are
+  # not accepted on bedrock-runtime for this model.
+  #
+  # Provider is `openai`, not `openai-compatible`, on purpose: the CLI spells the
+  # output limit `max_completion_tokens` for the former and `max_tokens` for the
+  # latter, and GPT-5.6 rejects `max_tokens` ("Unsupported parameter", run
+  # 33753346357). The base-url override applies to either provider.
+  PR_LENS_BASE_URL: https://bedrock-runtime.us-east-1.amazonaws.com/openai/v1
+  PR_LENS_MODEL: us.openai.gpt-5.6-sol
+  PR_LENS_DATA_BRANCH: pr-lens
+
+jobs:
+  preflight:
+    # Secrets are withheld from fork pull requests, so a fork PR could never
+    # reach the model; skip it rather than post a red X.
+    if: >-
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      has_key: ${{ steps.key.outputs.has_key }}
+    steps:
+      # A job-level `if` cannot read secrets, so the check runs as a step and
+      # the lens job keys off its output.
+      - name: Check for the Bedrock key
+        id: key
+        env:
+          AWS_BEARER_TOKEN_BEDROCK: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
+        run: |
+          set -euo pipefail
+          if [ -z "${AWS_BEARER_TOKEN_BEDROCK:-}" ]; then
+            echo "::warning::AWS_BEARER_TOKEN_BEDROCK is not configured; PR Lens is skipped until the repository secret is added (RIC-2123)."
+            echo "has_key=false" >> "${GITHUB_OUTPUT}"
+          else
+            echo "has_key=true" >> "${GITHUB_OUTPUT}"
+          fi
+
+  lens:
+    needs: preflight
+    if: needs.preflight.outputs.has_key == 'true'
+    runs-on: ubuntu-latest
+    # One model call plus a render; an unbounded LLM step must not idle a runner.
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 20
+
+      # The assertion fails loudly when the CLI changes, so a release that fixes
+      # the pin upstream shows up here as "remove this step", not as a silent
+      # no-op patch.
+      - name: Install the PR Lens CLI and drop its temperature pin
+        run: |
+          set -euo pipefail
+          WORK="${RUNNER_TEMP}/pr-lens"
+          mkdir -p "${WORK}/cli"
+          # Download the tarball first and hash what actually arrived; asking the
+          # registry for its own integrity value would trust the party being checked.
+          pack="$(npm pack "@coldtea/pr-lens-cli@${PR_LENS_CLI_VERSION}" \
+            --pack-destination "${WORK}" --json --loglevel=silent)"
+          actual="$(jq -r '.[0].integrity' <<<"${pack}")"
+          tarball="${WORK}/$(jq -r '.[0].filename' <<<"${pack}")"
+          if [ "${actual}" != "${PR_LENS_CLI_INTEGRITY}" ]; then
+            echo "::error::PR Lens CLI integrity mismatch. Expected ${PR_LENS_CLI_INTEGRITY}, got ${actual}. Refusing to install (RIC-2123)."
+            exit 1
+          fi
+          npm install --silent --no-save --no-package-lock --prefix "${WORK}/cli" "${tarball}"
+          f="${WORK}/cli/node_modules/@coldtea/pr-lens-cli/dist/providers/openai.js"
+          n=$(grep -c '^        temperature: 0,$' "${f}" || true)
+          if [ "${n}" -ne 1 ]; then
+            echo "::error::Expected exactly one temperature pin in ${f}, found ${n}. The CLI changed; revisit this patch (RIC-2103)."
+            exit 1
+          fi
+          sed -i '/^        temperature: 0,$/d' "${f}"
+
+      - name: Analyze the diff
+        env:
+          PR_LENS_API_KEY: ${{ secrets.AWS_BEARER_TOKEN_BEDROCK }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          WORK="${RUNNER_TEMP}/pr-lens"
+          node "${WORK}/cli/node_modules/@coldtea/pr-lens-cli/dist/bin.js" analyze \
+            --base "${BASE_SHA}" \
+            --head "${HEAD_SHA}" \
+            --pr "${PR_NUMBER}" \
+            --provider openai \
+            --model "${PR_LENS_MODEL}" \
+            --base-url "${PR_LENS_BASE_URL}" \
+            --api-key-env PR_LENS_API_KEY \
+            --out "${WORK}/graph.json"
+
+      - name: Validate and render the diagrams
+        run: |
+          set -euo pipefail
+          WORK="${RUNNER_TEMP}/pr-lens"
+          cli="${WORK}/cli/node_modules/@coldtea/pr-lens-cli/dist/bin.js"
+          node "${cli}" validate "${WORK}/graph.json"
+          node "${cli}" render "${WORK}/graph.json" --out "${WORK}/assets"
+
+      - name: Publish the SVGs to the data branch
+        id: publish
+        env:
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          DATA_BRANCH: ${{ env.PR_LENS_DATA_BRANCH }}
+          ASSETS_DIR: ${{ runner.temp }}/pr-lens/assets
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash .github/scripts/pr-lens/publish.sh
+
+      - name: Post or update the sticky comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          DATA_SHA: ${{ steps.publish.outputs.data_sha }}
+          ASSETS_DIR: ${{ runner.temp }}/pr-lens/assets
+        run: bash .github/scripts/pr-lens/comment.sh
