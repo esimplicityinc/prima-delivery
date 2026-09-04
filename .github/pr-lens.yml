@@ -1,0 +1,18 @@
+# PR Lens corrections overlay (RIC-2123).
+#
+# `render` reads this file at draw time and applies it over what the model
+# inferred from the diff: renames, exclusions, lane pins, groupings. Inference
+# never writes back here, so a correction keeps holding as the code moves.
+# Fix a wrong node or lane in this file, never in the picture.
+#
+# Reference: https://www.npmjs.com/package/@coldtea/pr-lens-cli ("Corrections")
+#
+# Example:
+#   map:
+#     rename:
+#       - match: src/payments/sendInvoice.ts
+#         to: Invoice sender
+#     exclude:
+#       - "**/*.test.ts"
+schemaVersion: 0.1.0
+map: {}

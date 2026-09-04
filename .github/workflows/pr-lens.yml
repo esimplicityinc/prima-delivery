@@ -30,6 +30,10 @@ concurrency:
 
 env:
   PR_LENS_CLI_VERSION: 0.2.0
+  # sha512 of the 0.2.0 tarball, from `npm pack @coldtea/pr-lens-cli@0.2.0 --json`.
+  # A version pin trusts the registry to serve the same bytes every time; the
+  # hash does not. Bump both together.
+  PR_LENS_CLI_INTEGRITY: sha512-LXAPHAEIdNvDfOVNAWavooGaSTbesDOKI/KuT+xwIc1L1SqRhQH4ZY+w0fStlZfTMus5eQaZI+pyO4+2BdV8Dw==
   # Bedrock's OpenAI-compatible endpoint, authenticated with the
   # AWS_BEARER_TOKEN_BEDROCK repository secret (the Bedrock API key
   # content-portal's review workflows hold). Claude models are not served on the
@@ -97,8 +101,17 @@ jobs:
           set -euo pipefail
           WORK="${RUNNER_TEMP}/pr-lens"
           mkdir -p "${WORK}/cli"
-          npm install --silent --no-save --no-package-lock --prefix "${WORK}/cli" \
-            "@coldtea/pr-lens-cli@${PR_LENS_CLI_VERSION}"
+          # Download the tarball first and hash what actually arrived; asking the
+          # registry for its own integrity value would trust the party being checked.
+          pack="$(npm pack "@coldtea/pr-lens-cli@${PR_LENS_CLI_VERSION}" \
+            --pack-destination "${WORK}" --json --loglevel=silent)"
+          actual="$(jq -r '.[0].integrity' <<<"${pack}")"
+          tarball="${WORK}/$(jq -r '.[0].filename' <<<"${pack}")"
+          if [ "${actual}" != "${PR_LENS_CLI_INTEGRITY}" ]; then
+            echo "::error::PR Lens CLI integrity mismatch. Expected ${PR_LENS_CLI_INTEGRITY}, got ${actual}. Refusing to install (RIC-2123)."
+            exit 1
+          fi
+          npm install --silent --no-save --no-package-lock --prefix "${WORK}/cli" "${tarball}"
           f="${WORK}/cli/node_modules/@coldtea/pr-lens-cli/dist/providers/openai.js"
           n=$(grep -c '^        temperature: 0,$' "${f}" || true)
           if [ "${n}" -ne 1 ]; then
